@@ -1,24 +1,76 @@
-# README
+# 万葉様、課題
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## テーブル設計
 
-Things you may want to cover:
+<↓-----------記述例----------↓>
+### テーブル名：英語物理名(※)(日本語論理名）
+  - 列名：英語物理名（日本語論理名）
+  > データ型　notnull、長さ制限など
 
-* Ruby version
+  - 列名：英語物理名（日本語論理名）
+  > データ型　notnull、長さ制限など
+  >> その他、補足情報やバリデーション情報など（あれば）
 
-* System dependencies
+※テーブルの英語物理名→複数形として「s」をつける。
+　モデルの場合は単数形として、この「s」を省く。
 
-* Configuration
+<↑----------記述例----------↑>
 
-* Database creation
+### users(ユーザーマスタ）
+  - id(ユーザーid)……主キー
+  > integer型
+  - user_cd(ユーザーCD)
+  > string型　notnull、入力必須、重複不可、最大3桁　
+  >> ログイン時やユーザーによる検索時は、このCDを入力する。
+  - name(ユーザー名)
+  > string型　notnull、入力必須、最大20桁　
+  - email(メールアドレス)
+  > string型　notnull、入力必須、最大255桁、メール形式のみを許可（ログイン時の入力情報はユーザーCDにするため、重複は許可する）
+  - retire(退職区分)
+  > integer型　notnull、入力必須、初期値「0」
+  >> 0:在籍中、9:退職→ログインやタスク登録を不可にする。
+  >> 完了になっていないタスクが存在する状態で「9：退職」にしようとするとエラー……タスクをすべて削除か「完了」にして（＝仕事をすべて引き継がせて）から「退職」とする。
+  >>
+  >> またタスクが登録されているユーザーは（そのタスクが「完了」していても）削除せず、この退職区分で「退職」とする。
+  >>
+  >> boolean型で「true」「false」としてもいいが、「在籍」「退職」以外の区分が発生する可能性も考慮してinteger型とする。
+  - password_digest(パスワード)
+  > text型、入力必須……入力したpasswordを何らかの機能（どうするか未定）で変換した値
 
-* Database initialization
+### tags(タグマスタ)
+  - id(タグid)……主キー
+  > integer型
+  - tag_cd(タグCD)
+  > string型　notnull、入力必須、重複不可、最大3桁　
+  >> タスクの登録や索時は、このCDを入力する(ただし名称による曖昧検索も可能)。
+  - tag_name(ユーザー名)
+  > string型　notnull、入力必須、最大20桁　
 
-* How to run the test suite
+### tasks(タスクテーブル)
+  - id(タスクid)……主キー
+  > integer型
+  - user_id(ユーザーid)
+  > integer型　notnull、入力必須　
+  >> ユーザーテーブル接続用の外部キー。登録時、画面操作者（＝ログインしている人）のユーザーidをセットする。
+  - task_name(仕事名)
+  > string型　notnull、入力必須、最大20桁　
+  - content(仕事内容詳細)
+  > text型　notnull、初期値は空欄（空欄での登録は許可する）、最大120桁　
+  - limit(終了期限)
+  > date型　notnull、入力必須　
+  - priority(優先度)
+  > int型　notnull、入力必須、初期値「2」……念の為
+  >> 0：S……最優先　1:A……重要　2:B……通常　3:C……後回しでもいい、、、新規登録時の初期表示は2:B」とする。
+  - status(状態)
+  > int型　notnull、入力必須　、初期値「0」
+  >> 0：「未着手」　1:「作業中」　9:「完了」とする。
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### task_tags(タスクタグテーブル)
+  - id(タスクタグid)……主キー
+  > integer型
+  - task_id(タスクd)
+  > integer型　notnull、入力必須　
+  >> タスクテーブル接続用の外部キー。
+  - tag_id(タグid)
+  > integer型　notnull、入力必須　
+  >> タグテーブル接続用の外部キー。
