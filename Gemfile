@@ -8,7 +8,9 @@ end
 # ↓「ruby -v」によるバージョン情報↓
 # ruby 2.3.0p0 (2015-12-25 revision 53290) [x86_64-darwin18]
 
-gem 'rails', '~> 5.1.1'
+#gem 'rails', '~> 5.1.1'
+gem 'rails', '~> 5.2.3'
+
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
