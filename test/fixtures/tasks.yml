@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  name: MyString
+  content: MyText
+  limit: 2019-04-09 11:10:04
+  priority: 1
+  status: 1
+
+two:
+  user_id: 
+  name: MyString
+  content: MyText
+  limit: 2019-04-09 11:10:04
+  priority: 1
+  status: 1
