@@ -30,6 +30,14 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry-byebug'
+
+    #テスト用のジェム
+  gem "rspec-rails"
+end
+
+group :test do
+  #テスト後、データをクリアするジェム
+  gem 'database_cleaner'
 end
 
 group :development do
