@@ -8,7 +8,9 @@ end
 # ↓「ruby -v」によるバージョン情報↓
 # ruby 2.3.0p0 (2015-12-25 revision 53290) [x86_64-darwin18]
 
-gem 'rails', '~> 5.1.1'
+#gem 'rails', '~> 5.1.1'
+gem 'rails', '~> 5.2.3'
+
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
@@ -22,6 +24,12 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+
+  # 開発、検証用に追加
+  gem 'pry-rails'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'pry-byebug'
 end
 
 group :development do
