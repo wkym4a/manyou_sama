@@ -1,0 +1,57 @@
+<%= form_with(model: task, local: true) do |form| %>
+  <% if task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label "※メモ：担当者は後回し、暫定で「1」を登録" %>
+
+  <div class="field">
+    <%= form.label "状態" %>
+    <%= form.hidden_field :status %>
+    <%= form.label Task.get_status_name(@task.status) %>
+  </div>
+
+  <div class="field">
+    <%= form.label "タスク名" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label "内容詳細" %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div class="field">
+    <%= form.label "終了期限" %>
+    <%= form.text_field :limit, class: 'form-control date-picker' %>
+  </div>
+
+  <div class="field">
+    <%= form.label "重要度" %>
+    <label>
+      <%= form.radio_button :priority, 0 %><%= Task.get_priority_name(0,1) %>
+    </label>
+    <label>
+      <%= form.radio_button :priority, 1 %><%= Task.get_priority_name(1,1) %>
+    </label>
+    <label>
+      <%= form.radio_button :priority, 2 %><%= Task.get_priority_name(2,1) %>
+    </label>
+    <label>
+      <%= form.radio_button :priority, 3 %><%= Task.get_priority_name(3,1) %>
+    </label>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+<% end %>

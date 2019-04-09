@@ -1,0 +1,31 @@
+<!--↓タイトル表示枠-->
+<% content_for :show_head_title do%>
+  <h1 class="title_head"><%= get_tablename_by_model(@task) %>閲覧画面</h1>
+<% end %>
+<!--↑タイトル表示枠-->
+
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+<% content_for :show_msgerr do%>
+  <%= render 'layouts/form_msgerr', model_info: @task %>
+<% end %>
+<!--↑エラーメッセージ表示枠-->
+
+<hr>
+
+<div class="task-text">
+  <p><strong>仕事名</strong>：<%= @task.name %></p>
+  <p><strong>詳細</strong>：<%= @task.content %></p>
+
+  <p><strong>終了期限</strong>：
+    <% if @task.limit.nil?  %>
+      <%= "未定" %>
+    <% else  %>
+      <%= @task.limit.strftime('%y年%m月%d日') %>
+    <% end  %>
+  </p>
+
+  <p><strong>優先度</strong>：<%= Task.get_priority_name(@task.priority,1) %></p>
+  <p><strong>状態</strong>：<td><%= Task.get_status_name(@task.status) %></p>
+</div>
+
+<%= link_to '戻る', tasks_path %>
