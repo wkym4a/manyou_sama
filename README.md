@@ -18,7 +18,7 @@
 
 ### users(ユーザーマスタ）
   - id(ユーザーid)……主キー
-  > integer型
+  > bigint型
   - cd(ユーザーCD)
   > string型　notnull、入力必須、重複不可、最大3桁　
   >> ログイン時やユーザーによる検索時は、このCDを入力する。
@@ -39,7 +39,7 @@
 
 ### tags(タグマスタ)
   - id(タグid)……主キー
-  > integer型
+  > bigint型
   - cd(タグCD)
   > string型　notnull、入力必須、重複不可、最大3桁　
   >> タスクの登録や索時は、このCDを入力する(ただし名称による曖昧検索も可能)。
@@ -48,16 +48,16 @@
 
 ### tasks(タスクテーブル)
   - id(タスクid)……主キー
-  > integer型
+  > bigint型
   - user_id(ユーザーid)
-  > integer型　notnull、入力必須　
+  > bigint型　notnull、入力必須　
   >> ユーザーテーブル接続用の外部キー。登録時、画面操作者（＝ログインしている人）のユーザーidをセットする。
   - name(仕事名)
   > string型　notnull、入力必須、最大20桁　
   - content(仕事内容詳細)
   > text型　notnull、初期値は空欄（空欄での登録は許可する）、最大120桁　
   - limit(終了期限)
-  > date型　notnull、入力必須　
+  > datetime型　notnull、入力必須　
   - priority(優先度)
   > int型　notnull、入力必須、初期値「2」……念の為
   >> 0：S……最優先　1:A……重要　2:B……通常　3:C……後回しでもいい、、、新規登録時の初期表示は2:B」とする。
@@ -67,10 +67,10 @@
 
 ### task_tags(タスクタグテーブル)
   - id(タスクタグid)……主キー
-  > integer型
+  > bigint型
   - task_id(タスクd)
-  > integer型　notnull、入力必須　
+  > bigint型　notnull、入力必須　
   >> タスクテーブル接続用の外部キー。
   - tag_id(タグid)
-  > integer型　notnull、入力必須　
+  > bigint型　notnull、入力必須　
   >> タグテーブル接続用の外部キー。
