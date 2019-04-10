@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_tasks , only: [:show , :edit , :update]
+  before_action :set_tasks , only: [:show , :edit , :update , :destroy]
 
   #一覧画面表示
   def index
@@ -21,6 +21,7 @@ class TasksController < ApplicationController
 
   #更新画面
   def edit
+
     if  params[:back]
         #「バリデーションに引っかかって戻る」場合、それまでの画面情報を変数に格納
         reset_task
@@ -33,6 +34,9 @@ class TasksController < ApplicationController
   #新規登録
   def create
     @task = Task.new(task_params)
+
+    #ユーザーモデルがまだないため、いったんユーザーはすべて「1」とする。
+      @task.user_id = 1
 
     respond_to do |format|
 
@@ -75,13 +79,12 @@ class TasksController < ApplicationController
 
   def task_params
     param_info = params.require(:task).permit(:name,:content,:limit,:priority,:status)
-
-    #ユーザーモデルがまだないため、いったんユーザーはすべて「1」とする。
-    params[:user_id]=1
+    #ユーザーモデルがまだないため、ユーザーidについてはいったん保留……とりあえず、ほかで「1」となるようせっていしているはず。
   end
 
   def reset_task
-    @task.user_id = task_params[:user_id]
+  #ユーザーモデルがまだないため、いったんユーザーはすべて「1」とする。
+    @task.user_id = 1
     @task.name = task_params[:name]
     @task.content = task_params[:content]
     @task.limit = task_params[:limit]

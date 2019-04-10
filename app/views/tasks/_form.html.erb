@@ -31,7 +31,17 @@
 
   <div class="field">
     <%= form.label "終了期限" %>
-    <%= form.text_field :limit, class: 'form-control date-picker' %>
+
+    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+      <%= form.text_field :limit,type: "text", class: "form-control datetimepicker-input",
+              data: {toggle: "datetimepicker", target: "#datetimepicker4"} %>
+      <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+      </div>
+
+
+    </div>
+
   </div>
 
   <div class="field">
@@ -54,4 +64,13 @@
     <%= form.submit %>
   </div>
 
+
+
 <% end %>
+
+<% if action_name== 'edit' %>
+  <%= (link_to '削除する', task, method: :delete,data: { confirm: '本当に削除してよろしいですか?' } ,
+                        disabled:false)  %>
+<% end %>
+
+<%= link_to '戻る', tasks_path %>

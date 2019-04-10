@@ -6,9 +6,8 @@ git_source(:github) do |repo_name|
 end
 
 # ↓「ruby -v」によるバージョン情報↓
-# ruby 2.3.0p0 (2015-12-25 revision 53290) [x86_64-darwin18]
+# ruby 2.6.2p47 (2019-03-13 revision 67232) [x86_64-darwin18]
 
-#gem 'rails', '~> 5.1.1'
 gem 'rails', '~> 5.2.3'
 
 gem 'pg', '~> 0.18'
@@ -20,9 +19,14 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
-#カレンダーを扱えるようにするために追加
-gem 'momentjs-rails', '>= 2.9.0'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
+#bootstrapをgemで追加
+gem 'bootstrap', '~> 4.1.1'
+gem 'jquery-rails'
+
+#日付をカレンダーで制御するため
+gem "bootstrap4-datetime-picker-rails"
+gem 'momentjs-rails'
+gem "font-awesome-rails"
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
