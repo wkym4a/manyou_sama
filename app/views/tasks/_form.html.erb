@@ -1,0 +1,76 @@
+<%= form_with(model: task, local: true) do |form| %>
+  <% if task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.label "※メモ：担当者は後回し、暫定で「1」を登録" %>
+
+  <div class="field">
+    <%= form.label "状態" %>
+    <%= form.hidden_field :status %>
+    <%= form.label Task.get_status_name(@task.status) %>
+  </div>
+
+  <div class="field">
+    <%= form.label "タスク名" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label "内容詳細" %>
+    <%= form.text_area :content %>
+  </div>
+
+  <div class="field">
+    <%= form.label "終了期限" %>
+
+    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+      <%= form.text_field :limit,type: "text", class: "form-control datetimepicker-input",
+              data: {toggle: "datetimepicker", target: "#datetimepicker4"} %>
+      <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+  <div class="field">
+    <%= form.label "重要度" %>
+    <label>
+      <%= form.radio_button :priority, 0 %><%= Task.get_priority_name(0,1) %>
+    </label>
+    <label>
+      <%= form.radio_button :priority, 1 %><%= Task.get_priority_name(1,1) %>
+    </label>
+    <label>
+      <%= form.radio_button :priority, 2 %><%= Task.get_priority_name(2,1) %>
+    </label>
+    <label>
+      <%= form.radio_button :priority, 3 %><%= Task.get_priority_name(3,1) %>
+    </label>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+
+
+<% end %>
+
+<% if action_name== 'edit' %>
+  <%= (link_to '削除する', task, method: :delete,data: { confirm: '本当に削除してよろしいですか?' } ,
+                        disabled:false)  %>
+<% end %>
+
+<%= link_to '戻る', tasks_path %>

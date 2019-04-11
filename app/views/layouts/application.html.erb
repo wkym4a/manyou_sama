@@ -8,7 +8,31 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= yield %>
-  </body>
-</html>
+    <div class="container" id="MainContainer">
+      <header class="clearfix">
+        <div class="box_title_head">
+          <%= yield :show_head_title %>
+        </div>
+
+      </header>
+
+      <!-- 登録前、バリデーションに引っかかったときなどのメッセージ表示-->
+      <!-- ……エラー内容が格納されている変数を改めて投げる必要があるので、-->
+      <!--yieldで各画面から改めて「layouts/form_msgerr」を呼び出す-->
+      <%= yield :show_msgerr %>
+
+      <!-- メッセージ表示-->
+      <% flash.each do |key, value| %>
+        <%= content_tag(:div, value, class: "#{key} err_msg") %>
+      <% end %>
+
+      <div class="main_content">
+        <%= yield %>
+      </div>
+
+      <footer>
+        <div class="box_btn_foot">
+        </div>
+      </footer>
+    </div>
+  </html>

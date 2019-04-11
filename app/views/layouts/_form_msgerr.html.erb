@@ -1,0 +1,12 @@
+<!--↓エラーメッセージ表示枠-->
+<% if model_info.errors.any? %>
+  <div id="error_explanation">
+    <h2 class="err_msg"><%= get_tablename_by_model(model_info) %>
+      情報登録で<%= pluralize(model_info.errors.count, "個") %> のエラーが発生しています。</h2>
+    <ul>
+    <% model_info.errors.full_messages.each do |message| %>
+      <li class="err_msg"><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
