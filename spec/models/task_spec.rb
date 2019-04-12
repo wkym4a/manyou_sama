@@ -30,7 +30,6 @@ RSpec.describe Task, type: :model do
     expect(FactoryBot.build(:task)).to be_valid
   end
 
-
   example "タスクは「ユーザーid」必須" do
     task = FactoryBot.build(:task,user_id: nil)
     task.valid?
@@ -47,6 +46,7 @@ RSpec.describe Task, type: :model do
     task = FactoryBot.build(:task,name: "a" * 20)
     expect(FactoryBot.build(:task)).to be_valid
   end
+
   example "タスクは「仕事名」21字だとエラー" do
     task = FactoryBot.build(:task,name: "a" * 21)
     task.valid?
@@ -62,12 +62,11 @@ RSpec.describe Task, type: :model do
     task = FactoryBot.build(:task,content: "a" * 120)
     expect(FactoryBot.build(:task)).to be_valid
   end
+
   example "タスクは「仕事内容詳細」121字だとエラー" do
     task = FactoryBot.build(:task,content: "a" * 121)
     task.valid?
     expect(task.errors[:content]).to include("is too long (maximum is 120 characters)")
   end
-
-
-
+  
 end
