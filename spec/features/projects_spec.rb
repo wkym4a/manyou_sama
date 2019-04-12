@@ -119,11 +119,11 @@ RSpec.feature "Projects", type: :feature do
     fill_in "content" ,with: "仕事の詳細を変更"
 
     expect{
-    click_button "登録する"
-    expect(page).to have_content "更新に成功しました"
-    click_link "戻る"
-    expect(page).to have_content "タスク一覧画面"
-    expect(page).to have_content "仕事の詳細を変更"
+      click_button "登録する"
+      expect(page).to have_content "更新に成功しました"
+      click_link "戻る"
+      expect(page).to have_content "タスク一覧画面"
+      expect(page).to have_content "仕事の詳細を変更"
           }.to change(Task.all, :count).by(0)
   end
 
@@ -133,13 +133,13 @@ RSpec.feature "Projects", type: :feature do
     fill_in "content" ,with: "仕事の詳細を変更"
 
     expect{
-    click_link "削除する"
-    #  click_button "OK"
-    #……↑【「確認画面表示」→「キャンセル」「OK」で「OK」だと削除】は省略される模様
+      click_link "削除する"
+      #  click_button "OK"
+      #……↑【「確認画面表示」→「キャンセル」「OK」で「OK」だと削除】は省略される模様
 
-    expect(page).to have_content "タスクを削除しました"
-    expect(page).to have_content "タスク一覧画面"
-    expect(page).not_to have_content "削除予定のデータ"
+      expect(page).to have_content "タスクを削除しました"
+      expect(page).to have_content "タスク一覧画面"
+      expect(page).not_to have_content "削除予定のデータ"
           }.to change(Task.all, :count).by(-1)
   end
   ####--↑↑↑登録テスト↑↑↑3
@@ -152,7 +152,8 @@ RSpec.feature "Projects", type: :feature do
     visit task_path(task.id)
     click_link "戻る"
     expect{
-    expect(page).to have_content "タスク一覧画面" }
+      expect(page).to have_content "タスク一覧画面"
+          }
   end
   ####--↑↑↑画面遷移テスト↑↑↑3
   ########----↑↑タスク閲覧画面テスト↑↑----###########2
