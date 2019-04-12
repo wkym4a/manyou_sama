@@ -30,7 +30,16 @@ gem "font-awesome-rails"
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'capybara', '~> 2.13'
+
+  gem 'spring'
+
+  #20190412 add
+  gem 'spring-commands-rspec'
+
+  #2019412 change(「参考資料」のバージョンに合わせた)
+  gem 'capybara', '~> 2.15.2'
+  #gem 'capybara', '~> 2.13'
+
   gem 'selenium-webdriver'
 
   # 開発、検証用に追加
@@ -41,18 +50,24 @@ group :development, :test do
 
     #テスト用のジェム
   gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem 'faker'
 end
 
 group :test do
   #テスト後、データをクリアするジェム
   gem 'database_cleaner'
+
+    #テスト用のジェム 20190412 add
+  gem 'launchy'
+  gem 'webdrivers'
 end
 
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

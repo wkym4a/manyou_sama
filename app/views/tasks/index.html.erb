@@ -4,7 +4,7 @@
 <% end %>
 <!--↑タイトル表示枠-->
 
-<%= link_to '新規タスク', new_task_path %>
+<%= link_to '新規タスク', new_task_path ,class: "btn btn-primary"%>
 
 <table>
   <tr>
@@ -29,8 +29,8 @@
     </td>
     <td><%= Task.get_priority_name(task.priority) %></td>
     <td><%= Task.get_status_name(task.status) %></td>
-    <td><%= link_to 'タスク更新へ', edit_task_path(task) %></td>
-    <td><%= link_to 'タスク閲覧へ', task_path(task) %></td>
+    <td><%= link_to 'タスク更新へ', edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" %></td>
+    <td><%= link_to 'タスク閲覧へ', task_path(task),id: "goto_task" + task.id.to_s + "_show" %></td>
   </tr>
 <% end %>
 </table>

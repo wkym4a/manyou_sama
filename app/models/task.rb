@@ -5,7 +5,8 @@ class Task < ApplicationRecord
   #ユーザーIDは入力必須
   #……にする予定だが、対応するユーザーテーブルがまだ作成されていないので一時的にバリデーションを無効化しておく。
   #validates :user_id, presence: true
-
+  
+  validates :user_id, presence: true
   validates :name, presence: true  , length: {maximum:20}
   validates :content, length: {maximum:120}
 
