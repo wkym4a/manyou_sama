@@ -21,12 +21,12 @@
 
   <div class="field">
     <%= form.label "タスク名" %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name ,id: :name %>
   </div>
 
   <div class="field">
     <%= form.label "内容詳細" %>
-    <%= form.text_area :content %>
+    <%= form.text_area :content ,id: :content %>
   </div>
 
   <div class="field">
@@ -34,7 +34,7 @@
 
     <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
       <%= form.text_field :limit,type: "text", class: "form-control datetimepicker-input",
-              data: {toggle: "datetimepicker", target: "#datetimepicker4"} %>
+              data: {toggle: "datetimepicker", target: "#datetimepicker4"} ,id: :limit %>
       <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
           <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
       </div>
@@ -61,7 +61,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "登録する"%>
   </div>
 
 
