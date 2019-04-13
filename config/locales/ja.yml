@@ -1,12 +1,28 @@
 ---
 ja:
   activerecord:
+    normal_process:
+      do_save: "登録に成功しました"
+      do_update: "更新に成功しました"
+      do_del: "%{this}を削除しました"
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+        failed_save: "登録に失敗しました"
+    warning:
+      before_del: "本当に削除してよろしいですか?"
+  priority:
+    priority_S: "S……最優先"
+    priority_A: "A……重要"
+    priority_B: "B……通常"
+    priority_C: "C……後回し可能"
+  status:
+    status_0: "未着手"
+    status_1: "作業中"
+    status_9: "完了"
   date:
     abbr_day_names:
     - 日
@@ -120,6 +136,7 @@ ja:
       greater_than_or_equal_to: は%{count}以上の値にしてください
       inclusion: は一覧にありません
       invalid: は不正な値です
+      is_invalid_info: 【%{this}】情報が不正です
       less_than: は%{count}より小さい値にしてください
       less_than_or_equal_to: は%{count}以下の値にしてください
       model_invalid: 'バリデーションに失敗しました: %{errors}'
@@ -145,6 +162,7 @@ ja:
       create: 登録する
       submit: 保存する
       update: 更新する
+      delete: 削除する
   number:
     currency:
       format:
@@ -205,3 +223,15 @@ ja:
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
     pm: 午後
+  condition:
+    new: "新規"
+    edit: "更新"
+    show: "閲覧"
+    back: "戻る"
+  screen:
+    new: "新規%{name}画面"
+    edit: "%{name}編集画面"
+    show: "%{name}閲覧画面"
+    index: "%{name}一覧画面"
+  abnormaldata:
+    undecided: "未定"

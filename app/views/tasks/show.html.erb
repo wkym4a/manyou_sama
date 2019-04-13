@@ -1,6 +1,6 @@
 <!--↓タイトル表示枠-->
 <% content_for :show_head_title do%>
-  <h1 class="title_head"><%= get_tablename_by_model(@task) %>閲覧画面</h1>
+  <h1 class="title_head"><%=  t('screen.show',name: get_tablename_by_model(@task) ) %></h1>
 <% end %>
 <!--↑タイトル表示枠-->
 
@@ -13,19 +13,19 @@
 <hr>
 
 <div class="task-text">
-  <p><strong>仕事名</strong>：<%= @task.name %></p>
-  <p><strong>詳細</strong>：<%= @task.content %></p>
+  <p><strong><%= t('activerecord.attributes.task.name') %></strong>：<%= @task.name %></p>
+  <p><strong><%= t('activerecord.attributes.task.content') %></strong>：<%= @task.content %></p>
 
-  <p><strong>終了期限</strong>：
+  <p><strong><%= t('activerecord.attributes.task.limit') %></strong>：
     <% if @task.limit.nil?  %>
-      <%= "未定" %>
+      <%= t('abnormaldata.undecided') %>
     <% else  %>
-      <%= @task.limit.strftime('%y年%m月%d日') %>
+      <%= @task.limit.strftime(t('date.formats.default')) %>
     <% end  %>
   </p>
 
-  <p><strong>優先度</strong>：<%= Task.get_priority_name(@task.priority,1) %></p>
-  <p><strong>状態</strong>：<td><%= Task.get_status_name(@task.status) %></p>
+  <p><strong><%= t('activerecord.attributes.task.priority') %></strong>：<%= Task.get_priority_name(@task.priority,1) %></p>
+  <p><strong><%= t('activerecord.attributes.task.status') %></strong>：<td><%= Task.get_status_name(@task.status) %></p>
 </div>
 
-<%= link_to '戻る', tasks_path %>
+<%= link_to t('condition.back'), tasks_path %>

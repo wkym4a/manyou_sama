@@ -1,18 +1,17 @@
 <!--↓タイトル表示枠-->
 <% content_for :show_head_title do%>
-  <h1 class="title_head"><%= get_tablename_by_model(@tasks) %>一覧画面</h1>
+  <h1 class="title_head"><%=  t('screen.index',name: get_tablename_by_model(@tasks) ) %></h1>
 <% end %>
 <!--↑タイトル表示枠-->
 
-<%= link_to '新規タスク', new_task_path ,class: "btn btn-primary"%>
-
+<%= link_to t('condition.new') + t('activerecord.models.task'), new_task_path ,class: "btn btn-primary"%>
 <table>
   <tr>
-    <th>仕事名</th>
-    <th>詳細</th>
-    <th>終了期限</th>
-    <th>優先度</th>
-    <th>状態</th>
+    <th><%= t('activerecord.attributes.task.name') %></th>
+    <th><%= t('activerecord.attributes.task.content') %></th>
+    <th><%= t('activerecord.attributes.task.limit') %></th>
+    <th><%= t('activerecord.attributes.task.priority') %></th>
+    <th><%= t('activerecord.attributes.task.status') %></th>
   </tr>
 
 <% @tasks.each do |task| %>
@@ -22,15 +21,15 @@
 
     <td>
       <% if task.limit.nil?  %>
-        <%= "未定" %>
+        <%= t('abnormaldata.undecided') %>
       <% else  %>
-        <%= task.limit.strftime('%y年%m月%d日') %>
+        <%= task.limit.strftime(t('date.formats.default')) %>
       <% end  %>
     </td>
     <td><%= Task.get_priority_name(task.priority) %></td>
     <td><%= Task.get_status_name(task.status) %></td>
-    <td><%= link_to 'タスク更新へ', edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" %></td>
-    <td><%= link_to 'タスク閲覧へ', task_path(task),id: "goto_task" + task.id.to_s + "_show" %></td>
+    <td><%= link_to t('activerecord.models.task') +  t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" %></td>
+    <td><%= link_to t('activerecord.models.task') +  t('condition.show') , task_path(task),id: "goto_task" + task.id.to_s + "_show" %></td>
   </tr>
 <% end %>
 </table>

@@ -1,11 +1,12 @@
 ja:
   activerecord:
     models:
-      task: "ブログ"
+      task: "タスク"
+      no_model: "「get_tablename_by_model」で想定されていない種類のテーブル"
     attributes:
       task:
         name: "仕事名"
-        content: "仕事内容詳細"
+        content: "内容詳細"
         limit: "期限"
         priority: "重要度"
         status: "進捗状態"

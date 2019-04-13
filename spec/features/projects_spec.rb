@@ -12,9 +12,9 @@ RSpec.feature "Projects", type: :feature do
   ####--↓↓↓画面遷移テスト↓↓↓3
   scenario "タスク機能関係、画面遷移動作確認……「一覧」→「新規」" do
     visit tasks_path
-    click_link "新規タスク"
+    click_link I18n.t('condition.new') + I18n.t('activerecord.models.task')
     # click_button "新規タスク"←bootstrapでボタン化したものは、rspecではボタンとして認識されないっぽい！
-    expect(page).to have_content "新規タスク画面"
+    expect(page).to have_content I18n.t('screen.new' ,name:  I18n.t('activerecord.models.task'))
   end
 
   scenario "タスク機能関係、画面遷移動作確認……「一覧」→「更新」" do
@@ -26,7 +26,7 @@ RSpec.feature "Projects", type: :feature do
     visit tasks_path
     click_link "goto_task" + task2.id.to_s + "_edit"
 
-    expect(page).to have_content "タスク編集画面"
+    expect(page).to have_content I18n.t('screen.edit' ,name:  I18n.t('activerecord.models.task'))
     expect(page).to have_content task2.content
 
   end
@@ -34,13 +34,13 @@ RSpec.feature "Projects", type: :feature do
   scenario "タスク機能関係、画面遷移動作確認……「一覧」→「閲覧」" do
 
     #タスク情報登録
-    task2 = FactoryBot.create(:task,content: "タスク登録データ確認、内容詳細")
-    task3 = FactoryBot.create(:task,content: "ダミー")
+    task2 = FactoryBot.create(:task,content: "abcdefg")
+    task3 = FactoryBot.create(:task,content: "dummy")
 
     visit tasks_path
     click_link "goto_task" + task2.id.to_s + "_show"
 
-    expect(page).to have_content "タスク閲覧画面"
+    expect(page).to have_content I18n.t('screen.show' ,name:  I18n.t('activerecord.models.task'))
     expect(page).to have_content task2.content
   end
   ####--↑↑↑画面遷移テスト↑↑↑3
@@ -49,7 +49,7 @@ RSpec.feature "Projects", type: :feature do
   scenario "「タスク一覧」画面動作確認、登録したデータが一覧に表示されている" do
 
     #タスク情報登録
-    task2 = FactoryBot.create(:task,content: "タスク登録データ確認、内容詳細")
+    task2 = FactoryBot.create(:task,content: "content_content_content_content")
 
     visit tasks_path
 
@@ -63,29 +63,29 @@ RSpec.feature "Projects", type: :feature do
   ####--↓↓↓画面遷移テスト↓↓↓3
   scenario "タスク機能関係、画面遷移動作確認……「新規」→戻る→「一覧」" do
     visit new_task_path
-    click_link "戻る"
-    expect(page).to have_content "タスク一覧画面"
+    click_link I18n.t('condition.back')
+    expect(page).to have_content  I18n.t('screen.index' ,name:  I18n.t('activerecord.models.task'))
   end
   ####--↑↑↑画面遷移テスト↑↑↑3
 
   ####--↓↓↓登録テスト↓↓↓3
   scenario "何も入力しないで登録するとエラー" do
     visit new_task_path
-    click_button "登録する"
+    click_button I18n.t('helpers.submit.create')
 
-    expect(page).to have_content "新規タスク画面"
-    expect(page).to have_content "登録に失敗しました"
+    expect(page).to have_content I18n.t('screen.new',name: I18n.t('activerecord.models.task'))
+    expect(page).to have_content I18n.t('activerecord.errors.messages.failed_save')
   end
 
   scenario "タスク名だけ入力して登録すると登録成功" do
     visit new_task_path
-    fill_in "name" ,with: "新規登録データのタスク名"
+    fill_in "name" ,with: "abababab"
 
     expect{
-      click_button "登録する"
+      click_button I18n.t('helpers.submit.create')
 
-      expect(page).to have_content "タスク編集画面"
-      expect(page).to have_content "登録に成功しました"
+      expect(page).to have_content I18n.t('screen.edit',name: I18n.t('activerecord.models.task'))
+      expect(page).to have_content I18n.t('activerecord.normal_process.do_save')
           }.to change(Task.all, :count).by(1)
   end
   ####--↑↑↑登録テスト↑↑↑3
@@ -97,8 +97,8 @@ RSpec.feature "Projects", type: :feature do
 
     task = FactoryBot.create(:task)
     visit edit_task_path(task.id)
-    click_link "戻る"
-    expect(page).to have_content "タスク一覧画面"
+    click_link I18n.t('condition.back')
+    expect(page).to have_content I18n.t('screen.index',name: I18n.t('activerecord.models.task'))
   end
   ####--↑↑↑画面遷移テスト↑↑↑3
 
@@ -107,29 +107,29 @@ RSpec.feature "Projects", type: :feature do
   scenario "詳細を入力して更新" do
     task = FactoryBot.create(:task)
     visit edit_task_path(task.id)
-    fill_in "content" ,with: "仕事の詳細を変更"
+    fill_in "content" ,with: "change_taskcontent_changechange"
 
     expect{
-      click_button "登録する"
-      expect(page).to have_content "更新に成功しました"
-      click_link "戻る"
-      expect(page).to have_content "タスク一覧画面"
-      expect(page).to have_content "仕事の詳細を変更"
+      click_button I18n.t('helpers.submit.create')
+      expect(page).to have_content I18n.t('activerecord.normal_process.do_update')
+      click_link I18n.t('condition.back')
+      expect(page).to have_content I18n.t('screen.index',name: I18n.t('activerecord.models.task'))
+      expect(page).to have_content "change_taskcontent_changechange"
           }.to change(Task.all, :count).by(0)
   end
 
   scenario "データ削除" do
-    task = FactoryBot.create(:task ,name: "削除予定のデータ")
+    task = FactoryBot.create(:task ,name: "this_will_del")
     visit edit_task_path(task.id)
 
     expect{
-      click_link "削除する"
+      click_link I18n.t('helpers.submit.delete')
       #  click_button "OK"
       #……↑【「確認画面表示」→「キャンセル」「OK」で「OK」だと削除】は省略される模様
 
-      expect(page).to have_content "タスクを削除しました"
-      expect(page).to have_content "タスク一覧画面"
-      expect(page).not_to have_content "削除予定のデータ"
+      expect(page).to have_content I18n.t('activerecord.normal_process.do_del',this: I18n.t('activerecord.models.task'))
+      expect(page).to have_content I18n.t('screen.index',name: I18n.t('activerecord.models.task'))
+      expect(page).not_to have_content "this_will_del"
           }.to change(Task.all, :count).by(-1)
   end
   ####--↑↑↑登録テスト↑↑↑3
@@ -140,8 +140,8 @@ RSpec.feature "Projects", type: :feature do
 
     task = FactoryBot.create(:task)
     visit task_path(task.id)
-    click_link "戻る"
-    expect(page).to have_content "タスク一覧画面"
+    click_link I18n.t('condition.back')
+    expect(page).to have_content I18n.t('screen.index',name: I18n.t('activerecord.models.task'))
   end
   ####--↑↑↑画面遷移テスト↑↑↑3
   ########----↑↑タスク閲覧画面テスト↑↑----###########2

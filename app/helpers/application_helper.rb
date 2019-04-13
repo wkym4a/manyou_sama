@@ -4,16 +4,31 @@ module ApplicationHelper
   def get_tablename_by_model(model_info)
 
     case model_info.model_name.name
-      when "User"
-        return "ユーザー"
       when "Task"
+      #  return t('activerecord.models.task')
         return "タスク"
-      when "Task_tag"
-        return "タスクラベル"
-      when "Tag"
-        return "ラベル"
+
+      # when "User"
+      #   return "ユーザー"
+      # when "Task_tag"
+      #   return "タスクラベル"
+      # when "Tag"
+      #   return "ラベル"
+
       else
-        return "「get_tablename_by_model」で想定されていない種類のテーブル"
+        return  t('activerecord.models.no_model')
+        # return "「get_tablename_by_model」で想定されていない種類のテーブル"
+
     end
   end
+end
+
+
+def test
+  return t('activerecord.errors.messages.record_invalid',errors: "2222")
+end
+
+
+def test2
+  return t('activerecord.errors.messages.restrict_dependent_destroy')
 end
