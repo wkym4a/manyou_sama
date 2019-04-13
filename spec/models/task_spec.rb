@@ -33,13 +33,13 @@ RSpec.describe Task, type: :model do
   example "タスクは「ユーザーid」必須" do
     task = FactoryBot.build(:task,user_id: nil)
     task.valid?
-    expect(task.errors[:user_id]).to include("can't be blank")
+    expect(task.errors[:user_id]).to include("を入力してください")
   end
 
   example "タスクは「仕事名」必須" do
     task = FactoryBot.build(:task,name: nil)
     task.valid?
-    expect(task.errors[:name]).to include("can't be blank")
+    expect(task.errors[:name]).to include("を入力してください")
   end
 
   example "タスクは「仕事名」20字まで登録可能" do
@@ -50,7 +50,7 @@ RSpec.describe Task, type: :model do
   example "タスクは「仕事名」21字だとエラー" do
     task = FactoryBot.build(:task,name: "a" * 21)
     task.valid?
-    expect(task.errors[:name]).to include("is too long (maximum is 20 characters)")
+    expect(task.errors[:name]).to include("は20文字以内で入力してください")
   end
 
   example "タスクは「仕事内容詳細」「終了期限」無しでも登録可能" do
@@ -66,7 +66,7 @@ RSpec.describe Task, type: :model do
   example "タスクは「仕事内容詳細」121字だとエラー" do
     task = FactoryBot.build(:task,content: "a" * 121)
     task.valid?
-    expect(task.errors[:content]).to include("is too long (maximum is 120 characters)")
+    expect(task.errors[:content]).to include("は120文字以内で入力してください")
   end
-  
+
 end
