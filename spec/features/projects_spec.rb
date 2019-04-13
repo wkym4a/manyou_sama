@@ -14,50 +14,47 @@ RSpec.feature "Projects", type: :feature do
     visit tasks_path
     click_link "新規タスク"
     # click_button "新規タスク"←bootstrapでボタン化したものは、rspecではボタンとして認識されないっぽい！
-    expect{
-      expect(page).to have_content "新規タスク画面"
-          }
+    expect(page).to have_content "新規タスク画面"
   end
 
   scenario "タスク機能関係、画面遷移動作確認……「一覧」→「更新」" do
 
     #タスク情報登録
-    task2 = FactoryBot.create(:task,name: "タスク登録データ確認、名称")
-    task3 = FactoryBot.create(:task,name: "ダミー")
+    task2 = FactoryBot.create(:task,content: "タスク登録データ確認、内容詳細")
+    task3 = FactoryBot.create(:task,content: "ダミー")
 
     visit tasks_path
     click_link "goto_task" + task2.id.to_s + "_edit"
 
-    expect{
-      expect(page).to have_content "タスク編集画面"
-      expect(page).to have_content task2.name
-          }
+    expect(page).to have_content "タスク編集画面"
+    expect(page).to have_content task2.content
+
   end
 
   scenario "タスク機能関係、画面遷移動作確認……「一覧」→「閲覧」" do
 
     #タスク情報登録
-    task2 = FactoryBot.create(:task,name: "タスク登録データ確認、名称")
-    task3 = FactoryBot.create(:task,name: "ダミー")
+    task2 = FactoryBot.create(:task,content: "タスク登録データ確認、内容詳細")
+    task3 = FactoryBot.create(:task,content: "ダミー")
 
     visit tasks_path
     click_link "goto_task" + task2.id.to_s + "_show"
 
-    expect{
-      expect(page).to have_content "タスク閲覧画面"
-      expect(page).to have_content task2.name
-          }
+    expect(page).to have_content "タスク閲覧画面"
+    expect(page).to have_content task2.content
   end
   ####--↑↑↑画面遷移テスト↑↑↑3
 
   ####--↓↓↓画面表示テスト↓↓↓3
   scenario "「タスク一覧」画面動作確認、登録したデータが一覧に表示されている" do
+
+    #タスク情報登録
+    task2 = FactoryBot.create(:task,content: "タスク登録データ確認、内容詳細")
+
     visit tasks_path
 
-    expect{
-      #登録したデータ（の、仕事名）が表示されている
-      expect(page).to have_content task.name
-          }
+    #登録したデータ（の、仕事名）が表示されている
+    expect(page).to have_content task2.content
   end
   ####--↑↑↑画面表示テスト↑↑↑3
   ########----↑↑タスク一覧画面テスト↑↑----###########2
@@ -67,9 +64,7 @@ RSpec.feature "Projects", type: :feature do
   scenario "タスク機能関係、画面遷移動作確認……「新規」→戻る→「一覧」" do
     visit new_task_path
     click_link "戻る"
-    expect{
-      expect(page).to have_content "タスク一覧画面"
-          }
+    expect(page).to have_content "タスク一覧画面"
   end
   ####--↑↑↑画面遷移テスト↑↑↑3
 
@@ -78,10 +73,8 @@ RSpec.feature "Projects", type: :feature do
     visit new_task_path
     click_button "登録する"
 
-    expect{
-      expect(page).to have_content "新規タスク画面"
-      expect(page).to have_content "登録に失敗しました"
-          }
+    expect(page).to have_content "新規タスク画面"
+    expect(page).to have_content "登録に失敗しました"
   end
 
   scenario "タスク名だけ入力して登録すると登録成功" do
@@ -105,9 +98,7 @@ RSpec.feature "Projects", type: :feature do
     task = FactoryBot.create(:task)
     visit edit_task_path(task.id)
     click_link "戻る"
-    expect{
-      expect(page).to have_content "タスク一覧画面"
-          }
+    expect(page).to have_content "タスク一覧画面"
   end
   ####--↑↑↑画面遷移テスト↑↑↑3
 
@@ -130,7 +121,6 @@ RSpec.feature "Projects", type: :feature do
   scenario "データ削除" do
     task = FactoryBot.create(:task ,name: "削除予定のデータ")
     visit edit_task_path(task.id)
-    fill_in "content" ,with: "仕事の詳細を変更"
 
     expect{
       click_link "削除する"
@@ -151,9 +141,7 @@ RSpec.feature "Projects", type: :feature do
     task = FactoryBot.create(:task)
     visit task_path(task.id)
     click_link "戻る"
-    expect{
-      expect(page).to have_content "タスク一覧画面"
-          }
+    expect(page).to have_content "タスク一覧画面"
   end
   ####--↑↑↑画面遷移テスト↑↑↑3
   ########----↑↑タスク閲覧画面テスト↑↑----###########2
