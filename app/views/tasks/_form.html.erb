@@ -12,25 +12,28 @@
   <% end %>
 
   <%= form.label "※メモ：担当者は後回し、暫定で「1」を登録" %>
+  <div class="">
+    <%= form.label "↑これは開発中のメモのため、ステップ9「i18n」への置き換えの対象外としています" %>
+  </div>
 
   <div class="field">
-    <%= form.label "状態" %>
+    <%= form.label t('activerecord.attributes.task.status') %>
     <%= form.hidden_field :status %>
     <%= form.label Task.get_status_name(@task.status) %>
   </div>
 
   <div class="field">
-    <%= form.label "タスク名" %>
+    <%= form.label t('activerecord.attributes.task.name') %>
     <%= form.text_field :name ,id: :name %>
   </div>
 
   <div class="field">
-    <%= form.label "内容詳細" %>
+    <%= form.label t('activerecord.attributes.task.content') %>
     <%= form.text_area :content ,id: :content %>
   </div>
 
   <div class="field">
-    <%= form.label "終了期限" %>
+    <%= form.label t('activerecord.attributes.task.limit') %>
 
     <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
       <%= form.text_field :limit,type: "text", class: "form-control datetimepicker-input",
@@ -45,7 +48,7 @@
   </div>
 
   <div class="field">
-    <%= form.label "重要度" %>
+    <%= form.label t('activerecord.attributes.task.priority') %>
     <label>
       <%= form.radio_button :priority, 0 %><%= Task.get_priority_name(0,1) %>
     </label>
@@ -61,7 +64,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "登録する"%>
+    <%= form.submit t('helpers.submit.create') %>
   </div>
 
 
@@ -69,8 +72,8 @@
 <% end %>
 
 <% if action_name== 'edit' %>
-  <%= (link_to '削除する', task, method: :delete,data: { confirm: '本当に削除してよろしいですか?' } ,
+  <%= (link_to  t('helpers.submit.delete'), task, method: :delete,data: { confirm:  t('activerecord.warning.before_del') } ,
                         disabled:false)  %>
 <% end %>
 
-<%= link_to '戻る', tasks_path %>
+<%= link_to t('condition.back'),  tasks_path %>

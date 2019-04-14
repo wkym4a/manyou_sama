@@ -5,7 +5,7 @@ class Task < ApplicationRecord
   #ユーザーIDは入力必須
   #……にする予定だが、対応するユーザーテーブルがまだ作成されていないので一時的にバリデーションを無効化しておく。
   #validates :user_id, presence: true
-  
+
   validates :user_id, presence: true
   validates :name, presence: true  , length: {maximum:20}
   validates :content, length: {maximum:120}
@@ -26,32 +26,32 @@ class Task < ApplicationRecord
       if return_type==0
         return "S"
       else
-        return "S……最優先"
+        return I18n.t('priority.priority_S')
       end
 
     when 1 then
       if return_type==0
         return "A"
       else
-        return "A……重要"
+        return I18n.t('priority.priority_A')
       end
 
     when 2 then
       if return_type==0
         return "B"
       else
-        return "B……通常"
+        return I18n.t('priority.priority_B')
       end
 
     when 3 then
       if return_type==0
         return "C"
       else
-        return "C……後回し可能"
+        return I18n.t('priority.priority_C')
       end
 
     else
-      return "「優先度」情報が不正です。"
+      return I18n.t("errors.messages.is_invalid_info", this: I18n.t('activerecord.attributes.task.priority'))
     end
 
   end
@@ -60,16 +60,16 @@ class Task < ApplicationRecord
   def self.get_status_name(n)
       case n
       when 0 then
-        return "未着手"
+        return I18n.t('status.status_0')
 
       when 1 then
-        return "作業中"
+        return I18n.t('status.status_1')
 
       when 9 then
-        return "完了"
+        return I18n.t('status.status_9')
 
       else
-        return "「進捗状態」情報が不正です。"
+        return I18n.t("errors.messages.is_invalid_info", this: I18n.t('activerecord.attributes.task.status'))
       end
 
   end
