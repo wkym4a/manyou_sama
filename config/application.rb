@@ -11,10 +11,13 @@ module ManyouSama
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+    #タイムゾーン設定を東京に
+    config.time_zone = 'Tokyo'
+    config.active_record.default_timezone = :local
 
-      config.generators do |g|
-          g.test_framework :rspec,
-            view_specs: false
+    config.generators do |g|
+        g.test_framework :rspec,
+          view_specs: false
     end
 
   end
