@@ -44,7 +44,7 @@ class TasksController < ApplicationController
       if @task.save
         format.html{redirect_to edit_task_path(@task) , notice: '登録に成功しました。' }
       else
-        format.html{redirect_to new_task_path , notice: '登録に失敗しました。' }
+        format.html{render "new"}
       end
     end
   end
@@ -57,8 +57,7 @@ class TasksController < ApplicationController
       if @task.update(task_params)==true
         format.html{redirect_to edit_task_path(@task) , notice: '更新に成功しました。' }
       else
-        format.html{redirect_to edit_task_path(@task) ,
-           notice: '更新に失敗しました。もう一度更新するか、はじめからやり直してください。' }
+        format.html{render "edit"}
       end
     end
   end

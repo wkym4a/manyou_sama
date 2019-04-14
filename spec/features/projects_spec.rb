@@ -103,7 +103,7 @@ RSpec.feature "Projects", type: :feature do
     click_button I18n.t('helpers.submit.create')
 
     expect(page).to have_content I18n.t('screen.new',name: I18n.t('activerecord.models.task'))
-    expect(page).to have_content I18n.t('activerecord.errors.messages.failed_save')
+    expect(page).to have_content I18n.t('errors.template.header.none')
   end
 
   scenario "タスク名だけ入力して登録すると登録成功" do
