@@ -56,6 +56,35 @@ RSpec.feature "Projects", type: :feature do
     #登録したデータ（の、仕事名）が表示されている
     expect(page).to have_content task2.content
   end
+
+  scenario "登録したデータが作成日時順に表示されている（step11対応のための追加改修）" do
+
+    #テスト用に、タイムスタンプの自動設定をoffに
+    ActiveRecord::Base.record_timestamps = false
+
+    #タスク情報登録
+    #「作成日時が明日であるデータ」を先に登録
+    task_tomorrow = FactoryBot.create(:task,content: "create_tomorrow",
+      created_at: Time.now.tomorrow ,updated_at: Time.now.tomorrow)
+    #「作成日時が現在であるデータ」を後に2回登録
+    task_now_1 = FactoryBot.create(:task,content: "create_now_1",
+      created_at: Time.now ,updated_at: Time.now)
+    task_now_2 = FactoryBot.create(:task,content: "create_now_2",
+      created_at: Time.now ,updated_at: Time.now)
+
+    #他のテストに影響を与えないよう、タイムスタンプの自動設定をonに戻す
+    ActiveRecord::Base.record_timestamps = true
+
+    visit tasks_path
+    #一行目（line_0）→初めに登録した「task_tomorrow」……∵、作成日時は「明日」
+    #二行目（line_1）→最後に登録した「task_now_2」……∵、作成日時は「【task_now_1】よりも後」
+    #三行目（line_2）→二番目に登録した「task_now_1」
+    expect(page).to have_selector '.line_0', text:  task_tomorrow.content
+    expect(page).to have_selector '.line_1', text:  task_now_2.content
+    expect(page).to have_selector '.line_2', text:  task_now_1.content
+
+  end
+
   ####--↑↑↑画面表示テスト↑↑↑3
   ########----↑↑タスク一覧画面テスト↑↑----###########2
 
@@ -146,5 +175,7 @@ RSpec.feature "Projects", type: :feature do
   ####--↑↑↑画面遷移テスト↑↑↑3
   ########----↑↑タスク閲覧画面テスト↑↑----###########2
   #############↑タスク機能についてのテスト↑#################1
+
+  # save_and_open_page
 
 end

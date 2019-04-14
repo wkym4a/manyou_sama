@@ -14,8 +14,9 @@
     <th><%= t('activerecord.attributes.task.status') %></th>
   </tr>
 
+<% line_num = 0 %>
 <% @tasks.each do |task| %>
-  <tr>
+  <tr class = "line_<%= line_num %>" >
     <td><%= task.name %></td>
     <td><%= task.content %></td>
 
@@ -31,5 +32,8 @@
     <td><%= link_to t('activerecord.models.task') +  t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" %></td>
     <td><%= link_to t('activerecord.models.task') +  t('condition.show') , task_path(task),id: "goto_task" + task.id.to_s + "_show" %></td>
   </tr>
+
+<% line_num += 1 %>
+
 <% end %>
 </table>
