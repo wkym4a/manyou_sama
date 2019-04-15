@@ -14,6 +14,12 @@ ja:
         failed_save: "登録に失敗しました"
     warning:
       before_del: "本当に削除してよろしいですか?"
+  action:
+    new: "新規登録"
+    edit: "更新"
+    show: "閲覧"
+    back: "戻る"
+    search: "検索"
   priority:
     priority_S: "S……最優先"
     priority_A: "A……重要"

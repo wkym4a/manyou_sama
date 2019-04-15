@@ -3,8 +3,17 @@ class TasksController < ApplicationController
 
   #一覧画面表示
   def index
+    @tasks = Task.none
+    # @tasks = Task.all.order(created_at: "desc")
+     #binding.pry
+  end
+  def index_search
+    #binding.pry
     @tasks = Task.all.order(created_at: "desc")
-    # binding.pry
+
+    respond_to do |format|
+        format.js { render :index_box }
+    end
   end
 
   def show

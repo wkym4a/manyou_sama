@@ -1,0 +1,25 @@
+<div class="index_box">
+
+  <table>
+    <tr>
+      <th><%= t('activerecord.attributes.task.name') %></th>
+      <th><%= t('activerecord.attributes.task.content') %></th>
+      <th><%= t('activerecord.attributes.task.limit') %></th>
+      <th><%= t('activerecord.attributes.task.priority') %></th>
+      <th><%= t('activerecord.attributes.task.status') %></th>
+    </tr>
+
+
+  <% line_num = 0 %>
+  <% @tasks.each do |task| %>
+
+    <%= render 'index_line', task: task , line_num: line_num %>
+
+    <% line_num += 1 %>
+  <% end %>
+
+
+
+
+</table>
+</div>

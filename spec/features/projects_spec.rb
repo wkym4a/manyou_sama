@@ -17,13 +17,17 @@ RSpec.feature "Projects", type: :feature do
     expect(page).to have_content I18n.t('screen.new' ,name:  I18n.t('activerecord.models.task'))
   end
 
-  scenario "タスク機能関係、画面遷移動作確認……「一覧」→「更新」" do
+  scenario "タスク機能関係、画面遷移動作確認……「一覧」→「更新」(一覧画面、条件無しで検索してから)", js: true do
+    #↑
+    #[js: true do]→jsの動作に対応するため追記……『RspecによるRailsテスト入門』、104〜106頁あたり参照
 
     #タスク情報登録
     task2 = FactoryBot.create(:task,content: "タスク登録データ確認、内容詳細")
     task3 = FactoryBot.create(:task,content: "ダミー")
 
     visit tasks_path
+    #↓一覧画面は初期表示だと検索されていないので、いったん「条件なしで検索」してから情報の存在をチェックする
+    click_button I18n.t('action.search')
     click_link "goto_task" + task2.id.to_s + "_edit"
 
     expect(page).to have_content I18n.t('screen.edit' ,name:  I18n.t('activerecord.models.task'))
@@ -31,13 +35,15 @@ RSpec.feature "Projects", type: :feature do
 
   end
 
-  scenario "タスク機能関係、画面遷移動作確認……「一覧」→「閲覧」" do
+  scenario "タスク機能関係、画面遷移動作確認……「一覧」→「閲覧」(一覧画面、条件無しで検索してから)", js: true do
 
     #タスク情報登録
     task2 = FactoryBot.create(:task,content: "abcdefg")
     task3 = FactoryBot.create(:task,content: "dummy")
 
     visit tasks_path
+    #↓一覧画面は初期表示だと検索されていないので、いったん「条件なしで検索」してから情報の存在をチェックする
+    click_button I18n.t('action.search')
     click_link "goto_task" + task2.id.to_s + "_show"
 
     expect(page).to have_content I18n.t('screen.show' ,name:  I18n.t('activerecord.models.task'))
@@ -46,18 +52,19 @@ RSpec.feature "Projects", type: :feature do
   ####--↑↑↑画面遷移テスト↑↑↑3
 
   ####--↓↓↓画面表示テスト↓↓↓3
-  scenario "「タスク一覧」画面動作確認、登録したデータが一覧に表示されている" do
+  scenario "「タスク一覧」画面動作確認、登録したデータが一覧に表示されている(一覧画面、条件無しで検索してから)", js: true do
 
     #タスク情報登録
     task2 = FactoryBot.create(:task,content: "content_content_content_content")
 
     visit tasks_path
-
+    #↓一覧画面は初期表示だと検索されていないので、いったん「条件なしで検索」してから情報の存在をチェックする
+    click_button I18n.t('action.search')
     #登録したデータ（の、仕事名）が表示されている
     expect(page).to have_content task2.content
   end
 
-  scenario "登録したデータが作成日時順に表示されている（step11対応のための追加改修）" do
+  scenario "登録したデータが作成日時順に表示されている（step11対応のための追加改修）(一覧画面、条件無しで検索してから)", js: true do
 
     #テスト用に、タイムスタンプの自動設定をoffに
     ActiveRecord::Base.record_timestamps = false
@@ -76,12 +83,16 @@ RSpec.feature "Projects", type: :feature do
     ActiveRecord::Base.record_timestamps = true
 
     visit tasks_path
+    #↓一覧画面は初期表示だと検索されていないので、いったん「条件なしで検索」してから情報の存在をチェックする
+    click_button I18n.t('action.search')
     #一行目（line_0）→初めに登録した「task_tomorrow」……∵、作成日時は「明日」
     #二行目（line_1）→最後に登録した「task_now_2」……∵、作成日時は「【task_now_1】よりも後」
     #三行目（line_2）→二番目に登録した「task_now_1」
-    expect(page).to have_selector '.line_0', text:  task_tomorrow.content
-    expect(page).to have_selector '.line_1', text:  task_now_2.content
-    expect(page).to have_selector '.line_2', text:  task_now_1.content
+    # sleep 5
+    # save_and_open_page
+    expect(page).to have_selector '.index_line_0', text:  task_tomorrow.content
+    expect(page).to have_selector '.index_line_1', text:  task_now_2.content
+    expect(page).to have_selector '.index_line_2', text:  task_now_1.content
 
   end
 
@@ -133,7 +144,7 @@ RSpec.feature "Projects", type: :feature do
 
   ####--↓↓↓登録テスト↓↓↓3
   #更新時、名前変更不可とするつもり（デザイン調整時に実装）なので名前ではなく詳細変更で試験
-  scenario "詳細を入力して更新" do
+  scenario "詳細を入力して更新(一覧画面、条件無しで検索してから)", js: true do
     task = FactoryBot.create(:task)
     visit edit_task_path(task.id)
     fill_in "content" ,with: "change_taskcontent_changechange"
@@ -142,12 +153,14 @@ RSpec.feature "Projects", type: :feature do
       click_button I18n.t('helpers.submit.create')
       expect(page).to have_content I18n.t('activerecord.normal_process.do_update')
       click_link I18n.t('condition.back')
+      #↓一覧画面は初期表示だと検索されていないので、いったん「条件なしで検索」してから情報の存在をチェックする
+      click_button I18n.t('action.search')
       expect(page).to have_content I18n.t('screen.index',name: I18n.t('activerecord.models.task'))
       expect(page).to have_content "change_taskcontent_changechange"
           }.to change(Task.all, :count).by(0)
   end
 
-  scenario "データ削除" do
+  scenario "データ削除(一覧画面、条件無しで検索してから)", js: true do
     task = FactoryBot.create(:task ,name: "this_will_del")
     visit edit_task_path(task.id)
 
@@ -155,7 +168,13 @@ RSpec.feature "Projects", type: :feature do
       click_link I18n.t('helpers.submit.delete')
       #  click_button "OK"
       #……↑【「確認画面表示」→「キャンセル」「OK」で「OK」だと削除】は省略される模様
+      #↓js有効時には↑は省略されないようなので、「OK」ボタンも押してやる必要がある
+      page.driver.browser.switch_to.alert.accept
+      #click_button 'OK'
+      #click_link 'OK'
 
+      #↓一覧画面は初期表示だと検索されていないので、いったん「条件なしで検索」してから情報の存在をチェックする
+      click_button I18n.t('action.search')
       expect(page).to have_content I18n.t('activerecord.normal_process.do_del',this: I18n.t('activerecord.models.task'))
       expect(page).to have_content I18n.t('screen.index',name: I18n.t('activerecord.models.task'))
       expect(page).not_to have_content "this_will_del"

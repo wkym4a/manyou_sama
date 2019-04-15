@@ -4,36 +4,23 @@
 <% end %>
 <!--↑タイトル表示枠-->
 
+<div class="search_condition">
+
+  <%= form_with  url:index_search_tasks_path,method: :get ,remote: true do |form| %>
+
+<h4>ここに検索条件を追加していく（未実装）</h4>
+
+  <%= form.submit t('action.search') %>
+
+  <% end %>
+
+</div>
+
+
 <%= link_to t('condition.new') + t('activerecord.models.task'), new_task_path ,class: "btn btn-primary"%>
-<table>
-  <tr>
-    <th><%= t('activerecord.attributes.task.name') %></th>
-    <th><%= t('activerecord.attributes.task.content') %></th>
-    <th><%= t('activerecord.attributes.task.limit') %></th>
-    <th><%= t('activerecord.attributes.task.priority') %></th>
-    <th><%= t('activerecord.attributes.task.status') %></th>
-  </tr>
 
-<% line_num = 0 %>
-<% @tasks.each do |task| %>
-  <tr class = "line_<%= line_num %>" >
-    <td><%= task.name %></td>
-    <td><%= task.content %></td>
+<div id = "index_box">
 
-    <td>
-      <% if task.limit.nil?  %>
-        <%= t('abnormaldata.undecided') %>
-      <% else  %>
-        <%= task.limit.strftime(t('date.formats.default')) %>
-      <% end  %>
-    </td>
-    <td><%= Task.get_priority_name(task.priority) %></td>
-    <td><%= Task.get_status_name(task.status) %></td>
-    <td><%= link_to t('activerecord.models.task') +  t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" %></td>
-    <td><%= link_to t('activerecord.models.task') +  t('condition.show') , task_path(task),id: "goto_task" + task.id.to_s + "_show" %></td>
-  </tr>
+  <%= render 'index_box', tasks: @tasks %>
 
-<% line_num += 1 %>
-
-<% end %>
-</table>
+</div>
