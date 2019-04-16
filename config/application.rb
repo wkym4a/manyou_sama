@@ -11,6 +11,10 @@ module ManyouSama
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+    # サービスをオートロードする(サービスクラスの追加を試してみる)……本番環境では上でないとだめなはず
+ # config.eager_load_paths += %W( #{config.root}/extras )
+    config.autoload_paths += %W(#{config.root}/app/services)
+
     #タイムゾーン設定を東京に
     config.time_zone = 'Tokyo'
     config.active_record.default_timezone = :local

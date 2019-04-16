@@ -6,11 +6,55 @@
 
 <div class="search_condition">
 
-  <%= form_with  url:index_search_tasks_path,method: :get ,remote: true do |form| %>
+  <%= form_with scope: :conditions, url:index_search_tasks_path,method: :get ,remote: true do |form| %>
 
 <h4>ここに検索条件を追加していく（未実装）</h4>
+<div class="">
 
-  <%= form.submit t('action.search') %>
+  担当者→未実装
+</div>
+<span><%= t('activerecord.attributes.task.status') %></span>
+<%= form.check_box :status_0, {}, true, false %><span><%= Task.get_status_name(0) %></span>
+<%= form.check_box :status_1, {}, true, false %><span><%= Task.get_status_name(1) %></span>
+<%= form.check_box :status_9, {}, true, false %><span><%= Task.get_status_name(9) %></span>
+
+  <div class="field">
+    <%= form.label t('activerecord.attributes.task.name') %>
+    <%= form.text_field :name  %>
+  </div>
+
+  <div class="field">
+    <%= form.label t('activerecord.attributes.task.content') %>
+    <%= form.text_field :content %>
+  </div>
+
+
+<%= form.label t('activerecord.attributes.task.limit') %>
+ <%= form.check_box :no_limit, {}, true, false %><span>期限未設定のみを検索（選択した場合、日付入力は無視されます）</span>
+    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+      <%= form.text_field :limit_from,type: "text", class: "form-control datetimepicker-input",
+              data: {toggle: "datetimepicker", target: "#datetimepicker4"} ,id: :limit %>
+      <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+      </div>
+    </div>
+〜
+    <div class="input-group date" id="datetimepicker4_2" data-target-input="nearest">
+      <%= form.text_field :limit_to,type: "text", class: "form-control datetimepicker-input",
+              data: {toggle: "datetimepicker", target: "#datetimepicker4_2"} ,id: :limit %>
+      <div class="input-group-append" data-target="#datetimepicker4_2" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+      </div>
+    </div>
+
+
+    <span><%= t('activerecord.attributes.task.priority') %></span>
+    <%= form.check_box :priority_0, {}, true, false %><span>S</span>
+    <%= form.check_box :priority_1, {}, true, false %><span>A</span>
+    <%= form.check_box :priority_2, {}, true, false %><span>B</span>
+    <%= form.check_box :priority_3, {}, true, false %><span>C</span>
+
+    <%= form.submit t('action.search') %>
 
   <% end %>
 

@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+
   before_action :set_tasks , only: [:show , :edit , :update , :destroy]
 
   #一覧画面表示
@@ -8,8 +9,9 @@ class TasksController < ApplicationController
      #binding.pry
   end
   def index_search
-    #binding.pry
-    @tasks = Task.all.order(created_at: "desc")
+
+    @tasks = Task.new.search_tasks(params[:conditions])
+    # @tasks = Task.all.order(created_at: "desc")
 
     respond_to do |format|
         format.js { render :index_box }
