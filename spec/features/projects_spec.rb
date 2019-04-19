@@ -103,8 +103,6 @@ RSpec.feature "Projects", type: :feature , js: true do
     #一行目（line_0）→初めに登録した「task_tomorrow」……∵、作成日時は「明日」
     #二行目（line_1）→最後に登録した「task_now_2」……∵、作成日時は「【task_now_1】よりも後」
     #三行目（line_2）→二番目に登録した「task_now_1」
-    # sleep 5
-    # save_and_open_page
     expect(page).to have_selector '.index_line_0', text:  task_tomorrow.content
     expect(page).to have_selector '.index_line_1', text:  task_now_2.content
     expect(page).to have_selector '.index_line_2', text:  task_now_1.content
@@ -216,8 +214,6 @@ RSpec.feature "Projects", type: :feature , js: true do
   ########----↑↑タスク閲覧画面テスト↑↑----###########2
   #############↑タスク機能についてのテスト↑#################1
 
-  # save_and_open_page
-
   #############画面の基本的な動作についてのテストはここまで。#################1
   #############これ以降はステップごとの【追加した機能についてのシナリオテスト】を作成していく。#################1
   scenario "ステップ14、「終了期限」追加に伴うシナリオテスト" do
@@ -284,7 +280,6 @@ RSpec.feature "Projects", type: :feature , js: true do
      # sleep 4
     find("#tasks_created_at_desc").click
 
-    save_and_open_page
     expect(page).not_to have_content "test_step14_data1"
     expect(page).not_to have_content "test_step14_data2"
     expect(page).to have_content "test_step14_data3"
@@ -292,8 +287,6 @@ RSpec.feature "Projects", type: :feature , js: true do
 
     checkbox = find("#no_limit")
     expect(checkbox).to be_checked
-
-     save_and_open_page
 
     # テスト2:検索画面を表示し、「検索画面に遷移し、「期限＝本日〜10日後」で検索し、
     visit tasks_path
@@ -321,58 +314,3 @@ RSpec.feature "Projects", type: :feature , js: true do
   end
 
 end
-
-#↓↓↓↓以前発生していたエラーの検証用テスト。多分いらないけど、念の為しばらく残しておく。
-#   scenario "テスト用のテスト1", js: true do
-#
-#         visit tasks_path
-#  # save_and_open_page
-#         expect(page).to have_content "tttt_test"
-#   end
-#
-#
-#   scenario "テスト用のテスト2", js: true do
-#
-#         visit tasks_path
-#
-#         click_button I18n.t('action.search')
-#         #↑クリック自体は成功。
-#         # ・検索→結果を非同期で再表示（「views」の下にある「.js.erb」ファイルを読み込んで画面の書き換え）はやっている。
-#         #　テスト用に用意した「画面上の文字をtttt_test→eeee_test書き換え】（画面ロード時、「assets」の下にある「.js」ファイルで作られるイベントは発生していない
-#
-#
-#         # click_button "この文言が検索ボタンです"
-#         #find("#btn_search_tasks").click
-#         #click_button I18n.t('action.search')
-#         sleep 4
-# save_and_open_page
-#         expect(page).to have_content "eeee_test"
-#   end
-#
-# #   scenario "テスト用のテスト2-2", js: true do
-# #
-# #         visit tasks_path
-# #
-# # find("#btn_search_tasks").click
-# #         #↑「click_button」を「find("#btn_search_tasks").click」に変更しても、結果は全く同じ
-# #
-# #         sleep 4
-# # save_and_open_page
-# #         expect(page).to have_content "eeee_test"
-# #   end
-#
-#   scenario "テスト用のテスト2-3", js: true do
-#
-#
-#       task2 = FactoryBot.create(:task)
-#         visit tasks_path
-#         # Capybara.current_driver = :selenium_chrome_headless
-#
-#           # byebug
-#         click_button I18n.t('action.search')
-#
-#         save_and_open_page
-#
-#         expect(page).to have_content task2.content
-#
-#   end

@@ -20,20 +20,5 @@ $(document).ready(function(){
       var btn_search = document.getElementById("btn_search_tasks");
       btn_search.click();
     });
-//
-//     $('#btn_search_tasks').click(function() {
-// console.log("ositemasu");
-//       $("#test_label").text("eeee_test");;
-//     });
-
-    // $('#btn_search_tasks').click(function() {
-    //
-    //   console.log("mein_botan");
-    // });
 
 });
-//
-// $(document).ready(function() {
-//     setup();
-//     console.log("setUped");
-// });
