@@ -1,12 +1,6 @@
 $("#index_box").html("<%= j(render 'tasks/index_box', { tasks: @tasks , sql_search: @sql_search }) %>")
 
-console.log("load_boxtttt");
-
-
-  $("#testtest").text("テストuuuu");
 $('.btn_sort').click(function() {
-
-  $("#testtest").text("テスト");
   var sort_info_box = document.getElementById("sort_type_hidden");
   sort_info_box.value = this.id;
 

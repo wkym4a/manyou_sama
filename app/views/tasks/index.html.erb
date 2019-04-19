@@ -4,9 +4,6 @@
 <% end %>
 <!--↑タイトル表示枠-->
 
-<button type="button" name="aaa" value="aaa" class="btn_sort"  id= "tasks_created_at_desc" >
-  押してね
-</button>
 <label id="test_label">tttt_test</label>
 
 <div class="search_condition">
@@ -19,54 +16,49 @@
   担当者→未実装
 </div>
 <span><%= t('activerecord.attributes.task.status') %></span>
-<%= form.check_box :status_0, {}, true, false %><span><%= Task.get_status_name(0) %></span>
-<%= form.check_box :status_1, {}, true, false %><span><%= Task.get_status_name(1) %></span>
-<%= form.check_box :status_9, {}, true, false %><span><%= Task.get_status_name(9) %></span>
+<%= form.check_box :status_0 , {id: :status_0 }, true, false %><span><%= Task.get_status_name(0) %></span>
+<%= form.check_box :status_1, {id: :status_1}, true, false %><span><%= Task.get_status_name(1) %></span>
+<%= form.check_box :status_9, {id: :status_9}, true, false %><span><%= Task.get_status_name(9) %></span>
 
   <div class="field">
     <%= form.label t('activerecord.attributes.task.name') %>
-    <%= form.text_field :name  %>
+    <%= form.text_field :name ,id: :name %>
   </div>
 
   <div class="field">
     <%= form.label t('activerecord.attributes.task.content') %>
-    <%= form.text_field :content %>
+    <%= form.text_field :content  ,id: :content %>
   </div>
 
 
 <%= form.label t('activerecord.attributes.task.limit') %>
- <%= form.check_box :no_limit, {}, true, false %><span>期限未設定のみを検索（選択した場合、日付入力は無視されます）</span>
+ <%= form.check_box :no_limit, {id: :no_limit}, true, false %><span>期限未設定のみを検索（選択した場合、日付入力は無視されます）</span>
     <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-      <%= form.text_field :limit_from,type: "text", class: "form-control datetimepicker-input",
-              data: {toggle: "datetimepicker", target: "#datetimepicker4"} ,id: :limit %>
+      <%= form.text_field :limit_from ,id: :limit_from ,type: "text", class: "form-control datetimepicker-input",
+              data: {toggle: "datetimepicker", target: "#datetimepicker4"}  %>
       <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
           <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
       </div>
     </div>
 〜
     <div class="input-group date" id="datetimepicker4_2" data-target-input="nearest">
-      <%= form.text_field :limit_to,type: "text", class: "form-control datetimepicker-input",
-              data: {toggle: "datetimepicker", target: "#datetimepicker4_2"} ,id: :limit %>
+      <%= form.text_field :limit_to ,id: :limit_to  ,type: "text", class: "form-control datetimepicker-input",
+              data: {toggle: "datetimepicker", target: "#datetimepicker4_2"} %>
       <div class="input-group-append" data-target="#datetimepicker4_2" data-toggle="datetimepicker">
           <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
       </div>
     </div>
 
-
     <span><%= t('activerecord.attributes.task.priority') %></span>
-    <%= form.check_box :priority_0, {}, true, false %><span>S</span>
-    <%= form.check_box :priority_1, {}, true, false %><span>A</span>
-    <%= form.check_box :priority_2, {}, true, false %><span>B</span>
-    <%= form.check_box :priority_3, {}, true, false %><span>C</span>
+    <%= form.check_box :priority_0, {id: :priority_0}, true, false %><span>S</span>
+    <%= form.check_box :priority_1, {id: :priority_1}, true, false %><span>A</span>
+    <%= form.check_box :priority_2, {id: :priority_2}, true, false %><span>B</span>
+    <%= form.check_box :priority_3, {id: :priority_3}, true, false %><span>C</span>
 
     <%= form.hidden_field :sort ,value: "tasks_created_at_desc " , id: "sort_type_hidden" %>
 
-<%= form.submit "abcdefg" , id: "btn_search_tasks33"  %>
-    <%# <%= form.submit t('action.search') , id: "btn_search_tasks"  %>
-        <%= form.submit t('action.search') , id: "btn_search_tasks"  %>
-            <%# <%= form.submit "t('action.search')" , id: "btn_search_tasks"  %> %>
-
-    <%# <%= label '', t('action.search') , class: "btn_sort" , id: "tasks_created_at_desc" %> %>
+    <%= form.submit t('action.search') , id: "btn_search_tasks" , style:"display:none" %>
+    <%= label '', t('action.search') , class: "btn_sort" , id: "tasks_created_at_desc" %>
 
   <% end %>
 

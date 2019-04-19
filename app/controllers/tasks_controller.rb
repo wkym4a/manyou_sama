@@ -5,17 +5,7 @@ class TasksController < ApplicationController
   #一覧画面表示
   def index
     #初期表示時は、画面に情報を表示しない
- # binding.pry
-
-
-  @tasks = Task.none
-
- # respond_to do |format|
- #  format.html{render :index}
- #  format.js { render :index }
- # end
-
-
+    @tasks = Task.none
 
   end
   def index_search
