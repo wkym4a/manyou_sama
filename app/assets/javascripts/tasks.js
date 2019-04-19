@@ -21,4 +21,8 @@ $(document).ready(function(){
       btn_search.click();
     });
 
+// 画面表示時、検索牡丹を押す（ことで、全件検索を実行
+  var btn_search = document.getElementById("tasks_created_at_desc");
+  btn_search.click();
+
 });

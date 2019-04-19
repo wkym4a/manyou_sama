@@ -5,6 +5,7 @@ class TasksController < ApplicationController
   #一覧画面表示
   def index
     #初期表示時は、画面に情報を表示しない
+    #指摘を受けて、jsにて初期表示時は全件表示するように変更
     @tasks = Task.none
 
   end

@@ -1,8 +1,9 @@
 require 'rails_helper'
 require 'date'
 
-RSpec.feature "Projects", type: :feature , js: true do
-# RSpec.feature "Projects", type: :feature do
+
+RSpec.feature "Projects", type: :feature do
+# RSpec.feature "Projects", type: :feature , js: true do
   before do
     #タスク情報登録
     task = FactoryBot.create(:task)
@@ -216,7 +217,7 @@ RSpec.feature "Projects", type: :feature , js: true do
 
   #############画面の基本的な動作についてのテストはここまで。#################1
   #############これ以降はステップごとの【追加した機能についてのシナリオテスト】を作成していく。#################1
-  scenario "ステップ14、「終了期限」追加に伴うシナリオテスト" do
+  scenario "ステップ14、「終了期限」追加に伴うシナリオテスト" , js: true do
     #テストシナリオ
     # テストデータ1:【新規画面、「終了期限＝本日日付」で登録】
     # テストデータ2:【新規画面、「終了期限＝本日日付」で登録】
@@ -279,7 +280,6 @@ RSpec.feature "Projects", type: :feature , js: true do
     check "no_limit"
      # sleep 4
     find("#tasks_created_at_desc").click
-
     expect(page).not_to have_content "test_step14_data1"
     expect(page).not_to have_content "test_step14_data2"
     expect(page).to have_content "test_step14_data3"
