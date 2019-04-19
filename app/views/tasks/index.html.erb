@@ -4,10 +4,15 @@
 <% end %>
 <!--↑タイトル表示枠-->
 
+<button type="button" name="aaa" value="aaa" class="btn_sort"  id= "tasks_created_at_desc" >
+  押してね
+</button>
+<label id="test_label">tttt_test</label>
+
 <div class="search_condition">
 
   <%= form_with scope: :conditions, url:index_search_tasks_path,method: :get ,remote: true do |form| %>
-
+<label class="dddddd" id: "testtest">tt</label>
 <h4>ここに検索条件を追加していく（未実装）</h4>
 <div class="">
 
@@ -54,12 +59,18 @@
     <%= form.check_box :priority_2, {}, true, false %><span>B</span>
     <%= form.check_box :priority_3, {}, true, false %><span>C</span>
 
-    <%= form.submit t('action.search') %>
+    <%= form.hidden_field :sort ,value: "tasks_created_at_desc " , id: "sort_type_hidden" %>
+
+<%= form.submit "abcdefg" , id: "btn_search_tasks33"  %>
+    <%# <%= form.submit t('action.search') , id: "btn_search_tasks"  %>
+        <%= form.submit t('action.search') , id: "btn_search_tasks"  %>
+            <%# <%= form.submit "t('action.search')" , id: "btn_search_tasks"  %> %>
+
+    <%# <%= label '', t('action.search') , class: "btn_sort" , id: "tasks_created_at_desc" %> %>
 
   <% end %>
 
 </div>
-
 
 <%= link_to t('condition.new') + t('activerecord.models.task'), new_task_path ,class: "btn btn-primary"%>
 

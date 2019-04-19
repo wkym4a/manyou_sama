@@ -1,23 +1,5 @@
-# class SqlMakr
-#   #サービスクラスを試してみる
-# include ActiveRecord::Base
-
-#
-# module Service
-#   extend ActiveSupport::Concern
 module MakeSql
   extend ActiveSupport::Concern
-   # include ActiveRecord::Base
-
-  def test_sql
-
-      binding.pry
-  a= "''eeee"
-    return  ActiveRecord::Base.sanitize_sql_for_conditions(a)
-      # a="aaaa"
-      # b = sanitize_sql_for_conditions(a)
-      # return b
-  end
 
   #第四引数、search_type……0(初期値):完全一致、1:前方一致、2:後方一致、3:部分一致
   #第五引数、Integer……trueなら数値として検索（search_type＝0、完全一致の場合のみ使用）
@@ -59,7 +41,6 @@ module MakeSql
 
   end
 
-
   #第三引数「」には、画面のチェックボックスの数だけ[対象となる進捗（int型）,チェックされていたかどうか（※）]を格納
   #チャックされていなければnil、されていれば"true（文字列）"
   def sql_add_condition_check( sql , col_name: , condition:)
@@ -82,7 +63,6 @@ module MakeSql
     end
 
   end
-
 
   def sql_add_condition_date_fromto( sql , col_name: , condition_from: , condition_to:
     , null_only: false)
@@ -107,6 +87,4 @@ module MakeSql
   end
 
   #####↑sql関係
-
-
 end

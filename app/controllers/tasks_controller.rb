@@ -4,15 +4,24 @@ class TasksController < ApplicationController
 
   #一覧画面表示
   def index
-    @tasks = Task.none
-    # @tasks = Task.all.order(created_at: "desc")
-     #binding.pry
+    #初期表示時は、画面に情報を表示しない
+ # binding.pry
+
+
+  @tasks = Task.none
+
+ # respond_to do |format|
+ #  format.html{render :index}
+ #  format.js { render :index }
+ # end
+
+
+
   end
   def index_search
 
     @tasks = Task.new.search_tasks(params[:conditions])
     # @tasks = Task.all.order(created_at: "desc")
-
     respond_to do |format|
         format.js { render :index_box }
     end

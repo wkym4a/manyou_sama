@@ -1,14 +1,35 @@
 <div class="index_box">
-
+<%= @sql_search.to_s %>
   <table>
     <tr>
-      <th><%= t('activerecord.attributes.task.name') %></th>
-      <th><%= t('activerecord.attributes.task.content') %></th>
-      <th><%= t('activerecord.attributes.task.limit') %></th>
-      <th><%= t('activerecord.attributes.task.priority') %></th>
-      <th><%= t('activerecord.attributes.task.status') %></th>
-    </tr>
 
+      <th>
+        <%= label '', "↑" , class: "btn_sort" , id: "tasks_name_desc" %>
+        <%= t('activerecord.attributes.task.name') %>
+        <%= label '', "↓" , class: "btn_sort" , id: "tasks_name_asc" %>
+      </th>
+      <th>
+        <%= label '', "↑" , class: "btn_sort" , id: "tasks_content_desc" %>
+        <%= t('activerecord.attributes.task.content') %>
+        <%= label '', "↓" , class: "btn_sort" , id: "tasks_content_asc" %>
+      </th>
+      <th>
+        <%= label '', "↑" , class: "btn_sort" , id: "tasks_limit_desc" %>
+        <%= t('activerecord.attributes.task.limit') %>
+        <%= label '', "↓" , class: "btn_sort" , id: "tasks_limit_asc" %>
+      </th>
+      <th>
+        <%= label '', "↑" , class: "btn_sort" , id: "tasks_priority_desc" %>
+        <%= t('activerecord.attributes.task.priority') %>
+        <%= label '', "↓" , class: "btn_sort" , id: "tasks_priority_asc" %>
+      </th>
+      <th>
+        <%= label '', "↑" , class: "btn_sort" , id: "tasks_status_desc" %>
+        <%= t('activerecord.attributes.task.status') %>
+        <%= label '', "↓" , class: "btn_sort" , id: "tasks_status_asc" %>
+      </th>
+
+    </tr>
 
   <% line_num = 0 %>
   <% @tasks.each do |task| %>
@@ -17,9 +38,6 @@
 
     <% line_num += 1 %>
   <% end %>
-
-
-
 
 </table>
 </div>

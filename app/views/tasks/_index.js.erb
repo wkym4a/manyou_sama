@@ -1,16 +1,3 @@
-$(document).ready(function(){
-// function setup() {
-
-    $('#datetimepicker4').datetimepicker({
-        format: 'L'
-    });
-
-    //↓from〜toのtoで使用
-    $('#datetimepicker4_2').datetimepicker({
-        format: 'L'
-    });
-
-
 
     //テーブル内に配置するソート（実質はorder_by条件を変えた再検索）用の動作（起動はjs) は、
     //非同期による読み込み時に再読込されるよう、「views/tasks/index_box.js.erb」でも記述する。
@@ -28,24 +15,3 @@ $(document).ready(function(){
 console.log("ositemasu");
       $("#test_label").text("eeee_test");;
     });
-
-
-
-
-
-
-
-
-
-
-    // $('#btn_search_tasks').click(function() {
-    //
-    //   console.log("mein_botan");
-    // });
-
-});
-//
-// $(document).ready(function() {
-//     setup();
-//     console.log("setUped");
-// });

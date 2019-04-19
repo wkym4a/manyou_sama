@@ -5,5 +5,7 @@ Rails.application.routes.draw do
     collection do
       get :index_search
     end
+    member do
+    end
   end
 end
