@@ -1,4 +1,6 @@
 module ApplicationHelper
+
+
   #モデル（あるいはそれが格納された変数（特にインスタンス変数を想定））の情報をもとに、
   #そのもととなる情報の日本語名を返す……エラーメッセージ表示などでの使用を想定
   def get_tablename_by_model(model_info)
@@ -21,14 +23,6 @@ module ApplicationHelper
 
     end
   end
-end
 
 
-def test
-  return t('activerecord.errors.messages.record_invalid',errors: "2222")
-end
-
-
-def test2
-  return t('activerecord.errors.messages.restrict_dependent_destroy')
 end

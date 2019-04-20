@@ -1,0 +1,16 @@
+<tr class = "index_line_<%= line_num %>" >
+  <td><%= task.name %></td>
+  <td><%= task.content %></td>
+
+  <td>
+    <% if task.limit.nil?  %>
+      <%= t('abnormaldata.undecided') %>
+    <% else  %>
+      <%= task.limit.strftime(t('date.formats.default')) %>
+    <% end  %>
+  </td>
+  <td><%= Task.get_priority_name(task.priority) %></td>
+  <td><%= Task.get_status_name(task.status) %></td>
+  <td><%= link_to t('activerecord.models.task') +  t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" %></td>
+  <td><%= link_to t('activerecord.models.task') +  t('condition.show') , task_path(task),id: "goto_task" + task.id.to_s + "_show" %></td>
+</tr>

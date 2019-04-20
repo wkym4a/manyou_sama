@@ -61,6 +61,9 @@ group :test do
     #テスト用のジェム 20190412 add
   gem 'launchy'
   gem 'webdrivers'
+
+  # #js下でのdb更新用？
+  # gem "capybara-webkit"
 end
 
 group :development do
