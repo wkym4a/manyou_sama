@@ -51,9 +51,10 @@ class TasksController < ApplicationController
       @task.user_id = 1
 
     respond_to do |format|
-
+# t('action.search')
+ # t("errors.messages.is_invalid_info", this: t('activerecord.attributes.task.status'))
       if @task.save
-        format.html{redirect_to edit_task_path(@task) , notice: '登録に成功しました。' }
+        format.html{redirect_to edit_task_path(@task) , notice: t('activerecord.normal_process.do_save') }
       else
         format.html{render "new"}
       end
@@ -66,7 +67,7 @@ class TasksController < ApplicationController
     respond_to do |format|
 
       if @task.update(task_params)==true
-        format.html{redirect_to edit_task_path(@task) , notice: '更新に成功しました。' }
+        format.html{redirect_to edit_task_path(@task) , notice: t('activerecord.normal_process.do_update') }
       else
         format.html{render "edit"}
       end
@@ -79,12 +80,10 @@ class TasksController < ApplicationController
     respond_to do |format|
       @line_num = params[:task][:line_num]
       if @task.update( status:  params[:task]["status_" + @task.id.to_s]) ==true
-        binding.pry
-
-        flash[:notice]  = "仕事名【" + @task.name + "】の進捗を更新しました。"
+        flash[:notice]  = t("activerecord.normal_process.do_update_this", this: t('activerecord.attributes.task.name') + "【" + @task.name + "】")
         format.js { render :index_line }
       else
-        flash[:notice]  = '進捗の更新に失敗しました。'
+        flash[:notice]  = t('activerecord.errors.failed_save')
         format.js { render :index_line }
       end
     end
@@ -95,7 +94,7 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to tasks_path, notice: 'タスクを削除しました。' }
+      format.html { redirect_to tasks_path, notice: t("activerecord.normal_process.do_del", this: t('activerecord.models.task')) }
 
     end
   end

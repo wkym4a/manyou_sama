@@ -5,6 +5,8 @@ ja:
       do_save: "登録に成功しました"
       do_update: "更新に成功しました"
       do_del: "%{this}を削除しました"
+      do_save_this: "%{this}を登録しました"
+      do_update_this: "%{this}を更新しました"
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
@@ -18,6 +20,7 @@ ja:
     new: "新規登録"
     edit: "更新"
     show: "閲覧"
+    change: "変更"
     back: "戻る"
     search: "検索"
   priority:
