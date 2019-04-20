@@ -22,39 +22,39 @@ class Task < ApplicationRecord
 
   def search_tasks(conditions)
 
-    s = " select tasks.id"
-    s += " ,tasks.user_id"
-    s += " ,tasks.name"
-    s += " ,tasks.content"
-    s += " ,tasks.limit"
-    s += " ,tasks.priority"
-    s += " ,tasks.status"
-    s += " ,tasks.created_at"
-    s += " ,tasks.updated_at"
-    s += " from tasks"
-    s += " where 1 = 1"
+    sql = " select tasks.id"
+    sql += " ,tasks.user_id"
+    sql += " ,tasks.name"
+    sql += " ,tasks.content"
+    sql += " ,tasks.limit"
+    sql += " ,tasks.priority"
+    sql += " ,tasks.status"
+    sql += " ,tasks.created_at"
+    sql += " ,tasks.updated_at"
+    sql += " from tasks"
+    sql += " where 1 = 1"
 
     if not conditions.blank?
       #仕事名（部分一致）
-      s = sql_add_condition(s , col_name: :name , condition: conditions[:name] , search_type: 3)
+      sql = sql_add_condition(sql , col_name: :name , condition: conditions[:name] , search_type: 3)
       #内容詳細（部分一致）
-      s = sql_add_condition(s , col_name: :content , condition: conditions[:content] , search_type: 3)
+      sql = sql_add_condition(sql , col_name: :content , condition: conditions[:content] , search_type: 3)
       #期限
-      s = sql_add_condition_date_fromto(s , col_name: "tasks.limit" ,
-         condition_from: conditions[:limit_from] , condition_to: conditions[:condition_to] ,
+      sql = sql_add_condition_date_fromto(sql , col_name: "tasks.limit" ,
+         condition_from: conditions[:limit_from] , condition_to: conditions[:limit_to] ,
          null_only: conditions[:no_limit])
       #進捗
       status_condition = [[0,conditions[:status_0]],[1,conditions[:status_1]],[9,conditions[:status_9]]]
-      s = sql_add_condition_check(s , col_name: :status , condition: status_condition)
+      sql = sql_add_condition_check(sql , col_name: :status , condition: status_condition)
       #重要度
       priority_condition = [[0,conditions[:priority_0]],[1,conditions[:priority_1]],
                           [2,conditions[:priority_2]],[3,conditions[:priority_3]]]
-      s = sql_add_condition_check(s , col_name: :priority , condition: priority_condition)
+      sql = sql_add_condition_check(sql , col_name: :priority , condition: priority_condition)
 
-      s += get_sort_info(conditions[:sort])
+      sql += get_sort_info(conditions[:sort])
     end
 
-    Task.find_by_sql(s)
+    Task.find_by_sql(sql)
 
   end
 
