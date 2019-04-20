@@ -10,8 +10,15 @@ class Task < ApplicationRecord
   validates :user_id, presence: true
   validates :name, presence: true  , length: {maximum:20}
   validates :content, length: {maximum:120}
-
   ########↑バリデーション情報↑########
+
+
+  ########↓scope……使わないけど練習用に↓########
+  scope :name_like, -> name {where(" name like ? ", "%#{name}%")}
+
+  scope :status_is, -> status {where(" status = ? ", "#{status}" )}
+  ########↑scope……使わないけど練習用に↑########
+
 
   def search_tasks(conditions)
 
@@ -26,24 +33,27 @@ class Task < ApplicationRecord
     s += " ,tasks.updated_at"
     s += " from tasks"
     s += " where 1 = 1"
-    #仕事名（部分一致）
-    s = sql_add_condition(s , col_name: :name , condition: conditions[:name] , search_type: 3)
-    #内容詳細（部分一致）
-    s = sql_add_condition(s , col_name: :content , condition: conditions[:content] , search_type: 3)
-    #期限
-    s = sql_add_condition_date_fromto(s , col_name: "tasks.limit" ,
-       condition_from: conditions[:limit_from] , condition_to: conditions[:condition_to] ,
-       null_only: conditions[:no_limit])
-    #進捗
-    status_condition = [[0,conditions[:status_0]],[1,conditions[:status_1]],[9,conditions[:status_9]]]
-    s = sql_add_condition_check(s , col_name: :status , condition: status_condition)
-    #重要度
-    priority_condition = [[0,conditions[:priority_0]],[1,conditions[:priority_1]],
-                        [2,conditions[:priority_2]],[3,conditions[:priority_3]]]
-    s = sql_add_condition_check(s , col_name: :priority , condition: priority_condition)
 
-    s += get_sort_info(conditions[:sort])
-    
+    if not conditions.blank?
+      #仕事名（部分一致）
+      s = sql_add_condition(s , col_name: :name , condition: conditions[:name] , search_type: 3)
+      #内容詳細（部分一致）
+      s = sql_add_condition(s , col_name: :content , condition: conditions[:content] , search_type: 3)
+      #期限
+      s = sql_add_condition_date_fromto(s , col_name: "tasks.limit" ,
+         condition_from: conditions[:limit_from] , condition_to: conditions[:condition_to] ,
+         null_only: conditions[:no_limit])
+      #進捗
+      status_condition = [[0,conditions[:status_0]],[1,conditions[:status_1]],[9,conditions[:status_9]]]
+      s = sql_add_condition_check(s , col_name: :status , condition: status_condition)
+      #重要度
+      priority_condition = [[0,conditions[:priority_0]],[1,conditions[:priority_1]],
+                          [2,conditions[:priority_2]],[3,conditions[:priority_3]]]
+      s = sql_add_condition_check(s , col_name: :priority , condition: priority_condition)
+
+      s += get_sort_info(conditions[:sort])
+    end
+
     Task.find_by_sql(s)
 
   end

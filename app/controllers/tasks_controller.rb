@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
 
-  before_action :set_tasks , only: [:show , :edit , :update , :destroy]
+  before_action :set_tasks , only: [:show , :edit , :update ,:update_status , :destroy ]
 
   #一覧画面表示
   def index
@@ -73,6 +73,24 @@ class TasksController < ApplicationController
     end
   end
 
+  #進捗の更新（一覧画面で行う
+  def update_status
+
+    respond_to do |format|
+      @line_num = params[:task][:line_num]
+      if @task.update( status:  params[:task]["status_" + @task.id.to_s]) ==true
+        binding.pry
+
+        flash[:notice]  = "仕事名【" + @task.name + "】の進捗を更新しました。"
+        format.js { render :index_line }
+      else
+        flash[:notice]  = '進捗の更新に失敗しました。'
+        format.js { render :index_line }
+      end
+    end
+
+  end
+
   #削除処理
   def destroy
     @task.destroy
@@ -83,7 +101,6 @@ class TasksController < ApplicationController
   end
   ####↑データ登録処理↑###
 
-  private
   def set_tasks
     @task=Task.find(params[:id])
   end

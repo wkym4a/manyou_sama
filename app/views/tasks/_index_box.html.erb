@@ -1,5 +1,4 @@
 <div class="index_box">
-<%= @sql_search.to_s %>
   <table>
     <tr>
 
@@ -33,8 +32,10 @@
 
   <% line_num = 0 %>
   <% @tasks.each do |task| %>
-
-    <%= render 'index_line', task: task , line_num: line_num %>
+  
+    <div id = "index_line_id_" + task.id.to_s >
+      <%= render 'index_line', task: task , line_num: line_num %>
+    </div>
 
     <% line_num += 1 %>
   <% end %>

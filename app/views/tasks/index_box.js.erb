@@ -1,4 +1,4 @@
-$("#index_box").html("<%= j(render 'tasks/index_box', { tasks: @tasks , sql_search: @sql_search }) %>")
+$("#index_box").html("<%= j(render 'tasks/index_box', { tasks: @tasks }) %>")
 
 $('.btn_sort').click(function() {
   var sort_info_box = document.getElementById("sort_type_hidden");

@@ -22,9 +22,9 @@
       <%= yield :show_msgerr %>
 
       <!-- メッセージ表示-->
-      <% flash.each do |key, value| %>
-        <%= content_tag(:div, value, class: "#{key} err_msg") %>
-      <% end %>
+      <div id = "show_msg_field">
+        <%= render 'layouts/form_msg_report' %>
+      </div>
 
       <div class="main_content">
         <%= yield %>
