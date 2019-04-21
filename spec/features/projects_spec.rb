@@ -435,4 +435,84 @@ RSpec.feature "Projects", type: :feature do
 
   end
 
+
+  scenario "ステップ16、「優先度」の登録およびそれを使ったソート" , js: true do
+    #テストシナリオ
+    # テストデータ1:【新規画面、「優先度＝S」で登録】
+    # テストデータ2:【新規画面、「優先度＝B(初期値、設定なし)」で登録】
+    # テストデータ3:【新規画面、「優先度＝B(初期値、設定なし)」で登録】
+    #               => （新規登録後、検索画面に遷移するので）【「優先度＝A」で更新】
+    # テストデータ4:【新規画面、「優先度＝C」で登録】
+    # ↓以降、検索画面での検索結果検証
+    # テスト1:検索画面を表示し、「優先度＝S,A」で検索(新規登録と更新、両方で優先度を設定できることを確認)
+    #         データ1:ある。データ2:無い。データ3:ある。データ4:無い。
+    # テスト2:検索画面を表示し、「優先度＝S,A,B」で検索
+    #         => 「優先度」でソート（desc:降順(低い順)……C,B,A,S）
+    #         一行目がデータ2、二行目がデータ3、三行目がデータ1
+    #         => 「優先度」でソート（asc:昇順(高い順)……S,A,B,C）
+    #         一行目がデータ1、二行目がデータ3、三行目がデータ2
+
+    # テストデータ1:【新規画面、「優先度＝S」で登録】
+    visit new_task_path
+    fill_in "name" , with: "data1"
+    fill_in "content" , with: "test_step16_data1"
+    choose Task.get_priority_name(0,1)
+    click_button I18n.t('helpers.submit.create')
+
+    # テストデータ2:【新規画面、「優先度＝B(初期値、設定なし)」で登録】
+    visit new_task_path
+    fill_in "name" , with: "data2"
+    fill_in "content" , with: "test_step16_data2"
+    click_button I18n.t('helpers.submit.create')
+
+    # テストデータ3:【新規画面、「優先度＝B(初期値、設定なし)」で登録】
+    #               => （新規登録後、検索画面に遷移するので）【「優先度＝A」で更新】】
+    visit new_task_path
+    fill_in "name" , with: "data3"
+    fill_in "content" , with: "test_step16_data3"
+    click_button I18n.t('helpers.submit.create')
+    choose Task.get_priority_name(1,1)
+    click_button I18n.t('helpers.submit.create')
+
+    # テストデータ4:【新規画面、「優先度＝C」で登録】
+    visit new_task_path
+    fill_in "name" , with: "data4"
+    fill_in "content" , with: "test_step16_data4"
+    choose Task.get_priority_name(3,1)
+    click_button I18n.t('helpers.submit.create')
+
+    # テスト1:検索画面を表示し、「優先度＝S,A」で検索(新規登録と更新、両方で優先度を設定できることを確認)
+    #         データ1:ある。データ2:無い。データ3:ある。データ4:無い。
+    visit tasks_path
+    check "priority_0"
+    check "priority_1"
+    find("#tasks_created_at_desc").click
+    expect(page).to have_content "test_step16_data1"
+    expect(page).not_to have_content "test_step16_data2"
+    expect(page).to have_content "test_step16_data3"
+    expect(page).not_to have_content "test_step16_data4"
+
+    # テスト2:検索画面を表示し、「優先度＝S,A,B」で検索
+    visit tasks_path
+    #↓事前登録データがヒットしないよう、「内容詳細」で絞り込む
+    fill_in "content" , with: "test_step16"
+    check "priority_0"
+    check "priority_1"
+    check "priority_2"
+    #         => 「優先度」でソート（desc:降順(低い順)……C,B,A,S）
+    find("#tasks_priority_desc").click
+    #         一行目がデータ2、二行目がデータ3、三行目がデータ1
+    expect(page).to have_selector '.index_line_0', text: "test_step16_data2"
+    expect(page).to have_selector '.index_line_1', text: "test_step16_data3"
+    expect(page).to have_selector '.index_line_2', text: "test_step16_data1"
+
+    #         => 「優先度」でソート（asc:昇順(高い順)……S,A,B,C）
+    find("#tasks_priority_asc").click
+    #         一行目がデータ1、二行目がデータ3、三行目がデータ2
+    expect(page).to have_selector '.index_line_0', text: "test_step16_data1"
+    expect(page).to have_selector '.index_line_1', text: "test_step16_data3"
+    expect(page).to have_selector '.index_line_2', text: "test_step16_data2"
+
+  end
+
 end
