@@ -313,4 +313,126 @@ RSpec.feature "Projects", type: :feature do
 
   end
 
+  scenario "ステップ15、「作業状態」追加に伴うシナリオテスト" , js: true do
+    #テストシナリオ
+    # 事前登録データ……終了期限＝一週間後
+    # テストデータ1:【FactoryBot、「終了期限＝本日日付＋1日」でデータ作成】
+    # テストデータ2:【FactoryBot、「終了期限＝本日日付＋2日」でデータ作成】※名称に「partial_match」を含める
+    # テストデータ3:【FactoryBot、「終了期限＝本日日付＋3日」でデータ作成】
+    # テストデータ4:【FactoryBot、「終了期限＝本日日付＋4日」でデータ作成】※名称に「partial_match」を含める
+    # テストデータ5:【FactoryBot、「終了期限＝本日日付＋5日」でデータ作成】
+    # テストデータ6:【FactoryBot、「終了期限＝本日日付＋6日」でデータ作成】※名称に「partial_match」を含める
+    # ↓検索画面を表示
+    # 「終了期限、降順」で検索
+    # => 0〜5行目に、テストデータ1〜6が順に並ぶ
+    # ↓
+    # テストデータ1,2(0,1行目)→進捗状態「完了」に変更
+    # テストデータ3,4(2,3行目)→進捗状態「作業中」に変更
+    #
+    # ####テスト準備完了 memo(save_and_open_page)
+    #
+    # テスト1:検索画面を表示し、「進捗状態＝完了」で検索
+    #         データ1:ある。データ2:ある。データ3:無い。データ4:無い。データ5:無い。データ6:無い。
+    # テスト2:検索画面を表示し、「進捗状態＝作業中」で検索
+    #         データ1:無い。データ2:無い。データ3:ある。データ4:ある。データ5:無い。データ6:無い。
+    # テスト3:検索画面を表示し、「進捗状態＝未着手」で検索
+    #         データ1:無い。データ2:無い。データ3:無い。データ4:無い。データ5:ある。データ6:ある。
+    # テスト4:検索画面を表示し、「進捗状態＝未着手＋作業中」「名称＝partial_match」で検索
+    #         データ1:無い。データ2:無い。データ3:無い。データ4:ある。データ5:無い。データ6:ある。
+
+    #※非常に稀なテストエラー想定……テストが走っている最中に日付が変わると、エラーが発生する可能性があります。
+    #  12時直前での試験は避けましょう。
+
+
+    # テストデータ1:【FactoryBot、「終了期限＝本日日付＋1日」でデータ作成】
+    task1 = FactoryBot.create(:task,name: "abcdefg",content: "test_step15_data1",limit: 1.day.from_now)
+    # テストデータ2:【FactoryBot、「終了期限＝本日日付＋2日」でデータ作成】※名称に「partial_match」を含める
+    task2 = FactoryBot.create(:task,name: "partial_match",content: "test_step15_data2",limit: 2.day.from_now)
+    # テストデータ3:【FactoryBot、「終了期限＝本日日付＋3日」でデータ作成】
+    task3 = FactoryBot.create(:task,name: "abcdefg",content: "test_step15_data3",limit: 3.day.from_now)
+    # テストデータ4:【FactoryBot、「終了期限＝本日日付＋4日」でデータ作成】※名称に「partial_match」を含める
+    task4 = FactoryBot.create(:task,name: "b_cpartial_matchde",content: "test_step15_data4",limit: 4.day.from_now)
+    # テストデータ5:【FactoryBot、「終了期限＝本日日付＋5日」でデータ作成】
+    task5 = FactoryBot.create(:task,name: "abcdefg",content: "test_step15_data5",limit: 5.day.from_now)
+    # テストデータ6:【FactoryBot、「終了期限＝本日日付＋6日」でデータ作成】※名称に「partial_match」を含める
+    task6 = FactoryBot.create(:task,name: "yypartial_match___",content: "test_step15_data6",limit: 6.day.from_now)
+    # ↓検索画面を表示
+    # 「終了期限、降順」で検索
+    # => 0〜5行目に、テストデータ1〜6が順に並ぶ
+    visit tasks_path
+    find("#tasks_limit_asc").click
+
+    # テストデータ1,2(0,1行目)→進捗状態「完了」に変更
+    within '.index_line_0' do
+      choose Task.get_status_name(9)
+      find("#btn_status_change_" + task1.id.to_s ).click
+    end
+    within '.index_line_1' do
+      choose Task.get_status_name(9)
+      find("#btn_status_change_" + task2.id.to_s ).click
+    end
+    # テストデータ3,4(2,3行目)→進捗状態「作業中」に変更
+    within '.index_line_2' do
+      choose Task.get_status_name(1)
+      find("#btn_status_change_" + task3.id.to_s ).click
+    end
+    within '.index_line_3' do
+      choose Task.get_status_name(1)
+      find("#btn_status_change_" + task4.id.to_s ).click
+    end
+
+    # ####テスト準備完了 memo(save_and_open_page)
+    #
+    # テスト1:検索画面を表示し、「進捗状態＝完了」で検索
+    #         データ1:ある。データ2:ある。データ3:無い。データ4:無い。データ5:無い。データ6:無い。
+    visit tasks_path
+    check "status_9"
+    find("#tasks_created_at_desc").click
+    expect(page).to have_content "test_step15_data1"
+    expect(page).to have_content "test_step15_data2"
+    expect(page).not_to have_content "test_step15_data3"
+    expect(page).not_to have_content "test_step15_data4"
+    expect(page).not_to have_content "test_step15_data5"
+    expect(page).not_to have_content "test_step15_data6"
+
+    # テスト2:検索画面を表示し、「進捗状態＝作業中」で検索
+    #         データ1:無い。データ2:無い。データ3:ある。データ4:ある。データ5:無い。データ6:無い。
+    visit tasks_path
+    check "status_1"
+    find("#tasks_created_at_desc").click
+    expect(page).not_to have_content "test_step15_data1"
+    expect(page).not_to have_content "test_step15_data2"
+    expect(page).to have_content "test_step15_data3"
+    expect(page).to have_content "test_step15_data4"
+    expect(page).not_to have_content "test_step15_data5"
+    expect(page).not_to have_content "test_step15_data6"
+
+    # テスト3:検索画面を表示し、「進捗状態＝未着手」で検索
+    #         データ1:無い。データ2:無い。データ3:無い。データ4:無い。データ5:ある。データ6:ある。
+    visit tasks_path
+    check "status_0"
+    find("#tasks_created_at_desc").click
+    expect(page).not_to have_content "test_step15_data1"
+    expect(page).not_to have_content "test_step15_data2"
+    expect(page).not_to have_content "test_step15_data3"
+    expect(page).not_to have_content "test_step15_data4"
+    expect(page).to have_content "test_step15_data5"
+    expect(page).to have_content "test_step15_data6"
+
+    # テスト4:検索画面を表示し、「進捗状態＝未着手＋作業中」「名称＝partial_match」で検索
+    #         データ1:無い。データ2:無い。データ3:無い。データ4:ある。データ5:無い。データ6:ある。
+    visit tasks_path
+    check "status_0"
+    check "status_1"
+    fill_in "name" ,  with: "partial_match"
+    find("#tasks_created_at_desc").click
+    expect(page).not_to have_content "test_step15_data1"
+    expect(page).not_to have_content "test_step15_data2"
+    expect(page).not_to have_content "test_step15_data3"
+    expect(page).to have_content "test_step15_data4"
+    expect(page).not_to have_content "test_step15_data5"
+    expect(page).to have_content "test_step15_data6"
+
+  end
+
 end

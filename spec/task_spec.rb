@@ -69,4 +69,70 @@ RSpec.describe Task, type: :model do
     expect(task.errors[:content]).to include(I18n.t("errors.messages.too_long",count: "120"))
   end
 
+  example "名前による部分一致検索（scope)" do
+    task1 = FactoryBot.create(:task,name: "aaaabb")
+    task2 = FactoryBot.create(:task,name: "aaabbb")
+    task3 = FactoryBot.create(:task,name: "aabbbb")
+    task4 = FactoryBot.create(:task,name: "xxxxxx")
+    task5 = FactoryBot.create(:task,name: "yyyyyy")
+    expect(Task.name_like("ab").count).to eq 3
+  end
+
+  example "ステータスによる検索（scope)" do
+    task1 = FactoryBot.create(:task,status: 0)
+    task2 = FactoryBot.create(:task,status: 0)
+    task3 = FactoryBot.create(:task,status: 1)
+    task4 = FactoryBot.create(:task,status: 1)
+    task5 = FactoryBot.create(:task,status: 1)
+    task6 = FactoryBot.create(:task,status: 9)
+    expect(Task.status_is(1).count).to eq 3
+  end
+  example "名前とステータスによる検索(ステータス複数)（scope)" do
+    task1 = FactoryBot.create(:task,name: "xxxxxx",status: 0)
+    task2 = FactoryBot.create(:task,name: "yyyyyy",status: 0)
+    task3 = FactoryBot.create(:task,name: "yyyyyy",status: 1)
+    task4 = FactoryBot.create(:task,name: "xxxxxx",status: 1)
+    task5 = FactoryBot.create(:task,name: "xxxxxx",status: 1)
+    task6 = FactoryBot.create(:task,name: "xxxxxx",status: 1)
+    task7 = FactoryBot.create(:task,name: "xxxxxx",status: 1)
+    task8 = FactoryBot.create(:task,name: "yyyyyy",status: 9)
+
+    expect(Task.name_like("xxxxxx").status_is(1).count).to eq 4
+  end
+
+
+  example "名前による部分一致検索（search_tasks)" do
+    task1 = FactoryBot.create(:task,name: "aaaabb")
+    task2 = FactoryBot.create(:task,name: "aaabbb")
+    task3 = FactoryBot.create(:task,name: "aabbbb")
+    task4 = FactoryBot.create(:task,name: "xxxxxx")
+    task5 = FactoryBot.create(:task,name: "yyyyyy")
+    condition={name: "ab"}
+    expect(Task.new.search_tasks(condition).size).to eq 3
+  end
+
+  example "ステータスによる検索（search_tasks)" do
+    task1 = FactoryBot.create(:task,status: 0)
+    task2 = FactoryBot.create(:task,status: 0)
+    task3 = FactoryBot.create(:task,status: 1)
+    task4 = FactoryBot.create(:task,status: 1)
+    task5 = FactoryBot.create(:task,status: 1)
+    task6 = FactoryBot.create(:task,status: 9)
+    condition={status_1: "true"}
+    expect(Task.new.search_tasks(condition).size).to eq 3
+  end
+  example "名前とステータスによる検索(ステータス複数)（search_tasks)" do
+    task1 = FactoryBot.create(:task,name: "xxxxxx",status: 0)
+    task2 = FactoryBot.create(:task,name: "yyyyyy",status: 0)
+    task3 = FactoryBot.create(:task,name: "yyyyyy",status: 1)
+    task4 = FactoryBot.create(:task,name: "xxxxxx",status: 1)
+    task5 = FactoryBot.create(:task,name: "xxxxxx",status: 1)
+    task6 = FactoryBot.create(:task,name: "xxxxxx",status: 1)
+    task7 = FactoryBot.create(:task,name: "xxxxxx",status: 1)
+    task8 = FactoryBot.create(:task,name: "yyyyyy",status: 9)
+
+    condition={name: "xxxxxx",status_1: "true"}
+    expect(Task.new.search_tasks(condition).size).to eq 4
+  end
+
 end

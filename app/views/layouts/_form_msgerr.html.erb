@@ -1,4 +1,5 @@
 <!--↓エラーメッセージ表示枠-->
+
 <% if model_info.errors.any? %>
   <div id="error_explanation">
     <h2 class="err_msg"><%= t('errors.template.header.other',model:  get_tablename_by_model(model_info) , count: model_info.errors.count.to_s ) %> </h2>

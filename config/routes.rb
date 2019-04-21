@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       get :index_search
     end
     member do
+      patch :update_status
     end
   end
 end
