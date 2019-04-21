@@ -435,4 +435,122 @@ RSpec.feature "Projects", type: :feature do
 
   end
 
+
+  scenario "ステップ16、「優先度」の登録およびそれを使ったソート" , js: true do
+    #テストシナリオ
+    # テストデータ1:【新規画面、「優先度＝S」で登録】
+    # テストデータ2:【新規画面、「優先度＝B(初期値、設定なし)」で登録】
+    # テストデータ3:【新規画面、「優先度＝B(初期値、設定なし)」で登録】
+    #               => （新規登録後、検索画面に遷移するので）【「優先度＝A」で更新】
+    # テストデータ4:【新規画面、「優先度＝C」で登録】
+    # ↓以降、検索画面での検索結果検証
+    # テスト1:検索画面を表示し、「優先度＝S,A」で検索(新規登録と更新、両方で優先度を設定できることを確認)
+    #         データ1:ある。データ2:無い。データ3:ある。データ4:無い。
+    # テスト2:検索画面を表示し、「優先度＝S,A,B」で検索
+    #         => 「優先度」でソート（desc:降順(低い順)……C,B,A,S）
+    #         一行目がデータ4
+    #         => 「優先度」でソート（asc:昇順(高い順)……S,A,B,C）
+    #         一行目がデータ1
+
+    # テストデータ1:【新規画面、「優先度＝S」で登録】
+    visit new_task_path
+    fill_in "name" , with: "data1"
+    fill_in "content" , with: "test_step16_data1"
+    choose Task.get_priority_name(0,1)
+    click_button I18n.t('helpers.submit.create')
+
+    # テストデータ2:【新規画面、「優先度＝B(初期値、設定なし)」で登録】
+    visit new_task_path
+    fill_in "name" , with: "data2"
+    fill_in "content" , with: "test_step16_data2"
+    click_button I18n.t('helpers.submit.create')
+
+    # テストデータ3:【新規画面、「優先度＝B(初期値、設定なし)」で登録】
+    #               => （新規登録後、検索画面に遷移するので）【「優先度＝A」で更新】】
+    visit new_task_path
+    fill_in "name" , with: "data3"
+    fill_in "content" , with: "test_step16_data3"
+    click_button I18n.t('helpers.submit.create')
+    choose Task.get_priority_name(1,1)
+    click_button I18n.t('helpers.submit.create')
+
+    # テストデータ4:【新規画面、「優先度＝C」で登録】
+    visit new_task_path
+    fill_in "name" , with: "data4"
+    fill_in "content" , with: "test_step16_data4"
+    choose Task.get_priority_name(3,1)
+    click_button I18n.t('helpers.submit.create')
+
+
+#いったんここまで
+
+
+    # テストデータ2:【新規画面、「終了期限＝本日日付」で登録】
+    #               => （新規登録後、検索画面に遷移するので）【「終了期限＝10日後」で更新】
+    visit new_task_path
+    fill_in "name" , with: "data2"
+    fill_in "content" , with: "test_step14_data2"
+    fill_in "limit" ,  with: Date.today.strftime("%Y/%m/%d")
+    click_button I18n.t('helpers.submit.create')
+    fill_in "limit" ,  with: (Date.today + 10).strftime("%Y/%m/%d")
+    click_button I18n.t('helpers.submit.create')
+
+
+    # テストデータ3:【新規画面、「終了期限＝本日日付」で登録】
+    #               => （新規登録後、検索画面に遷移するので）【「終了期限＝未設定」で更新】
+    visit new_task_path
+    fill_in "name" , with: "data3"
+    fill_in "content" , with: "test_step14_data3"
+    fill_in "limit" ,  with: Date.today.strftime("%Y/%m/%d")
+    click_button I18n.t('helpers.submit.create')
+    fill_in "limit" , with: ""
+    click_button I18n.t('helpers.submit.create')
+
+    # テストデータ4:【新規画面、「終了期限＝未設定」で登録】
+    visit new_task_path
+    fill_in "name" , with: "data4"
+    fill_in "content" , with: "test_step14_data4"
+    fill_in "limit" , with: ""
+    click_button I18n.t('helpers.submit.create')
+
+    # テスト1:検索画面を表示し、「期限＝未設定」で検索
+    #         データ1:無い。データ2:無い。データ3:ある。データ4:ある。
+    visit tasks_path
+
+    check "no_limit"
+     # sleep 4
+    find("#tasks_created_at_desc").click
+    expect(page).not_to have_content "test_step14_data1"
+    expect(page).not_to have_content "test_step14_data2"
+    expect(page).to have_content "test_step14_data3"
+    expect(page).to have_content "test_step14_data4"
+
+    checkbox = find("#no_limit")
+    expect(checkbox).to be_checked
+
+    # テスト2:検索画面を表示し、「検索画面に遷移し、「期限＝本日〜10日後」で検索し、
+    visit tasks_path
+    fill_in "limit_from" ,  with: Date.today.strftime("%Y/%m/%d")
+    fill_in "limit_to" ,  with: (Date.today + 10).strftime("%Y/%m/%d")
+    find("#tasks_created_at_desc").click
+
+    #         データ1:ある。データ2:ある。データ3:無い。データ4:無い。
+    # =>     （他にbeforeで登録した「期限＝1.week.from_now」のデータが存在
+    expect(page).to have_content "test_step14_data1"
+    expect(page).to have_content "test_step14_data2"
+    expect(page).not_to have_content "test_step14_data3"
+    expect(page).not_to have_content "test_step14_data4"
+
+    # テスト3:「テスト2」の状態から「期限、昇順(↓)」でソート
+    find("#tasks_limit_asc").click
+    #         一行目がデータ1（期限＝本日）
+    expect(page).to have_selector '.index_line_0', text: "test_step14_data1"
+
+    # テスト4:「テスト3」の状態から「期限、降順(↑)」でソート
+    find("#tasks_limit_desc").click
+    #         一行目がデータ2（期限＝10日後）
+    expect(page).to have_selector '.index_line_0', text: "test_step14_data2"
+
+  end
+
 end
