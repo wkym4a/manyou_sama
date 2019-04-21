@@ -1,5 +1,7 @@
 $("#index_box").html("<%= j(render 'tasks/index_box', { tasks: @tasks }) %>")
 
+$("#paginate_area").html("<%= j(render 'tasks/index_paginate', { tasks: @tasks }) %>")
+
 $('.btn_sort').click(function() {
   var sort_info_box = document.getElementById("sort_type_hidden");
   sort_info_box.value = this.id;

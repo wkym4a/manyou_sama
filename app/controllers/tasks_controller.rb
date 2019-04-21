@@ -1,9 +1,11 @@
 class TasksController < ApplicationController
+  PER = 8
 
   before_action :set_tasks , only: [:show , :edit , :update ,:update_status , :destroy ]
 
   #一覧画面表示
   def index
+
     #初期表示時は、画面に情報を表示しない
     #指摘を受けて、jsにて初期表示時は全件表示するように変更
     @tasks = Task.none
@@ -12,8 +14,10 @@ class TasksController < ApplicationController
   def index_search
 
     @tasks = Task.new.search_tasks(params[:conditions])
+    @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(PER)#step17で追加
     # @tasks = Task.all.order(created_at: "desc")
     respond_to do |format|
+        # format.html
         format.js { render :index_box }
     end
   end
