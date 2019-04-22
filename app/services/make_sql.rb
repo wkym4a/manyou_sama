@@ -5,7 +5,6 @@ module MakeSql
   #第五引数、Integer……trueなら数値として検索（search_type＝0、完全一致の場合のみ使用）
   #        Integer=trueは使える機会があれば使う、程度で
   def sql_add_condition( sql , col_name: , condition: , search_type: 0 , search_by_int: false)
-    # binding.pry
     if condition.blank?
       #検索条件なしの場合は、そのまま帰る
       return sql

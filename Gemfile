@@ -28,6 +28,9 @@ gem "bootstrap4-datetime-picker-rails"
 gem 'momentjs-rails'
 gem "font-awesome-rails"
 
+#step17で追加
+gem 'kaminari'
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 
@@ -51,6 +54,9 @@ group :development, :test do
     #テスト用のジェム
   gem "rspec-rails"
   gem "factory_bot_rails"
+  gem 'faker'
+
+  #テストデータ作成用
   gem 'faker'
 end
 
