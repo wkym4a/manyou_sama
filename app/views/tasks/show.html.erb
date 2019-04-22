@@ -11,21 +11,30 @@
 <!--↑エラーメッセージ表示枠-->
 
 <hr>
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.task.name') %>：</strong><%= @task.name %></p>
+</div>
 
-<div class="task-text">
-  <p><strong><%= t('activerecord.attributes.task.name') %></strong>：<%= @task.name %></p>
-  <p><strong><%= t('activerecord.attributes.task.content') %></strong>：<%= @task.content %></p>
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.task.content') %>：</strong><%= @task.content %></p>
+</div>
 
-  <p><strong><%= t('activerecord.attributes.task.limit') %></strong>：
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.task.limit') %>：</strong>
     <% if @task.limit.nil?  %>
       <%= t('abnormaldata.undecided') %>
     <% else  %>
       <%= @task.limit.strftime(t('date.formats.default')) %>
     <% end  %>
   </p>
-
-  <p><strong><%= t('activerecord.attributes.task.priority') %></strong>：<%= Task.get_priority_name(@task.priority,1) %></p>
-  <p><strong><%= t('activerecord.attributes.task.status') %></strong>：<td><%= Task.get_status_name(@task.status) %></p>
 </div>
 
-<%= link_to t('condition.back'), tasks_path %>
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.task.priority') %>：</strong><%= Task.get_priority_name(@task.priority,1) %></p>
+</div>
+
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.task.status') %>：</strong><td><%= Task.get_status_name(@task.status) %></p>
+</div>
+
+<%= link_to t('condition.back'), tasks_path ,class: "btn btn-primary btn_main_1" %>

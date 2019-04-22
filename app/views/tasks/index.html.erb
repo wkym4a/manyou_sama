@@ -1,76 +1,107 @@
 <!--↓タイトル表示枠-->
 <% content_for :show_head_title do%>
-  <h1 class="title_head"><%=  t('screen.index',name: get_tablename_by_model(@tasks) ) %></h1>
+  <h1 class="title_head"><%=  t('screen.index',name: get_tablename_by_model(Task.none) ) %></h1>
 <% end %>
 <!--↑タイトル表示枠-->
 
 <div class="search_condition">
 
-  <%= form_with scope: :conditions, url:index_search_tasks_path,method: :get ,remote: true do |form| %>
 
-<h4>ここに検索条件を追加していく（未実装）</h4>
-<div class="">
+  <div class="search_box">
 
-  担当者→未実装
-</div>
-<span><%= t('activerecord.attributes.task.status') %></span>
-<%= form.check_box :status_0 , {id: :status_0 }, true, false %><span><%= Task.get_status_name(0) %></span>
-<%= form.check_box :status_1, {id: :status_1}, true, false %><span><%= Task.get_status_name(1) %></span>
-<%= form.check_box :status_9, {id: :status_9}, true, false %><span><%= Task.get_status_name(9) %></span>
+    <h5 class= "search_box_title"><%= t('item.search_title') %></h5>
 
-  <div class="field">
-    <%= form.label t('activerecord.attributes.task.name') %>
-    <%= form.text_field :name ,id: :name %>
-  </div>
+    <%= form_with scope: :conditions, url:index_search_tasks_path,method: :get ,remote: true do |form| %>
+      <div class="search_box_line">
 
-  <div class="field">
-    <%= form.label t('activerecord.attributes.task.content') %>
-    <%= form.text_field :content  ,id: :content %>
-  </div>
+        <div class="search_box_cell search_cell_1_2">
 
+          担当者→未実装
+        </div>
 
-<%= form.label t('activerecord.attributes.task.limit') %>
- <%= form.check_box :no_limit, {id: :no_limit}, true, false %><span>期限未設定のみを検索（選択した場合、日付入力は無視されます）</span>
-    <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-      <%= form.text_field :limit_from ,id: :limit_from ,type: "text", class: "form-control datetimepicker-input",
-              data: {toggle: "datetimepicker", target: "#datetimepicker4"}  %>
-      <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-          <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+        <div class="search_box_cell search_cell_2_2">
+          <span class="search_element search_label"><%= t('activerecord.attributes.task.status') %></span>
+
+          <%= form.check_box :status_0 , {id: :status_0,class: "search_chkbox" }, true, false %>
+          <span class="search_element search_note"><%= Task.get_status_name(0) %></span>
+          <%= form.check_box :status_1, {id: :status_1,class: "search_chkbox"}, true, false %>
+          <span class="search_element search_note"><%= Task.get_status_name(1) %></span>
+          <%= form.check_box :status_9, {id: :status_9,class: "search_chkbox"}, true, false %>
+          <span class="search_element search_note"><%= Task.get_status_name(9) %></span>
+        </div>
       </div>
-    </div>
-〜
-    <div class="input-group date" id="datetimepicker4_2" data-target-input="nearest">
-      <%= form.text_field :limit_to ,id: :limit_to  ,type: "text", class: "form-control datetimepicker-input",
-              data: {toggle: "datetimepicker", target: "#datetimepicker4_2"} %>
-      <div class="input-group-append" data-target="#datetimepicker4_2" data-toggle="datetimepicker">
-          <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+
+      <div class="search_box_line">
+        <div class="search_box_cell search_cell_1_2">
+          <%= form.label t('activerecord.attributes.task.name') ,class: "search_label" %>
+          <%= form.text_field :name ,id: :name %>
+        </div>
+
+        <div class="search_box_cell search_cell_2_2">
+          <%= form.label t('activerecord.attributes.task.content') ,class: "search_label" %>
+          <%= form.text_field :content  ,id: :content %>
+        </div>
       </div>
-    </div>
 
-    <span><%= t('activerecord.attributes.task.priority') %></span>
-    <%= form.check_box :priority_0, {id: :priority_0}, true, false %><span>S</span>
-    <%= form.check_box :priority_1, {id: :priority_1}, true, false %><span>A</span>
-    <%= form.check_box :priority_2, {id: :priority_2}, true, false %><span>B</span>
-    <%= form.check_box :priority_3, {id: :priority_3}, true, false %><span>C</span>
+      <div class="search_box_line">
+        <div class="search_box_cell search_cell_1_1">
+          <%= form.label t('activerecord.attributes.task.limit') ,class: "search_label" %>
 
-    <%= form.hidden_field :sort ,value: "tasks_created_at_desc " , id: "sort_type_hidden" %>
+          <%= form.check_box :no_limit, {id: :no_limit,class: "search_chkbox"}, true, false %>
+          <span class=" search_note"><%= t('item.search_limit_note_1') %></span>
 
-    <%= form.submit t('action.search') , id: "btn_search_tasks" , style:"display:none" %>
-    <%= label '', t('action.search') , class: "btn_sort" , id: "tasks_created_at_desc" %>
+          <div class="input-group date yyyy_mm_dd" id="datetimepicker4" data-target-input="nearest">
+            <%= form.text_field :limit_from ,id: :limit_from ,type: "text", class: "form-control datetimepicker-input",
+                    data: {toggle: "datetimepicker", target: "#datetimepicker4"}  %>
+            <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+            </div>
+          </div>
+          &nbsp;&nbsp;&nbsp;〜&nbsp;&nbsp;&nbsp;
+          <div class="input-group date yyyy_mm_dd" id="datetimepicker4_2" data-target-input="nearest">
+            <%= form.text_field :limit_to ,id: :limit_to  ,type: "text", class: "form-control datetimepicker-input",
+                    data: {toggle: "datetimepicker", target: "#datetimepicker4_2"} %>
+            <div class="input-group-append" data-target="#datetimepicker4_2" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+            </div>
+          </div>
+          <%= t('item.search_limit_note_2') %>
+        </div>
+      </div>
 
-  <% end %>
+      <div class="search_box_line">
+        <div class="search_box_cell search_cell_1_2">
+          <span class = "search_label"><%= t('activerecord.attributes.task.priority')  %></span>
+          <%= form.check_box :priority_0, {id: :priority_0,class: "search_chkbox"}, true, false %><span class=" search_note">S</span>
+          <%= form.check_box :priority_1, {id: :priority_1,class: "search_chkbox"}, true, false %><span class=" search_note">A</span>
+          <%= form.check_box :priority_2, {id: :priority_2,class: "search_chkbox"}, true, false %><span class=" search_note">B</span>
+          <%= form.check_box :priority_3, {id: :priority_3,class: "search_chkbox"}, true, false %><span class=" search_note">C</span>
+        </div>
 
+
+        <div class="search_box_cell search_cell_2_2">
+          ラベル情報による検索→未実装
+        </div>
+      </div>
+
+      <%= form.hidden_field :sort ,value: "tasks_created_at_desc " , id: "sort_type_hidden" %>
+
+      <div class="search_box_line">
+        <%= form.submit t('action.search') , id: "btn_search_tasks" , style:"display:none" %>
+        <%= label '', t('action.search') , class: "btn_sort btn  btn-secondary" , id: "tasks_created_at_desc" %>
+      </div>
+
+    <% end %>
+  </div>
 </div>
 
-<%= link_to t('condition.new') + t('activerecord.models.task'), new_task_path ,class: "btn btn-primary"%>
-
-<div id = "index_box">
-
-  <%= render 'index_box', tasks: @tasks %>
-
-</div>
 
 
 <div id = "paginate_area">
-
 </div>
+
+<div id = "index_box">
+  <%= render 'index_box', tasks: @tasks %>
+</div>
+
+<%= link_to t('condition.new') + t('activerecord.models.task'), new_task_path ,class: "btn btn-primary btn_main_1" %>

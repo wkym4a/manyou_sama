@@ -8,7 +8,10 @@ class TasksController < ApplicationController
 
     #初期表示時は、画面に情報を表示しない
     #指摘を受けて、jsにて初期表示時は全件表示するように変更
-    @tasks = Task.none
+    condition = {sort: "tasks_created_at_desc"}
+    @tasks = Task.new.search_tasks(condition)
+    @tasks = Kaminari.paginate_array(@tasks).page(params[:page]).per(PER)
+    # @tasks = Task.none
 
   end
   def index_search
@@ -84,7 +87,7 @@ class TasksController < ApplicationController
     respond_to do |format|
       @line_num = params[:task][:line_num]
       if @task.update( status:  params[:task]["status_" + @task.id.to_s]) ==true
-        flash[:notice]  = t("activerecord.normal_process.do_update_this", this: t('activerecord.attributes.task.name') + "【" + @task.name + "】")
+        flash[:notice] = t("activerecord.normal_process.do_update_this", this: t('activerecord.attributes.task.name') + "【" + @task.name + "】")
         format.js { render :index_line }
       else
         flash[:notice]  = t('activerecord.errors.failed_save')
