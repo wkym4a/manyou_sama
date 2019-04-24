@@ -89,15 +89,13 @@
       <div class="search_box_line">
         <%= form.submit t('action.search') , id: "btn_search_tasks" , style:"display:none" %>
         <%= label '', t('action.search') , class: "btn_sort btn  btn-secondary" , id: "tasks_created_at_desc" %>
-      </div>
 
     <% end %>
   </div>
 </div>
 
-
-
 <div id = "paginate_area">
+  <%= paginate @tasks ,remote: true %>
 </div>
 
 <div id = "index_box">

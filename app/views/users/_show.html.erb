@@ -1,0 +1,31 @@
+<!--↓タイトル表示枠-->
+<% content_for :show_head_title do%>
+  <h1 class="title_head"><%=  t('screen.show',name: get_tablename_by_model(@user) ) %></h1>
+<% end %>
+<!--↑タイトル表示枠-->
+
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+<% content_for :show_msgerr do%>
+  <%= render 'layouts/form_msgerr', model_info: @user %>
+<% end %>
+<!--↑エラーメッセージ表示枠-->
+
+<hr>
+
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.user.cd') %>：</strong><%= @user.cd %></p>
+</div>
+
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.user.name') %>：</strong><%= @user.name %></p>
+</div>
+
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.user.email') %>：</strong><%= @user.email %></p>
+</div>
+
+<% if action_name = "show" %>
+  <%= link_to t('condition.back'), edit_user_path ,class: "btn btn-primary btn_main_2" %>
+
+  <%= link_to t('condition.back'), edit_pass_user_path ,class: "btn btn-primary btn_main_1" %>
+<% end %>

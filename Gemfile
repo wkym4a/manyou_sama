@@ -31,6 +31,9 @@ gem "font-awesome-rails"
 #step17で追加
 gem 'kaminari'
 
+#ログインパスワード管理用
+gem 'bcrypt', '3.1.11'
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 

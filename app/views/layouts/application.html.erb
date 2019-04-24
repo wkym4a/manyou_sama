@@ -14,6 +14,32 @@
           <%= yield :show_head_title %>
         </div>
 
+        <div class="box_btn_head">
+          <% if logged_in? %>
+            <!-- ログインしている場合-->
+            <div class="">
+              <%= label "","現在ログインしているのは、" , class: "word_head"%>
+              <%= link_to current_user.name.to_s, user_index_picture_path(current_user.id),
+                                    class: 'word_head_link' ,method: :get  %>
+              <%= label "","さんです。"  , class: "word_head"%>
+
+              <li><%= link_to 'ユーザー一覧', users_path if logged_in? %></li>
+            </div>
+
+            <%= link_to "プロフィール" ,user_path(current_user.id) ,
+            class: "btn btn-default " %>
+            <%= link_to "ログアウト" ,session_path(current_user.id), method: :delete ,
+            class: "btn btn-default " %>
+          <% else  %>
+            <!-- ログインしていない場合-->
+            <div class="">
+              <%= label "","ログインしていません。"  , class: "word_head"%>
+            </div>
+            <%= link_to "ユーザー登録" ,new_user_path ,class: "btn btn-default btn_head" %>
+            <%= link_to "ログイン" ,new_session_path ,class: "btn btn-default btn_head" %>
+          <% end  %>
+        </div>
+
       </header>
 
       <!-- 登録前、バリデーションに引っかかったときなどのメッセージ表示-->

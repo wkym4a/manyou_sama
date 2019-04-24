@@ -12,6 +12,9 @@ class Task < ApplicationRecord
   validates :content, length: {maximum:120}
   ########↑バリデーション情報↑########
 
+  ####↓↓↓↓アソシエーション情報↓↓↓↓############
+  belongs_to :user
+  ####↑↑↑↑アソシエーション情報↑↑↑↑############
 
   ########↓scope……使わないけど練習用に↓########
   scope :name_like, -> name {where(" name like ? ", "%#{name}%")}
