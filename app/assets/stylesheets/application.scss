@@ -17,3 +17,138 @@
  @import "bootstrap";
  @import "font-awesome";
  @import "tempusdominus-bootstrap-4.css";
+
+
+  /*↓基本情報、大枠*/
+  body{
+    position: relative;
+  }
+
+  .clearfix:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+   html {
+    // font-size: 62.5%;
+    font-size: 80.0%;
+    height: 100%;
+  }
+
+  .container {
+    // width: 980px;
+    width: 960px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 100%;
+    background-color: azure;
+    display: block;
+   }
+
+   header {
+     height: 70px;
+     font-size: 1.5rem;
+     background-color: blue;
+   }
+
+   footer{
+    width: 100%;
+    height: 50px;
+
+    position: absolute;
+    left:0;
+    bottom: 10px;
+
+    background-color: #4D4D4D;
+    font-size: 1.5rem;
+   }
+
+  div.notice{
+    font-size: 200%;
+    background: #c2edff;
+    padding: 0.5em;/*文字まわり（上下左右）の余白*/
+  }
+
+  .main_content{
+    padding-bottom: 120px;
+    min-height: 600px;
+  }
+   /*↑基本情報、大枠*/
+
+   /*↓タイトル位置*/
+  .box_title_head{
+    float: left;
+  }
+  .title_head{
+    color: white;
+    margin-left:20px;
+  }
+
+   /*↓ボタン位置*/
+   .box_btn_head{
+     float: right;
+     margin: 20px;
+   }
+   .btn_head{
+     margin: 0 10px;
+   }
+   .box_btn_foot{
+     position: absolute;
+     bottom:20px;
+     left:20px;
+   }
+
+  /*ヘッダでつかう、標準の文字*/
+  .word_head{
+    color: white;
+  }
+  .word_head_link{
+    color: red;
+  }
+
+  /*↓各画面で使う、標準レイアウト*/
+  /*行*/
+  .line_info{
+    position: relative;
+
+    height: 50px;
+    }
+  .line_info_multiline{
+    position: relative;
+
+    height: 120px;
+    }
+    .line_content_1,.line_content_2{
+      position: absolute;
+      top: 12px;
+    }
+    .line_content_1{
+      left: 6px;
+    }
+    .line_content_2{
+      left: 166px;
+    }
+
+    /**次の画面へ遷移するボタン……左から1,2,3と番号を振っていく*/
+    .btn_main_1{
+    position: absolute;
+    right:40px;
+    bottom: 75px;
+  }
+    .btn_main_2{
+    position: absolute;
+    right:160px;
+    bottom: 75px;
+  }
+    .btn_main_3{
+    position: absolute;
+    right:280px;
+    bottom: 75px;
+  }
+  .row-eq-height {
+    flex-wrap: wrap;
+  }
+  .show_textarea{
+    background-color:silver;
+  }

@@ -10,3 +10,4 @@ ja:
         limit: "期限"
         priority: "重要度"
         status: "進捗状態"
+        status_btn: "進捗"

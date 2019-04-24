@@ -245,3 +245,7 @@ ja:
     index: "%{name}一覧画面"
   abnormaldata:
     undecided: "未定"
+  item:
+    search_title: "《検索条件》"
+    search_limit_note_1: "期限未設定のみ"
+    search_limit_note_2: "　※【☑期限未設定】の場合、入力日付は無視されます。"

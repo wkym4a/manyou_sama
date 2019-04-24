@@ -1,17 +1,17 @@
-<tr class = "index_line_<%= line_num %>" >
+<tr class = "table_row index_line index_line_<%= line_num %>" >
 
-    <td><%= task.name %></td>
-    <td><%= task.content %></td>
+    <td class = "table_content table_content_name"><%= task.name.truncate(20) %></td>
+    <td class = "table_content table_content_content"><%= task.content.truncate(30) %></td>
 
-    <td>
+    <td class = "table_content table_content_limit">
       <% if task.limit.nil?  %>
         <%= t('abnormaldata.undecided') %>
       <% else  %>
         <%= task.limit.strftime(t('date.formats.default')) %>
       <% end  %>
     </td>
-    <td><%= Task.get_priority_name(task.priority) %></td>
-    <td>
+    <td class = "table_content table_content_priority"><%= Task.get_priority_name(task.priority) %></td>
+    <td class = "table_content table_content_status">
       <%= form_with(model: task,url:update_status_task_path(task.id),method: :patch ,remote: true) do |form| %>
         <label >
           <%= form.radio_button "status_" + task.id.to_s, 0 , judge_radio_checkd(task.status , 0)  %><%= Task.get_status_name(0) %>
@@ -23,11 +23,11 @@
           <%= form.radio_button "status_" + task.id.to_s, 9 , judge_radio_checkd(task.status , 9) %><%= Task.get_status_name(9) %>
         </label>
         <%= form.hidden_field :line_num ,value: line_num %>
-        <%= form.submit t('activerecord.attributes.task.status') +  t('action.change') ,id: "btn_status_change_" + task.id.to_s %>
+        <%= form.submit t('activerecord.attributes.task.status_btn') +  t('action.change') ,id: "btn_status_change_" + task.id.to_s ,class: "btn btn-secondary btn-sm"%>
       <% end %>
     </td>
 
-    <td><%= link_to t('activerecord.models.task') +  t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" %></td>
-    <td><%= link_to t('activerecord.models.task') +  t('condition.show') , task_path(task),id: "goto_task" + task.id.to_s + "_show" %></td>
+    <td class = "table_content table_content_btn"><%= link_to t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" , class: "btn btn-secondary btn-sm" %></td>
+    <td class = "table_content table_content_btn"><%= link_to  t('condition.show') , task_path(task),id: "goto_task" + task.id.to_s + "_show" , class: "btn btn-secondary btn-sm" %></td>
 
 </tr>

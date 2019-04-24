@@ -1,3 +1,5 @@
+$("#show_msg_field").html("<%= j(render 'layouts/form_msg_report') %>")
+
 $("#index_box").html("<%= j(render 'tasks/index_box', { tasks: @tasks }) %>")
 
 $("#paginate_area").html("<%= j(render 'tasks/index_paginate', { tasks: @tasks }) %>")

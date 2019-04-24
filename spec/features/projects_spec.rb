@@ -65,7 +65,7 @@ RSpec.feature "Projects", type: :feature do
   scenario "「タスク一覧」画面動作確認、登録したデータが一覧に表示されている(一覧画面、条件無しで検索してから)", js: true do
 
     #タスク情報登録
-    task2 = FactoryBot.create(:task,content: "content_content_content_content")
+    task2 = FactoryBot.create(:task,content: "content_content_content")
 
     visit tasks_path
     #↓一覧画面は初期表示だと検索されていないので、いったん「条件なしで検索」してから情報の存在をチェックする
@@ -161,7 +161,7 @@ RSpec.feature "Projects", type: :feature do
   scenario "詳細を入力して更新(一覧画面、条件無しで検索してから)", js: true do
     task = FactoryBot.create(:task)
     visit edit_task_path(task.id)
-    fill_in "content" ,with: "change_taskcontent_changechange"
+    fill_in "content" ,with: "change_taskcontent_change"
 
     expect{
       click_button I18n.t('helpers.submit.create')
@@ -173,7 +173,7 @@ RSpec.feature "Projects", type: :feature do
       #click_button I18n.t('action.search')
 
       expect(page).to have_content I18n.t('screen.index',name: I18n.t('activerecord.models.task'))
-      expect(page).to have_content "change_taskcontent_changechange"
+      expect(page).to have_content "change_taskcontent_change"
           }.to change(Task.all, :count).by(0)
   end
 
@@ -189,11 +189,6 @@ RSpec.feature "Projects", type: :feature do
       page.driver.browser.switch_to.alert.accept
       #click_button 'OK'
       #click_link 'OK'
-
-      #↓一覧画面は初期表示だと検索されていないので、いったん「条件なしで検索」してから情報の存在をチェックする
-      #(step14にて、クリックするボタンを変更)
-      find("#tasks_created_at_desc").click
-      #click_button I18n.t('action.search')
 
       expect(page).to have_content I18n.t('activerecord.normal_process.do_del',this: I18n.t('activerecord.models.task'))
       expect(page).to have_content I18n.t('screen.index',name: I18n.t('activerecord.models.task'))
