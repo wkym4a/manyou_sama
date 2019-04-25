@@ -71,7 +71,6 @@ class TasksController < ApplicationController
 
   #更新処理
   def update
-
     respond_to do |format|
 
       if @task.update(task_params)==true

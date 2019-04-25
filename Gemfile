@@ -7,7 +7,6 @@ end
 
 # ↓「ruby -v」によるバージョン情報↓
 # ruby 2.6.2p47 (2019-03-13 revision 67232) [x86_64-darwin18]
-
 gem 'rails', '~> 5.2.3'
 
 gem 'pg', '~> 0.18'
