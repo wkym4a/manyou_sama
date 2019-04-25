@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   #パスワードのバリデーションチェックは「have_pass」時のみ
   #……【通常の（パスワード以外を変更する）プロフィール更新ではチェックしない
-  validates :password ,presence: true , length: {minimum: 2 , maxumum: 40} , on: :have_pass
+  validates :password ,presence: true , length: {minimum: 2 , maximum: 40} , on: :have_pass
   ####↑↑↑↑バリデーション情報↑↑↑↑############
 
   ####↓↓↓↓アソシエーション情報↓↓↓↓############

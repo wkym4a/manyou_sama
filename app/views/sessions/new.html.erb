@@ -1,16 +1,16 @@
 <!--↓タイトル表示枠-->
 <% content_for :show_head_title do%>
-  <h1 class="title_head">ログイン画面</h1>
+  <h1 class="title_head"><%= t("screen.screen", name: t("head_info.do_login")) %></h1>
 <% end %>
 <!--↑タイトル表示枠-->
 
 <%= form_with(scope: :session, url: sessions_path, local: true) do |f| %>
 
-  <%= f.label :cd %>
-  <%= f.email_field :cd %>
+  <%= f.label  "",t('activerecord.attributes.user.cd')   %>
+  <%= f.text_field :cd ,id: :cd %>
 
   <%= f.label :password %>
-  <%= f.password_field :password %>
+  <%= f.password_field :password ,id: :password  %>
 
   <%= f.submit "Log in" %>
 <% end %>

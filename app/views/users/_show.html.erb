@@ -23,9 +23,3 @@
 <div class="line_info">
   <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.user.email') %>：</strong><%= @user.email %></p>
 </div>
-
-<% if action_name = "show" %>
-  <%= link_to t('condition.back'), edit_user_path ,class: "btn btn-primary btn_main_2" %>
-
-  <%= link_to t('condition.back'), edit_pass_user_path ,class: "btn btn-primary btn_main_1" %>
-<% end %>

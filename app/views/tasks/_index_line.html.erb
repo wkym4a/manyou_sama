@@ -1,5 +1,6 @@
 <tr class = "table_row index_line index_line_<%= line_num %>" >
 
+    <td class = "table_content table_content_userinfo"><%= task.user_info %></td>
     <td class = "table_content table_content_name"><%= task.name.truncate(20) %></td>
     <td class = "table_content table_content_content"><%= task.content.truncate(30) %></td>
 
@@ -23,11 +24,15 @@
           <%= form.radio_button "status_" + task.id.to_s, 9 , judge_radio_checkd(task.status , 9) %><%= Task.get_status_name(9) %>
         </label>
         <%= form.hidden_field :line_num ,value: line_num %>
-        <%= form.submit t('activerecord.attributes.task.status_btn') +  t('action.change') ,id: "btn_status_change_" + task.id.to_s ,class: "btn btn-secondary btn-sm"%>
+        <%= (form.submit t('activerecord.attributes.task.status_btn') +  t('action.change') ,id: "btn_status_change_" + task.id.to_s ,class: "btn btn-secondary btn-sm"
+        ) if have_authorioty?(task.user_id) == true  %>
       <% end %>
     </td>
 
-    <td class = "table_content table_content_btn"><%= link_to t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" , class: "btn btn-secondary btn-sm" %></td>
+    <%  if have_authorioty?(task.user_id) == true  %>
+      <td class = "table_content table_content_btn"><%= link_to t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" , class: "btn btn-secondary btn-sm" %></td>
+    <% end %>
+    
     <td class = "table_content table_content_btn"><%= link_to  t('condition.show') , task_path(task),id: "goto_task" + task.id.to_s + "_show" , class: "btn btn-secondary btn-sm" %></td>
 
 </tr>

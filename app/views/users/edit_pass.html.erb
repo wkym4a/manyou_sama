@@ -11,7 +11,6 @@
 <!--↑タイトル表示枠-->
 <%= form_with(model: @user, local: true) do |form| %>
 
-
   <div class="line_info">
     <%= form.label "パスワード",class: "label_user_info line_content_1"%>
     <%= form.password_field :password, value: "", id: :user_password_digest,class: "input_user_info line_content_2" %>

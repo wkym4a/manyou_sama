@@ -1,11 +1,20 @@
 class UsersController < ApplicationController
+  #事前の権限チェック
+  before_action :chk_authorioty_with_id, only: [:show ]
+  # ,:edit, :edit_password :update, :update_password
+  # ↑はstep20段階では存在しないので、いったん無効化
 
-  before_action :set_users , only: [:show ,:show_after_create, :edit , :update , :update_password , :destroy ]
+  before_action :chk_not_login?, only: [:new ]
 
-  #一覧画面表示
-  def index
-    @users = User.all
-  end
+  before_action :set_user, only: [:show, :show_after_create ]
+  # , :edit, :edit_password,:update,:update_password, :destroy
+  # ↑はstep20段階では存在しないので、いったん無効化
+
+
+  # #一覧画面表示
+  # def index
+  #   @users = User.all
+  # end
 
   #閲覧画面表示
   def show
@@ -20,13 +29,13 @@ class UsersController < ApplicationController
       @user=User.new
   end
 
-  #更新画面
-  def edit
-  end
-  #パスワード更新画面
-  def edit_pass
-  end
-  ####↑「_form」をもとにした画面を開く↑###
+  # #更新画面
+  # def edit
+  # end
+  # #パスワード更新画面
+  # def edit_pass
+  # end
+  # ####↑「_form」をもとにした画面を開く↑###
 
 
   ####↓データ登録処理↓###
@@ -35,7 +44,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params(0))
 
     if @user.save(context: :have_pass)
-       redirect_to show_after_create_path(@user) , notice: t('activerecord.normal_process.do_save')
+      session[:user_id]=@user.id
+      redirect_to user_path(current_user) , notice: t('activerecord.normal_process.do_save')
     else
       render :new
     end
@@ -49,21 +59,21 @@ class UsersController < ApplicationController
       render edit_user_path(@user)
     end
   end
-
-  def update_password
-    @user.attributes=(user_params(2))
-    if @user.save(context: :have_pass)
-      redirect_to user_path(@user.id), notice: 'パスワードを変更しました。'
-    else
-      render edit_pass_user_path(@user.id)
-    end
-  end
-
-  #削除処理
-  def destroy
-    @user.destroy
-    redirect_to new_session_patch
-  end
+  #
+  # def update_password
+  #   @user.attributes=(user_params(2))
+  #   if @user.save(context: :have_pass)
+  #     redirect_to user_path(@user.id), notice: 'パスワードを変更しました。'
+  #   else
+  #     render edit_pass_user_path(@user.id)
+  #   end
+  # end
+  #
+  # #削除処理
+  # def destroy
+  #   @user.destroy
+  #   redirect_to new_session_patch
+  # end
 
 private
 
@@ -86,6 +96,18 @@ private
     else
       return nil
     end
+  end
+
+  #処理前の権限チェック
+  #変更対象投稿の作成ユーザーと同じかどうかもチェック……お気に入り削除処理
+  def chk_authorioty_with_id
+    if have_authorioty?(params[:id]) ==false
+      redirect_to no_authority_path
+    end
+  end
+
+  def chk_not_login?
+    redirect_to user_path(current_user.id)  if logged_in?
   end
 
 end

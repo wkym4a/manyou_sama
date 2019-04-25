@@ -2,6 +2,7 @@ ja:
   activerecord:
     models:
       task: "タスク"
+      user: "ユーザー"
       no_model: "「get_tablename_by_model」で想定されていない種類のテーブル"
     attributes:
       task:
@@ -11,3 +12,15 @@ ja:
         priority: "重要度"
         status: "進捗状態"
         status_btn: "進捗"
+      user:
+        cd: "社員コード"
+        name: "社員名"
+        name_custom:
+          name1: "ユーザー"
+          name2: "社員"
+          name3: "担当者"
+          name4: "担当"
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認用）"
+        password_gigest: "パスワード(変換済)"

@@ -11,8 +11,8 @@ img.ui-datepicker-trigger{
 // 検索条件について
 // ↓
 .search_box{
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
   border-style: solid;
 }
 .search_box_title{
@@ -111,12 +111,16 @@ div.yyyy_mm_dd{
   background-color: #FFFFFF;
 }
 
+.table_content_userinfo{
+  flex-basis: 10%;
+  word-break: break-all;
+}
 .table_content_name{
-  flex-basis: 20%;
+  flex-basis: 15%;
   word-break: break-all;
 }
 .table_content_content{
-  flex-basis: 23%;
+  flex-basis: 18%;
   word-break: break-all;
 }
 .table_content_limit{
