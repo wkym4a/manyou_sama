@@ -20,7 +20,7 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
 #bootstrapをgemで追加
-gem 'bootstrap', '~> 4.1.1'
+# gem 'bootstrap', '~> 4.1.1'
 gem 'jquery-rails'
 
 #日付をカレンダーで制御するため
