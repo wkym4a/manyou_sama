@@ -1,0 +1,43 @@
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+<% content_for :show_msgerr do%>
+  <%= render 'layouts/form_msgerr', model_info: @user %>
+<% end %>
+<!--↑エラーメッセージ表示枠-->
+
+<!--↓タイトル表示枠-->
+<% content_for :show_head_title do%>
+  <h1 class="title_head"><%= t('screen.new',name: get_tablename_by_model(@user) ) %></h1>
+<% end %>
+<!--↑タイトル表示枠-->
+
+<%= form_with(model: @user, local: true) do |form| %>
+
+  <div class="line_info">
+    <%= form.label  t('activerecord.attributes.user.cd') ,class: "line_content_1" %>
+    <%= form.text_field :cd, id: :user_cd,class: "input_user_info line_content_2" %>
+  </div>
+
+  <div class="line_info">
+    <%= form.label t('activerecord.attributes.user.name'),class: "line_content_1" %>
+    <%= form.text_field :name, id: :user_name,class: "input_user_info line_content_2" %>
+  </div>
+
+  <div class="line_info">
+    <%= form.label t('activerecord.attributes.user.email') ,class: "line_content_1" %>
+    <%= form.email_field :email, id: :user_email,class: "input_user_info line_content_2" %>
+  </div>
+
+  <div class="line_info">
+    <%= form.label t('activerecord.attributes.user.password') ,class: "line_content_1" %>
+    <%= form.password_field :password, id: :user_password,class: "input_user_info line_content_2" %>
+  </div>
+
+  <div class="line_info">
+    <%= form.label t('activerecord.attributes.user.password_confirmation') ,class: "line_content_1" %>
+    <%= form.password_field :password_confirmation, id: :user_password_confirmation,class: "input_user_info line_content_2" %>
+  </div>
+
+  <div>
+    <%= form.submit t('action.new') ,class:"btn btn-default btn_main_1" %>
+  </div>
+<% end %>

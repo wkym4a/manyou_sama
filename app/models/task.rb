@@ -12,6 +12,9 @@ class Task < ApplicationRecord
   validates :content, length: {maximum:120}
   ########↑バリデーション情報↑########
 
+  ####↓↓↓↓アソシエーション情報↓↓↓↓############
+  belongs_to :user
+  ####↑↑↑↑アソシエーション情報↑↑↑↑############
 
   ########↓scope……使わないけど練習用に↓########
   scope :name_like, -> name {where(" name like ? ", "%#{name}%")}
@@ -24,6 +27,7 @@ class Task < ApplicationRecord
 
     sql = " select tasks.id"
     sql += " ,tasks.user_id"
+    sql += " , concat(users.cd ,':', users.name) as user_info"
     sql += " ,tasks.name"
     sql += " ,tasks.content"
     sql += " ,tasks.limit"
@@ -32,24 +36,30 @@ class Task < ApplicationRecord
     sql += " ,tasks.created_at"
     sql += " ,tasks.updated_at"
     sql += " from tasks"
+    sql += " inner join users"
+    sql += " on tasks.user_id = users.id"
     sql += " where 1 = 1"
 
     if not conditions.blank?
+      #(タスクの)id（完全一致）
+      sql = sql_add_condition(sql , col_name: "tasks.id" , condition: conditions[:id] , search_type: 0)
+      #ユーザーコード（完全一致）
+      sql = sql_add_condition(sql , col_name: "users.cd" , condition: conditions[:user_cd] , search_type: 0)
       #仕事名（部分一致）
-      sql = sql_add_condition(sql , col_name: :name , condition: conditions[:name] , search_type: 3)
+      sql = sql_add_condition(sql , col_name: "tasks.name" , condition: conditions[:name] , search_type: 3)
       #内容詳細（部分一致）
-      sql = sql_add_condition(sql , col_name: :content , condition: conditions[:content] , search_type: 3)
+      sql = sql_add_condition(sql , col_name: "tasks.content" , condition: conditions[:content] , search_type: 3)
       #期限
       sql = sql_add_condition_date_fromto(sql , col_name: "tasks.limit" ,
          condition_from: conditions[:limit_from] , condition_to: conditions[:limit_to] ,
          null_only: conditions[:no_limit])
       #進捗
       status_condition = [[0,conditions[:status_0]],[1,conditions[:status_1]],[9,conditions[:status_9]]]
-      sql = sql_add_condition_check(sql , col_name: :status , condition: status_condition)
+      sql = sql_add_condition_check(sql , col_name: "tasks.status" , condition: status_condition)
       #重要度
       priority_condition = [[0,conditions[:priority_0]],[1,conditions[:priority_1]],
                           [2,conditions[:priority_2]],[3,conditions[:priority_3]]]
-      sql = sql_add_condition_check(sql , col_name: :priority , condition: priority_condition)
+      sql = sql_add_condition_check(sql , col_name: "tasks.priority" , condition: priority_condition)
 
       sql += get_sort_info(conditions[:sort])
     end
@@ -98,6 +108,10 @@ class Task < ApplicationRecord
       return " order by tasks.updated_at asc "
     when "tasks_updated_at_desc"
       return " order by tasks.updated_at desc "
+    when "users_cd_asc"
+      return " order by users.cd asc "
+    when "users_cd_desc"
+      return " order by users.cd desc "
     else
       return ""
     end

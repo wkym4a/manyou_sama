@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_20_081307) do
+ActiveRecord::Schema.define(version: 2019_04_23_073457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "tasks", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.string "name", limit: 20, null: false
     t.text "content", null: false
     t.datetime "limit"
@@ -24,7 +23,21 @@ ActiveRecord::Schema.define(version: 2019_04_20_081307) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["status"], name: "index_tasks_on_status"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "cd", limit: 3, null: false
+    t.string "name", limit: 20, null: false
+    t.string "email", limit: 255, null: false
+    t.string "password_digest", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cd"], name: "index_users_on_cd", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  add_foreign_key "tasks", "users"
 end

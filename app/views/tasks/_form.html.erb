@@ -7,9 +7,10 @@
 <%= form_with(model: task, local: true) do |form| %>
 
 
-  <%= form.label "※メモ：担当者は後回し、暫定で「1」を登録" %>
   <div class="line_info">
-    <%= form.label "↑これは開発中のメモのため、ステップ9「i18n」への置き換えの対象外としています" %>
+    <%= form.label t('activerecord.attributes.task.status') ,class: "line_content_1"%>
+    <%= form.hidden_field :user_id %>
+    <%= form.label @task.user.cd + ":" + @task.user.name ,class: "line_content_2 "%>
   </div>
 
   <div class="line_info">

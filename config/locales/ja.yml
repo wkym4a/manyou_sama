@@ -243,9 +243,28 @@ ja:
     edit: "%{name}編集画面"
     show: "%{name}閲覧画面"
     index: "%{name}一覧画面"
+    screen: "%{name}画面"
   abnormaldata:
     undecided: "未定"
   item:
     search_title: "《検索条件》"
     search_limit_note_1: "期限未設定のみ"
     search_limit_note_2: "　※【☑期限未設定】の場合、入力日付は無視されます。"
+  no_authority:
+    warning_note_1: "行おうとした処理は、現状のユーザー権限では実行できません。"
+    warning_note_2: "・ユーザープロフィールはログインしている本人しか閲覧できません。"
+    warning_note_3: "・ログインしない状態での新規投稿は行なえません。"
+    warning_note_4: "・投稿の編集、削除を行えるのは、その投稿をしたユーザーだけです。"
+    warning_note_5: ""
+  head_info:
+    is_logined: "%{name}さんがログインしています。"
+    is_not_logined: "ログインしていません。"
+    do_login: "ログイン"
+    do_logout: "ログアウト"
+    make_user: "ユーザー登録"
+    show_logined_user_info: "プロフィール"
+  session:
+    wrong_user_cd: "存在しない社員コードです"
+    wrong_password: "パスワードが間違っています"
+    do_login: "ログインしました"
+    do_logout: "ログアウトしました"

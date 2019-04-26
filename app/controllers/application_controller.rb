@@ -1,13 +1,12 @@
 class ApplicationController < ActionController::Base
+
   include MakeSql
+  include ApplicationHelper
+  include SessionsHelper
 
   protect_from_forgery with: :exception
 
-
   after_action :flash_to_headers#←非同期表示後のフラッシュメッセージ
-      #
-      # include MakeSql
-  # include SqlMakr
 
   private
   ##########↓非同期表示後のフラッシュメッセージ

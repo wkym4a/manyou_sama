@@ -7,7 +7,6 @@ end
 
 # ↓「ruby -v」によるバージョン情報↓
 # ruby 2.6.2p47 (2019-03-13 revision 67232) [x86_64-darwin18]
-
 gem 'rails', '~> 5.2.3'
 
 gem 'pg', '~> 0.18'
@@ -31,6 +30,9 @@ gem "font-awesome-rails"
 #step17で追加
 gem 'kaminari'
 
+#ログインパスワード管理用
+gem 'bcrypt', '3.1.11'
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 
@@ -39,9 +41,11 @@ group :development, :test do
   #20190412 add
   gem 'spring-commands-rspec'
 
+
+  # gem 'capybara', '2.2.0' #2.2.0に修正
   #2019412 change(「参考資料」のバージョンに合わせた)
   gem 'capybara', '~> 2.15.2'
-  #gem 'capybara', '~> 2.13'
+  # #gem 'capybara', '~> 2.13'
 
   gem 'selenium-webdriver'
 

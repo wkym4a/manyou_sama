@@ -15,8 +15,9 @@
       <div class="search_box_line">
 
         <div class="search_box_cell search_cell_1_2">
-
-          担当者→未実装
+          <%= form.label t('activerecord.attributes.user.name_custom.name4') ,class: "search_label" %>
+          <%= form.text_field :user_cd ,id: :input_user_cd  ,value: current_user.cd %>
+          <%# <%= form.label ":" + current_user.name,id: :indicate_user_name  %>
         </div>
 
         <div class="search_box_cell search_cell_2_2">
@@ -90,14 +91,12 @@
         <%= form.submit t('action.search') , id: "btn_search_tasks" , style:"display:none" %>
         <%= label '', t('action.search') , class: "btn_sort btn  btn-secondary" , id: "tasks_created_at_desc" %>
       </div>
-
     <% end %>
   </div>
 </div>
 
-
-
 <div id = "paginate_area">
+  <%= paginate @tasks ,remote: true %>
 </div>
 
 <div id = "index_box">
