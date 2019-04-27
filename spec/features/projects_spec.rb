@@ -159,7 +159,10 @@ RSpec.feature "Projects", type: :feature do
       expect{
         click_button I18n.t('helpers.submit.create')
 
-        expect(page).to have_content I18n.t('screen.edit',name: I18n.t('activerecord.models.task'))
+        #新規登録後、更新画面で再表示」が不評だったので、「一覧画面に遷移」に変えてみる
+        expect(page).to have_content I18n.t('screen.index',name: I18n.t('activerecord.models.task'))
+        # expect(page).to have_content I18n.t('screen.edit',name: I18n.t('activerecord.models.task'))
+
         expect(page).to have_content I18n.t('activerecord.normal_process.do_save')
             }.to change(Task.all, :count).by(1)
     end
@@ -274,6 +277,13 @@ RSpec.feature "Projects", type: :feature do
       fill_in "content" , with: "test_step14_data2"
       fill_in "limit" ,  with: Date.today.strftime("%Y/%m/%d")
       click_button I18n.t('helpers.submit.create')
+
+      #新規登録後、更新画面で再表示」が不評だったので、「一覧画面に遷移」に変えてみる
+      #→登録データが一行目に表示されるので、その「更新」ボタンを押して更新画面に移動
+      within '.index_line_0' do
+        click_link I18n.t('action.edit')
+      end
+
       fill_in "limit" ,  with: (Date.today + 10).strftime("%Y/%m/%d")
       click_button I18n.t('helpers.submit.create')
 
@@ -284,6 +294,13 @@ RSpec.feature "Projects", type: :feature do
       fill_in "content" , with: "test_step14_data3"
       fill_in "limit" ,  with: Date.today.strftime("%Y/%m/%d")
       click_button I18n.t('helpers.submit.create')
+
+      #新規登録後、更新画面で再表示」が不評だったので、「一覧画面に遷移」に変えてみる
+      #→登録データが一行目に表示されるので、その「更新」ボタンを押して更新画面に移動
+      within '.index_line_0' do
+        click_link I18n.t('action.edit')
+      end
+
       fill_in "limit" , with: ""
       click_button I18n.t('helpers.submit.create')
 
@@ -494,6 +511,13 @@ RSpec.feature "Projects", type: :feature do
       fill_in "name" , with: "data3"
       fill_in "content" , with: "test_step16_data3"
       click_button I18n.t('helpers.submit.create')
+
+      #新規登録後、更新画面で再表示」が不評だったので、「一覧画面に遷移」に変えてみる
+      #→登録データが一行目に表示されるので、その「更新」ボタンを押して更新画面に移動
+      within '.index_line_0' do
+        click_link I18n.t('action.edit')
+      end
+
       choose Task.get_priority_name(1,1)
       click_button I18n.t('helpers.submit.create')
 

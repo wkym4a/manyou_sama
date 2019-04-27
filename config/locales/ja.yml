@@ -13,9 +13,14 @@ ja:
         restrict_dependent_destroy:
           has_one: "%{record}が存在しているので削除できません"
           has_many: "%{record}が存在しているので削除できません"
+          myself: "自分自身のことを削除できません"
         failed_save: "登録に失敗しました"
     warning:
       before_del: "本当に削除してよろしいですか?"
+  unit_name:
+    numbers: "数"
+    pieces: "個"
+    items: "件"
   action:
     new: "新規登録"
     edit: "更新"
@@ -23,6 +28,7 @@ ja:
     change: "変更"
     back: "戻る"
     search: "検索"
+    delete: "削除"
   priority:
     priority_S: "S……最優先"
     priority_A: "A……重要"
@@ -241,9 +247,13 @@ ja:
   screen:
     new: "新規%{name}画面"
     edit: "%{name}編集画面"
+    edit_password: "%{name}パスワード編集画面"
     show: "%{name}閲覧画面"
     index: "%{name}一覧画面"
     screen: "%{name}画面"
+  authority:
+    admin: "Admin"
+    for_admin: "Admin用"
   abnormaldata:
     undecided: "未定"
   item:

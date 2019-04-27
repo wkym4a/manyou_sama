@@ -6,32 +6,34 @@
 
 <!--↓タイトル表示枠-->
 <% content_for :show_head_title do%>
-  <h1 class="title_head"><%= get_tablename_by_model(@user) %>プロフィール編集画面</h1>
+  <h1 class="title_head"><%=  t('screen.edit',name: get_tablename_by_model(@user))+ "(" + t('authority.for_admin') + ")" %></h1>
 <% end %>
 <!--↑タイトル表示枠-->
 
-<%= form_with(model: @user, local: true) do |form| %>
+<%= form_with(model: @user,url: admin_user_path(@user) , local: true) do |form| %>
 
   <div class="line_info">
-    <%= form.label "社員コード",class: "line_content_1" %>
-    <%= form.label :cd, id: :user_cd ,class: "input_user_info line_content_2"%>
-    
+    <%= form.label t('activerecord.attributes.user.cd'),class: "line_content_1" %>
+    <%= form.label @user.cd.to_s , id: :user_cd ,class: "input_user_info line_content_2"%>
+
     <%= form.hidden_field :cd %>
   </div>
 
   <div class="line_info">
-    <%= form.label "名前",class: "line_content_1" %>
+    <%= form.label t('activerecord.attributes.user.name'),class: "line_content_1" %>
     <%= form.text_field :name, id: :user_name,class: "input_user_info line_content_2"%>
   </div>
 
   <div class="line_info">
-    <%= form.label "メールアドレス",class: "line_content_1" %>
+    <%= form.label t('activerecord.attributes.user.email'),class: "line_content_1" %>
     <%= form.email_field :email, id: :user_email,class: "input_user_info line_content_2"%>
   </div>
 
 
 
   <div class="actions">
-    <%= form.submit  "情報を変更します。" ,class:"btn btn-default btn_main_1"%>
+    <%= form.submit t('action.edit'),class:"btn btn-primary btn_main_2"%>
   </div>
 <% end %>
+
+<%= link_to t('condition.back'),  admin_users_path , class: 'btn btn-primary btn_main_1'  %>
