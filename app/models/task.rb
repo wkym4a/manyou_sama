@@ -63,7 +63,7 @@ class Task < ApplicationRecord
 
       sql += get_sort_info(conditions[:sort])
     end
-binding.pry
+    
     Task.find_by_sql(sql)
 
   end
