@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   resources :users , only: [:new,:create,:show]
   namespace :admin do
-    resources :users , only: [:index,:new,:create,:edit,:destroy,:update] do
+    resources :users , only: [:index,:new,:create,:edit,:destroy,:update,:show] do
       member do
         get :edit_password
         patch :update_password

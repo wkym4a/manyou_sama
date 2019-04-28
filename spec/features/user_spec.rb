@@ -308,7 +308,7 @@ RSpec.feature "Users", type: :feature do
 
     end
 
-    scenario "【5:仕事を登録すると、その件数が一覧表示に反映される】"  do
+    scenario "【5:仕事を登録すると、その件数が一覧表示に反映される→ユーザー閲覧画面でその仕事を確認できる】"  do
 
       sign_in_as user1
       visit admin_users_path
@@ -316,11 +316,22 @@ RSpec.feature "Users", type: :feature do
       expect(page).not_to have_content "2"+ I18n.t('unit_name.items')
 
 
-      FactoryBot.create(:task,user_id: user1.id,name: "TN_user1_2",content: "TC_user1_2")
+      FactoryBot.create(:task,user_id: user1.id,name: "added_task",content: "TC_user1_2")
       visit admin_users_path
       expect(page).to have_content "1"+ I18n.t('unit_name.items') #user2が持つ仕事は「1件」のまま
       expect(page).to have_content "2"+ I18n.t('unit_name.items')
 
+      #『user1の閲覧画面に遷移』
+      within '.index_line_0' do
+        click_link I18n.t('condition.show')
+      end
+
+      expect(page).to have_content I18n.t('activerecord.attributes.user.name_custom.name5',name: user1.name.to_s )
+      # =>・user1のしごとは表示される。
+      expect(page).to have_content task_user1.name
+      expect(page).to have_content "added_task"
+      # =>・user2のしごとは表示されない。
+      expect(page).not_to have_content task_user2.name
     end
   end
 

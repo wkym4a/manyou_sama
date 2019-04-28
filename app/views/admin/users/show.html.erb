@@ -1,0 +1,49 @@
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+<% content_for :show_msgerr do%>
+  <%= render 'layouts/form_msgerr', model_info: @user %>
+<% end %>
+<!--↑エラーメッセージ表示枠-->
+
+<!--↓タイトル表示枠-->
+<% content_for :show_head_title do%>
+  <h1 class="title_head"><%=  t('screen.show',name: get_tablename_by_model(@user) )+ "(" + t('authority.for_admin') + ")"  %></h1>
+<% end %>
+<!--↑タイトル表示枠-->
+
+<h3><%= t('activerecord.attributes.user.name_custom.name5',name: @user.name.to_s ) %></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t('activerecord.attributes.task.name') %></th>
+      <th><%= t('activerecord.attributes.task.limit') %></th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+  <% line_num = 0 %>
+    <% @tasks.each do |task| %>
+      <tr class = "index_line_<%= line_num %>" >
+        <td><%= task.name.to_s %></td>
+
+        <td>
+          <% if task.limit.nil?  %>
+            <%= t('abnormaldata.undecided') %>
+          <% else  %>
+            <%= task.limit.strftime(t('date.formats.default')) %>
+          <% end  %>
+        </td>
+
+        <td class = "table_content table_content_btn"><%= link_to  t('condition.show') , task_path(task),id: "goto_task" + task.id.to_s + "_show" , class: "btn btn-secondary btn-sm" %></td>
+      </tr>
+
+      <% line_num += 1 %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to t('condition.back'),  admin_users_path , class: 'btn btn-primary btn_main_1'  %>

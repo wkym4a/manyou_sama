@@ -20,6 +20,7 @@ ja:
           name2: "社員"
           name3: "担当者"
           name4: "担当"
+          name5:  "%{name}さんの仕事一覧"
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "パスワード（確認用）"

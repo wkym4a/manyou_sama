@@ -2,7 +2,7 @@ class Admin::UsersController < ApplicationController
   #事前の権限チェック
   before_action :is_admin?
 
-  before_action :set_user, only: [:edit, :edit_password,:update,:update_password, :destroy]
+  before_action :set_user, only: [:edit, :edit_password,:update,:update_password, :destroy,:show]
 
   before_action :cannot_delete_myself, only: [:destroy]
 
@@ -25,6 +25,10 @@ class Admin::UsersController < ApplicationController
   def edit_password
   end
   ####↑「_form」をもとにした画面を開く↑###
+
+  def show
+    @tasks=Task.where(user_id: @user.id).order(created_at: "DESC")
+  end
 
 
   ####↓データ登録処理↓###
