@@ -10,6 +10,18 @@
 <% end %>
 <!--↑タイトル表示枠-->
 
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.user.cd') %>：</strong><%= @user.cd %></p>
+</div>
+
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.user.name') %>：</strong><%= @user.name %></p>
+</div>
+
+<div class="line_info">
+  <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.user.email') %>：</strong><%= @user.email %></p>
+</div>
+
 <h3><%= t('activerecord.attributes.user.name_custom.name5',name: @user.name.to_s ) %></h3>
 
 <table>
