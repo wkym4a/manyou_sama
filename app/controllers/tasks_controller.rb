@@ -62,7 +62,9 @@ class TasksController < ApplicationController
 # t('action.search')
  # t("errors.messages.is_invalid_info", this: t('activerecord.attributes.task.status'))
       if @task.save
-        format.html{redirect_to edit_task_path(@task) , notice: t('activerecord.normal_process.do_save') }
+        #新規登録後、更新画面で再表示」が不評だったので、「一覧画面に遷移」に変えてみる
+        format.html{redirect_to tasks_path , notice: t('activerecord.normal_process.do_save') }
+        # format.html{redirect_to edit_task_path(@task) , notice: t('activerecord.normal_process.do_save') }
       else
         format.html{render "new"}
       end
