@@ -212,10 +212,10 @@ RSpec.feature "Users", type: :feature do
     # => 「user1」および「user1」が登録されている。
     # => 「user1」の仕事「task_user1」および「user2」の仕事「task_user2」が登録されている。
     # => 他にユーザー，仕事はなく、テスト開始段階ではログインも行われていない。
-    let!(:user1) { FactoryBot.create(:user,cd: "001",name: "T_name01",email: "test01@test.co.jp",password: "pass01") }
+    let!(:user1) { FactoryBot.create(:user,cd: "001",name: "T_name01",email: "test01@test.co.jp",password: "pass01",admin_status: 9) }
     let!(:task_user1) { FactoryBot.create(:task,user_id: user1.id,name: "TN_user1",content: "TC_user1") }
 
-    let!(:user2) { FactoryBot.create(:user,cd: "002",name: "T_name02",email: "test02@test.co.jp",password: "pass02") }
+    let!(:user2) { FactoryBot.create(:user,cd: "002",name: "T_name02",email: "test02@test.co.jp",password: "pass02",admin_status: 9) }
     let!(:task_user2) { FactoryBot.create(:task,user_id: user2.id,name: "TN_user2",content: "TC_user2") }
 
     ####↓↓↓↓テストシナリオ↓↓↓↓####

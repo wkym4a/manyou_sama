@@ -15,6 +15,7 @@ ja:
           has_many: "%{record}が存在しているので削除できません"
           myself: "自分自身のことを削除できません"
         failed_save: "登録に失敗しました"
+        restrict_change_admin: "自分自身を一般ユーザーにすることはできません。"
     warning:
       before_del: "本当に削除してよろしいですか?"
   unit_name:
@@ -265,7 +266,7 @@ ja:
     warning_note_2: "・ユーザープロフィールはログインしている本人しか閲覧できません。"
     warning_note_3: "・ログインしない状態での新規投稿は行なえません。"
     warning_note_4: "・投稿の編集、削除を行えるのは、その投稿をしたユーザーだけです。"
-    warning_note_5: ""
+    warning_note_5: "・ユーザ管理画面を操作できるのはAdmin権限保持者のみです。"
   head_info:
     is_logined: "%{name}さんがログインしています。"
     is_not_logined: "ログインしていません。"
