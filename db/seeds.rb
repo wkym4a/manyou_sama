@@ -8,17 +8,21 @@
 
 
 ######↓初回実施用#####
-first_user = User.new
-first_user.cd = "000"
-first_user.name = "管理用初期ユーザー"
-first_user.email = "kanri@test.co.jp"
-first_user.password = "password"
-first_user.password_confirmation = "password"
+if User.all.size==0
+# ユーザーデータがまだない場合のみ、「ユーザー作成処理」を実行するよう変更
 
-first_user.save
+  first_user = User.new
+  first_user.cd = "000"
+  first_user.name = "管理用初期ユーザー"
+  first_user.email = "kanri@test.co.jp"
+  first_user.password = "password"
+  first_user.password_confirmation = "password"
 
-tasks_first_user = Task.where(" user_id is null ")
-tasks_first_user.update(user_id: first_user.id)
+  first_user.save
+
+  tasks_first_user = Task.where(" user_id is null ")
+  tasks_first_user.update(user_id: first_user.id)
+end
 ######↑初回実施用#####
 
 #↓管理者権限追加に伴い、いったん全員を管理者にするseed
