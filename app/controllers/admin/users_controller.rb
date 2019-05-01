@@ -46,11 +46,19 @@ class Admin::UsersController < ApplicationController
 
   #更新処理
   def update
-    if @user.update(user_params(1))==true
-      #更新後は更新画面の表示を維持
-      redirect_to edit_admin_user_path(@user.id) , notice: t('activerecord.normal_process.do_update')
-    else
-      render edit_admin_user_path(@user)
+    respond_to do |format|
+      @user.current_user_id = current_user.id#バリデーションチェック用にcurrent_userをインスタンス変数に渡す
+      @user.attributes=(user_params(1))
+      if @user.save(context: :change_admin)
+      # if @user.update(user_params(1))==true
+        #更新後は更新画面の表示を維持
+        format.html{redirect_to edit_admin_user_path(@user.id) , notice: t('activerecord.normal_process.do_update')}
+      else
+        @task=Task.new
+        @task.errors.add(:name, "rrrrrr")
+         format.html{render "edit"}
+        # format.html{render edit_admin_user_path(@user)}
+      end
     end
   end
 
@@ -85,7 +93,7 @@ private
     when 0
       return params.require(:user).permit(:cd,:name,:email, :password, :password_confirmation)
     when 1
-      return params.require(:user).permit(:cd,:name,:email)
+      return params.require(:user).permit(:cd,:name,:email,:admin_status)
 
     when 2
       return params.require(:user).permit(:password, :password_confirmation)
@@ -96,7 +104,12 @@ private
 
   #処理前の権限チェック
   def is_admin?
-    redirect_to new_session_path  if not logged_in?
+    if not logged_in?
+      redirect_to new_session_path
+    elsif current_user.admin_status != 9
+      redirect_to no_authority_path
+    end
+
   end
 
   def cannot_delete_myself

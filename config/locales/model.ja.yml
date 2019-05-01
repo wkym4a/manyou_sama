@@ -25,3 +25,7 @@ ja:
         password: "パスワード"
         password_confirmation: "パスワード（確認用）"
         password_gigest: "パスワード(変換済)"
+        admin_status: "管理者区分"
+        admin_status_name:
+          status0: "一般"
+          status9: "管理者"

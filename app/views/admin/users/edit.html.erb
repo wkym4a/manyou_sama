@@ -2,7 +2,7 @@
 <% content_for :show_msgerr do%>
   <%= render 'layouts/form_msgerr', model_info: @user %>
 <% end %>
-<!--↑エラーメッセージ表示枠-->
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
 
 <!--↓タイトル表示枠-->
 <% content_for :show_head_title do%>
@@ -29,7 +29,17 @@
     <%= form.email_field :email, id: :user_email,class: "input_user_info line_content_2"%>
   </div>
 
-
+  <div class="line_info">
+    <%= form.label t('activerecord.attributes.user.admin_status') ,class: "line_content_1"%>
+    <span class = "input_radio_btn_line">
+      <label class = "input_radio_btn">
+        <%= form.radio_button :admin_status, 0 %><%= User.get_admin_status_name(0) %>
+      </label>
+      <label class = "input_radio_btn">
+        <%= form.radio_button :admin_status, 9 %><%= User.get_admin_status_name(9) %>
+      </label>
+    </span>
+  </div>
 
   <div class="actions">
     <%= form.submit t('action.edit'),class:"btn btn-primary btn_main_2"%>
