@@ -1,0 +1,33 @@
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+<% content_for :show_msgerr do%>
+  <%= render 'layouts/form_msgerr', model_info: @tag %>
+<% end %>
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+
+<h1>Tags</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cd</th>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tags.each do |tag| %>
+      <tr>
+        <td><%= tag.cd %></td>
+        <td><%= tag.name %></td>
+        <td><%= link_to 'Show', admin_tag_path(tag) %></td>
+        <td><%= link_to 'Edit', edit_admin_tag_path(tag) %></td>
+        <td><%= link_to 'Destroy', admin_tag_path(tag), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tag', new_admin_tag_path %>

@@ -1,0 +1,80 @@
+<%= form_for(item) do |f| %>
+  <% if item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+      <% item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label "物件名" %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label "賃料" %>
+    <%= f.number_field :rent_price %><a>円</a>
+  </div>
+
+  <div class="field">
+    <%= f.label "住所" %>
+    <%= f.text_field :address %>
+  </div>
+
+  <div class="field">
+    <%= f.label "築年数" %>
+    <%= f.number_field :age %><a>年</a>
+  </div>
+
+  <div class="field">
+    <%= f.label "備考" %>
+    <%= f.text_area :matter %>
+  </div>
+
+<hr>
+
+  <% 2.times do |i| %>
+
+    <% if i + 1 > item.stations.count  %>
+      <% station = Station.new  %>
+    <% else %>
+      <% station = item.stations[i]  %>
+    <% end %>
+
+    <%= fields_for "station_" + (i+1).to_s do |pf| %>
+
+    <h3>最寄り駅<%= (i+1).to_s %></h3>
+        <%= pf.hidden_field :item_sub_id ,value: (i+1).to_s %>
+
+        <div class="field">
+          <%= pf.label "路線名" %>
+          <%= pf.text_field :route ,value: station.route %>
+        </div>
+
+        <div class="field">
+          <%= pf.label "駅名" %>
+          <%= pf.text_field :name ,value: station.name %>
+        </div>
+
+        <div class="field">
+          <%= pf.label "徒歩分数" %>
+          <%= pf.number_field :walk_time ,value: station.walk_time %><a>分</a>
+        </div>
+
+    <% end %>
+
+  <% end %>
+
+  <div class="actions">
+    <% if action_name == "new"  %>
+      <%= f.submit value: "登録する" %>
+    <% else  %>
+      <%= f.submit value: "更新する" %>
+    <% end  %>
+  </div>
+<% end %>

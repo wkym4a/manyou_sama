@@ -1,0 +1,19 @@
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+<% content_for :show_msgerr do%>
+  <%= render 'layouts/form_msgerr', model_info: @tag %>
+<% end %>
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+
+
+<p>
+  <strong>Cd:</strong>
+  <%= @tag.cd %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @tag.name %>
+</p>
+
+<%= link_to 'Edit', edit_admin_tag_path(@tag) %> |
+<%= link_to 'Back', admin_tags_path %>

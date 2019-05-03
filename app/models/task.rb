@@ -1,6 +1,6 @@
 class Task < ApplicationRecord
 
-    include MakeSql
+  include MakeSql
   ########↓バリデーション情報↓########
 
   #ユーザーIDは入力必須
@@ -14,6 +14,8 @@ class Task < ApplicationRecord
 
   ####↓↓↓↓アソシエーション情報↓↓↓↓############
   belongs_to :user
+  has_many :task_tags , dependent: :destroy
+  has_many :pasted_tags , through: :task_tags , source: :tag
   ####↑↑↑↑アソシエーション情報↑↑↑↑############
 
   ########↓scope……使わないけど練習用に↓########
@@ -63,7 +65,7 @@ class Task < ApplicationRecord
 
       sql += get_sort_info(conditions[:sort])
     end
-    
+
     Task.find_by_sql(sql)
 
   end

@@ -3,6 +3,7 @@ ja:
     models:
       task: "タスク"
       user: "ユーザー"
+      tag: "ラベル"
       no_model: "「get_tablename_by_model」で想定されていない種類のテーブル"
     attributes:
       task:
@@ -29,3 +30,6 @@ ja:
         admin_status_name:
           status0: "一般"
           status9: "管理者"
+      tag:
+        cd: "ラベルコード"
+        name: "ラベル名"

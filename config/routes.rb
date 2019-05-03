@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tags
   root 'tasks#index'
 
   get 'tops/no_authority', to: 'tops#no_authority' , as: 'no_authority'
@@ -20,6 +21,9 @@ Rails.application.routes.draw do
         patch :update_password
       end
     end
+
+    resources :tags
+
   end
 
   resources :sessions, only: [:new, :create, :destroy]
