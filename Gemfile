@@ -33,6 +33,10 @@ gem 'kaminari'
 #ログインパスワード管理用
 gem 'bcrypt', '3.1.11'
 
+#ステップ24のために追加……'jquery-rails'は他ですでに追加していた。
+gem 'nested_form_fields'
+# gem 'jquery-rails'
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 

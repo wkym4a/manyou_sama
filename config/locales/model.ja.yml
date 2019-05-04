@@ -33,3 +33,6 @@ ja:
       tag:
         cd: "ラベルコード"
         name: "ラベル名"
+        tag_count: "ラベル数"
+        errors:
+          duplicate: "ラベルが重複しています"

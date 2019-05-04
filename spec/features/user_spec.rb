@@ -335,4 +335,121 @@ RSpec.feature "Users", type: :feature do
     end
   end
 
+
+  context "step24の試験" do
+
+    #試験の前提条件
+    # => 「user1」が登録されている。
+    # => 「user1」の仕事「task1_user1」「task2_user1」が登録されている。
+    # => タグ「1」「2」「11」「12」。
+    let!(:user1) { FactoryBot.create(:user,cd: "001",name: "T_name01",email: "test01@test.co.jp",password: "pass01",admin_status: 9) }
+    let!(:task1_user1) { FactoryBot.create(:task,user_id: user1.id,name: "TN1_user1",content: "TC1_user1") }
+    let!(:task2_user1) { FactoryBot.create(:task,user_id: user1.id,name: "TN2_user1",content: "TC2_user1") }
+
+    let!(:tag1) { FactoryBot.create(:tag,cd: "001",name: "tg01") }
+    let!(:tag2) { FactoryBot.create(:tag,cd: "002",name: "tg02") }
+    let!(:tag11) { FactoryBot.create(:tag,cd: "011",name: "tg11") }
+    let!(:tag12) { FactoryBot.create(:tag,cd: "012",name: "tg12") }
+
+    ####↓↓↓↓テストシナリオ↓↓↓↓####
+    # 「task1_user1」に「tag1」「tag11」を設定
+    # 新たにタスクを作り、「tag12」を設定
+    # 条件なしで検索→「task1_user1」のタグ件数、「2件」
+    # 　　　　　　　　「新たなタスク」のタグ件数、「1件」
+    # タグ情報「g1」で検索→「task1_user1」「新たなタスク」は検索されるが、「task2_user1」は検索されない
+    # 「task1_user1」から、「tag1」を削除
+    # タグ情報「g1」で検索→「新たなタスク」「は検索されるが、task1_user1」「task2_user1」は検索されない
+  scenario "タグ（ラベル）についてのテスト", js: true do
+
+      sign_in_as user1
+      # 「task1_user1」に
+      visit edit_task_path(task1_user1.id)
+      #「tag1」「tag11」を設定して
+      find("#btn_add_label").click
+      select tag1.cd + ':' + tag1.name , from: 'task_task_tags_attributes_0_tag_id'
+      find("#btn_add_label").click
+      select tag11.cd + ':' + tag11.name , from: 'task_task_tags_attributes_1_tag_id'
+      #更新
+      click_button I18n.t('helpers.submit.create')
+
+      # 新規登録画面で
+      visit new_task_path
+      fill_in "name" , with: "TN3_user1"
+      fill_in "content" , with: "TC3_user1"
+      #「tag12」を設定して
+      find("#btn_add_label").click
+      select tag12.cd + ':' + tag12.name , from: 'task_task_tags_attributes_0_tag_id'
+      #新規登録
+      click_button I18n.t('helpers.submit.create')
+
+      #(新規登録後は一覧画面に遷移)
+      #1行目は「新しいタスク」→ラベルは1件
+      within '.index_line_0' do
+        expect(page).to have_content "1"+I18n.t('unit_name.items')
+      end
+      #2行目は「task2_user1」→ラベルは0件
+      within '.index_line_1' do
+        expect(page).to have_content "0"+I18n.t('unit_name.items')
+      end
+      #3行目は「task1_user1」→ラベルは2件
+      within '.index_line_2' do
+        expect(page).to have_content "2"+I18n.t('unit_name.items')
+      end
+
+      # タグ情報「g1」で検索(名前でソート)
+      fill_in :input_tag_name  ,with: "g1"
+      find("#tasks_name_asc").click
+      # =>・「task1_user1」は表示される。
+      expect(page).to have_content task1_user1.name
+      # =>・「task1_user1」は表示される。
+      expect(page).to have_content "TC3_user1"
+      # =>・user2のしごとは表示されない。
+      expect(page).not_to have_content task2_user1.name
+
+      # 「task1_user1」の更新画面に移動し
+      visit edit_task_path(task1_user1.id)
+      
+      # 「tag11」（1行目に表示されている）を削除して
+      within '.tag_line_1' do
+        # click_button "Delete"
+        click_link "Delete"
+      end
+      # 更新
+      click_button I18n.t('helpers.submit.create')
+
+      # インデックス画面に遷移して
+      visit tasks_path
+      # タグ情報「g1」で検索(名前でソート)
+      fill_in :input_tag_name  ,with: "g1"
+      find("#tasks_name_asc").click
+      # =>・「task1_user1」は表示されない。
+      expect(page).not_to have_content task1_user1.name
+      # =>・「task1_user1」は表示される。
+      expect(page).to have_content "TC3_user1"
+      # =>・user2のしごとは表示されない。
+      expect(page).not_to have_content task2_user1.name
+
+      # 「task1_user1」の更新画面に移動し
+      visit edit_task_path(task1_user1.id)
+      #タグを「tag1」に変更して
+      select tag11.cd + ':' + tag11.name , from: 'task_task_tags_attributes_0_tag_id'
+
+      # 更新
+      click_button I18n.t('helpers.submit.create')
+
+      # インデックス画面に遷移して
+      visit tasks_path
+      # タグ情報「g1」で検索(名前でソート)
+      fill_in :input_tag_name  ,with: "g1"
+      find("#tasks_name_asc").click
+      # =>・「task1_user1」は表示される。
+      expect(page).to have_content task1_user1.name
+      # =>・「task1_user1」は表示される。
+      expect(page).to have_content "TC3_user1"
+      # =>・user2のしごとは表示されない。
+      expect(page).not_to have_content task2_user1.name
+
+    end
+
+  end
 end

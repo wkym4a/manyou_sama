@@ -38,7 +38,7 @@
 
   .container {
     // width: 980px;
-    width: 960px;
+    width: 1080px;
     margin: 0 auto;
     position: relative;
     min-height: 100%;
@@ -152,4 +152,8 @@
   }
   .show_textarea{
     background-color:silver;
+  }
+
+  .table.table-striped.table-bordered.table-hover{
+    width: 40%;
   }
