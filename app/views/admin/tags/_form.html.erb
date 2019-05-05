@@ -1,0 +1,29 @@
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+<% content_for :show_msgerr do%>
+  <%= render 'layouts/form_msgerr', model_info: tag %>
+<% end %>
+<!--↑エラーメッセージ表示枠……バリデーションエラーを出す画面ではこれを追加しておくこと。-->
+
+<%= form_with(model: tag,url: url_info , local: true) do |form| %>
+
+  <div class="field">
+    <%= form.label "CD:" %>
+
+    <% if url_info == admin_tags_path %>
+      <%= form.text_field :cd %>
+    <% else %>
+      <%= form.label tag.cd.to_s , id: :cd %>
+      <%= form.hidden_field :cd %>
+    <% end %>
+
+  </div>
+
+  <div class="field">
+    <%= form.label "Name:" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

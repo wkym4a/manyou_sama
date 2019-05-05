@@ -56,9 +56,11 @@ class TasksController < ApplicationController
   ####↓データ登録処理↓###
   #新規登録
   def create
+
     @task = Task.new(task_params)
 
     respond_to do |format|
+
 # t('action.search')
  # t("errors.messages.is_invalid_info", this: t('activerecord.attributes.task.status'))
       if @task.save
@@ -74,7 +76,6 @@ class TasksController < ApplicationController
   #更新処理
   def update
     respond_to do |format|
-
       if @task.update(task_params)==true
         format.html{redirect_to edit_task_path(@task) , notice: t('activerecord.normal_process.do_update') }
       else
@@ -118,8 +119,8 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    param_info = params.require(:task).permit(:name,:content,:limit,:priority,:status,:user_id)
-    #ユーザーモデルがまだないため、ユーザーidについてはいったん保留……とりあえず、ほかで「1」となるようせっていしているはず。
+    param_info = params.require(:task).permit(:name,:content,:limit,:priority,:status,:user_id,
+          task_tags_attributes: [:id, :task_id, :tag_id, :_destroy])
   end
 
   def reset_task

@@ -116,7 +116,7 @@ div.yyyy_mm_dd{
   word-break: break-all;
 }
 .table_content_name{
-  flex-basis: 15%;
+  flex-basis: 12%;
   word-break: break-all;
 }
 .table_content_content{
@@ -149,8 +149,20 @@ td.table_content_priority{
   -webkit-justify-content: center; /* 横方向中央揃え（Safari用） */
   justify-content: center; /* 横方向中央揃え */
 }
+.table_content_tag_count{
+  flex-basis: 12%;
+}
+td.table_content_tag_count{
+  text-align: center;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center; /* 縦方向中央揃え（Safari用） */
+  align-items: center; /* 縦方向中央揃え */
+  -webkit-justify-content: center; /* 横方向中央揃え（Safari用） */
+  justify-content: center; /* 横方向中央揃え */
+}
 .table_content_status{
-  flex-basis: 27%;
+  flex-basis: 25%;
 }
 td.table_content_status{
   display: flex;

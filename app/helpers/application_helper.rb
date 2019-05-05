@@ -1,6 +1,5 @@
 module ApplicationHelper
 
-
   #モデル（あるいはそれが格納された変数（特にインスタンス変数を想定））の情報をもとに、
   #そのもととなる情報の日本語名を返す……エラーメッセージ表示などでの使用を想定
   def get_tablename_by_model(model_info)
@@ -15,8 +14,8 @@ module ApplicationHelper
         #return "ユーザー"
       # when "Task_tag"
       #   return "タスクラベル"
-      # when "Tag"
-      #   return "ラベル"
+      when "Tag"
+        return t('activerecord.models.tag')
 
       else
         return  t('activerecord.models.no_model')
@@ -54,6 +53,16 @@ module ApplicationHelper
         end
       end
     end
+  end
+
+  #処理前の権限チェック
+  def is_admin?
+    if not logged_in?
+      redirect_to new_session_path
+    elsif current_user.admin_status != 9
+      redirect_to no_authority_path
+    end
+
   end
 
 end

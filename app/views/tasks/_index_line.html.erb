@@ -29,10 +29,16 @@
       <% end %>
     </td>
 
-    <%  if have_authorioty?(task.user_id) == true  %>
-      <td class = "table_content table_content_btn"><%= link_to t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" , class: "btn btn-secondary btn-sm" %></td>
-    <% end %>
-    
+    <td class = "table_content table_content_tag_count">
+      <%= task.tag_count.to_s + t('unit_name.items') %>
+    </td>
+
+    <td class = "table_content table_content_btn">
+      <%  if have_authorioty?(task.user_id) == true  %>
+        <%= link_to t('condition.edit') , edit_task_path(task),id: "goto_task" + task.id.to_s + "_edit" , class: "btn btn-secondary btn-sm" %>
+      <% end %>
+    </td>
+
     <td class = "table_content table_content_btn"><%= link_to  t('condition.show') , task_path(task),id: "goto_task" + task.id.to_s + "_show" , class: "btn btn-secondary btn-sm" %></td>
 
 </tr>

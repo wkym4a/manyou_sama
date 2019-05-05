@@ -102,16 +102,6 @@ private
     end
   end
 
-  #処理前の権限チェック
-  def is_admin?
-    if not logged_in?
-      redirect_to new_session_path
-    elsif current_user.admin_status != 9
-      redirect_to no_authority_path
-    end
-
-  end
-
   def cannot_delete_myself
     if @user.id == current_user.id
       # errors.add(:id, t("activerecord.errors.messages.restrict_dependent_destroy.myself"))

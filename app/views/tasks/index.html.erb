@@ -79,9 +79,9 @@
           <%= form.check_box :priority_3, {id: :priority_3,class: "search_chkbox"}, true, false %><span class=" search_note">C</span>
         </div>
 
-
         <div class="search_box_cell search_cell_2_2">
-          ラベル情報による検索→未実装
+          <%= form.label t('activerecord.attributes.tag.name') ,class: "search_label" %>
+          <%= form.text_field :tag_name ,id: :input_tag_name %>
         </div>
       </div>
 

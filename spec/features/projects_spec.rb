@@ -316,7 +316,6 @@ RSpec.feature "Projects", type: :feature do
       visit tasks_path
 
       check "no_limit"
-       # sleep 4
       find("#tasks_created_at_desc").click
       expect(page).not_to have_content "test_step14_data1"
       expect(page).not_to have_content "test_step14_data2"

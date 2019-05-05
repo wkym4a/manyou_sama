@@ -37,4 +37,23 @@
   <p class: "line_info"><strong class: "line_content_1"><%= t('activerecord.attributes.task.status') %>：</strong><td><%= Task.get_status_name(@task.status) %></p>
 </div>
 
+
+<table class="table table-striped table-bordered table-hover">
+  <tbody>
+    <tr>
+       <th><%= t('activerecord.attributes.tag.cd') %></th>
+       <th><%= t('activerecord.attributes.tag.name') %></th>
+    </tr>
+
+    <% n = 0 %>
+    <% @task.pasted_tags.order(cd: "ASC").each do |tag| %>
+      <tr class = "tag_line_<%= n %>">
+        <td><%=  tag.cd.to_s  %></td>
+        <td><%= tag.name.to_s  %></td>
+      </tr>
+      <% n += 1 %>
+    <% end %>
+  </tbody>
+</table>
+
 <%= link_to t('condition.back'), tasks_path ,class: "btn btn-primary btn_main_1" %>

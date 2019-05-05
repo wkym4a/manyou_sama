@@ -1,6 +1,6 @@
 class Task < ApplicationRecord
 
-    include MakeSql
+  include MakeSql
   ########↓バリデーション情報↓########
 
   #ユーザーIDは入力必須
@@ -10,10 +10,17 @@ class Task < ApplicationRecord
   validates :user_id, presence: true
   validates :name, presence: true  , length: {maximum:20}
   validates :content, length: {maximum:120}
+
+  validate :tag_not_deplicate
   ########↑バリデーション情報↑########
 
   ####↓↓↓↓アソシエーション情報↓↓↓↓############
   belongs_to :user
+  has_many :task_tags , dependent: :destroy
+  # nestedfieldの使用にあたり、↓を追記
+  accepts_nested_attributes_for :task_tags, allow_destroy: true
+
+  has_many :pasted_tags , through: :task_tags , source: :tag
   ####↑↑↑↑アソシエーション情報↑↑↑↑############
 
   ########↓scope……使わないけど練習用に↓########
@@ -22,23 +29,68 @@ class Task < ApplicationRecord
   scope :status_is, -> status {where(" status = ? ", "#{status}" )}
   ########↑scope……使わないけど練習用に↑########
 
+  def tag_not_deplicate
+
+    #「今回登録しようとしているタグ」を集める枠を用意する
+    tags_try_to_save=[]
+
+    task_tags.each do |task_tag|
+      #「_destroy」ではない→「今回登録しようとしているタグ」であるならば
+      if task_tag._destroy == false
+        #そのタグidを枠に格納
+        tags_try_to_save.push(task_tag["tag_id"] )
+      end
+    end
+
+    #「tags_try_to_save」をgroup_byし、「一つだけしかなかったものを排除
+    # => タグが重複していなければ、「排除」後は空っぽになるはず
+    # => 「排除」後も空でなければ、【重複によるエラー】とする。
+    if tags_try_to_save.group_by{|i| i}.reject{|k,v| v.one?}.present?
+
+      errors.add(" ",I18n.t('activerecord.attributes.tag.errors.duplicate'))
+    end
+
+  end
 
   def search_tasks(conditions)
 
-    sql = " select tasks.id"
-    sql += " ,tasks.user_id"
-    sql += " , concat(users.cd ,':', users.name) as user_info"
-    sql += " ,tasks.name"
-    sql += " ,tasks.content"
-    sql += " ,tasks.limit"
-    sql += " ,tasks.priority"
-    sql += " ,tasks.status"
-    sql += " ,tasks.created_at"
-    sql += " ,tasks.updated_at"
+    sql = " select max(tasks.id) as id "
+    sql += " ,max(tasks.user_id) as user_id "
+    sql += " ,max( concat(users.cd ,':', users.name)) as user_info"
+    sql += " ,max(tasks.name) as name "
+    sql += " ,max(tasks.content) as content "
+    sql += " ,max(tasks.limit) as limit "
+    sql += " ,max(tasks.priority) as priority "
+    sql += " ,max(tasks.status) as status "
+    sql += " ,max(tasks.created_at) as created_at "
+    sql += " ,max(tasks.updated_at) as updated_at "
+    sql += " ,count(task_tags.id) as tag_count "
+
     sql += " from tasks"
     sql += " inner join users"
     sql += " on tasks.user_id = users.id"
+    sql += " left join task_tags"
+    sql += " on tasks.id = task_tags.task_id"
+    sql += " left join tags"
+    sql += " on task_tags.tag_id = tags.id"
     sql += " where 1 = 1"
+    # sql = " select tasks.id"
+    # sql += " ,tasks.user_id"
+    # sql += " , concat(users.cd ,':', users.name) as user_info"
+    # sql += " ,tasks.name"
+    # sql += " ,tasks.content"
+    # sql += " ,tasks.limit"
+    # sql += " ,tasks.priority"
+    # sql += " ,tasks.status"
+    # sql += " ,tasks.created_at"
+    # sql += " ,tasks.updated_at"
+    # sql += " from tasks"
+    # sql += " inner join users"
+    # sql += " on tasks.user_id = users.id"
+    # sql += " where 1 = 1"
+
+    sql_groupby = " group by tasks.id,tasks.user_id,concat(users.cd ,':', users.name),tasks.name"
+    sql_groupby += ",tasks.content,tasks.limit,tasks.priority,tasks.status,tasks.created_at,tasks.updated_at "
 
     if not conditions.blank?
       #(タスクの)id（完全一致）
@@ -60,10 +112,17 @@ class Task < ApplicationRecord
       priority_condition = [[0,conditions[:priority_0]],[1,conditions[:priority_1]],
                           [2,conditions[:priority_2]],[3,conditions[:priority_3]]]
       sql = sql_add_condition_check(sql , col_name: "tasks.priority" , condition: priority_condition)
+      #ラベル名（部分一致）
+      sql = sql_add_condition(sql , col_name: "tags.name" , condition: conditions[:tag_name] , search_type: 3)
+      sql += sql_groupby
 
       sql += get_sort_info(conditions[:sort])
+
+    else
+      sql += sql_groupby
+
     end
-    
+
     Task.find_by_sql(sql)
 
   end
@@ -112,6 +171,10 @@ class Task < ApplicationRecord
       return " order by users.cd asc "
     when "users_cd_desc"
       return " order by users.cd desc "
+    when "tag_count_asc"
+      return " order by count(task_tags.id) asc "
+    when "tag_count_desc"
+      return " order by count(task_tags.id) desc "
     else
       return ""
     end
