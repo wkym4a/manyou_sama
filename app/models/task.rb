@@ -56,7 +56,7 @@ class Task < ApplicationRecord
 
     sql = " select max(tasks.id) as id "
     sql += " ,max(tasks.user_id) as user_id "
-    sql += " ,max( concat(users.cd ,':', users.name)) as user_info"
+    sql += " ,max(concat(users.cd ,':', users.name)) as user_info"
     sql += " ,max(tasks.name) as name "
     sql += " ,max(tasks.content) as content "
     sql += " ,max(tasks.limit) as limit "
