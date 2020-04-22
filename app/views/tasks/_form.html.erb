@@ -6,9 +6,8 @@
 
 <%= form_with(model: task, local: true) do |form| %>
 
-
   <div class="line_info">
-    <%= form.label t('activerecord.attributes.task.status') ,class: "line_content_1"%>
+    <%= form.label t('activerecord.attributes.user.name_custom.name3') ,class: "line_content_1"%>
     <%= form.hidden_field :user_id %>
     <%= form.label @task.user.cd + ":" + @task.user.name ,class: "line_content_2 "%>
   </div>

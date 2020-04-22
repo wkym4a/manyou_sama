@@ -5,7 +5,7 @@
       <tr class= "table_title_row">
         <th class= "table_title_content table_content_userinfo">
           <%= label '', "↑" , class: "btn_sort btn btn-warning btn-sm" , id: "users_cd_desc" %>
-          <%= t('activerecord.attributes.user.name') %>
+          <%= t('activerecord.attributes.user.name_custom.name3') %>
           <%= label '', "↓" , class: "btn_sort btn btn-warning btn-sm" , id: "users_cd_asc" %>
         </th>
         <th class= "table_title_content table_content_name">
@@ -44,7 +44,6 @@
         </th>
 
       </tr>
-
     </div>
   <% line_num = 0 %>
   <% @tasks.each do |task| %>
