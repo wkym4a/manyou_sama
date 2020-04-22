@@ -74,22 +74,8 @@ class Task < ApplicationRecord
     sql += " left join tags"
     sql += " on task_tags.tag_id = tags.id"
     sql += " where 1 = 1"
-    # sql = " select tasks.id"
-    # sql += " ,tasks.user_id"
-    # sql += " , concat(users.cd ,':', users.name) as user_info"
-    # sql += " ,tasks.name"
-    # sql += " ,tasks.content"
-    # sql += " ,tasks.limit"
-    # sql += " ,tasks.priority"
-    # sql += " ,tasks.status"
-    # sql += " ,tasks.created_at"
-    # sql += " ,tasks.updated_at"
-    # sql += " from tasks"
-    # sql += " inner join users"
-    # sql += " on tasks.user_id = users.id"
-    # sql += " where 1 = 1"
 
-    sql_groupby = " group by tasks.id,tasks.user_id,concat(users.cd ,':', users.name),tasks.name"
+    sql_groupby = " group by tasks.id,tasks.user_id,users.cd,concat(users.cd ,':', users.name),tasks.name"
     sql_groupby += ",tasks.content,tasks.limit,tasks.priority,tasks.status,tasks.created_at,tasks.updated_at "
 
     if not conditions.blank?
